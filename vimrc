@@ -32,7 +32,8 @@ Plug 'ap/vim-css-color'
 Plug 'wojciechkepka/vim-github-dark'
 Plug 'posva/vim-vue'
 Plug 'wesQ3/vim-windowswap'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -104,6 +105,8 @@ let g:CommandTMaxHeight=30      " Sets the maximum height of the results window
 let g:CommandTTraverseSCM='pwd'
 " Enable git gutter
 let g:gitgutter_async=0
+let g:coc_global_extensions = ['coc-solargraph', 'coc-vetur', 'coc-tsserver', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-css']
+
 augroup vimrcEx
   " Clear all autocmds in the group
   autocmd!
