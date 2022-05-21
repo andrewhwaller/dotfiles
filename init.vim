@@ -2,13 +2,21 @@ set mouse=a
 call plug#begin("~/.vim/plugged")
   " Plugin Section
   Plug 'wojciechkepka/vim-github-dark'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'pangloss/vim-javascript'
+  Plug 'tpope/vim-endwise'
+  Plug 'posva/vim-vue'
+  Plug 'wesQ3/vim-windowswap'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
   Plug 'scrooloose/nerdtree'
   Plug 'ryanoasis/vim-devicons'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  let g:coc_global_extensions = ['coc-emmet', 'coc-vetur', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
+  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-vetur', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
   Plug 'leafgarland/typescript-vim'
+  Plug 'tpope/vim-rails'
   Plug 'peitalin/vim-jsx-typescript'
 call plug#end()
 "Config Section
