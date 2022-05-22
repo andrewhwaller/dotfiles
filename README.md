@@ -1,4 +1,8 @@
 # dotfiles
+
+## Installation
+Clone into `$HOME` and create symlinks
+
 ## symlinks
 ```
 ln -s ~/dotfiles/vimrc ~/.vimrc
