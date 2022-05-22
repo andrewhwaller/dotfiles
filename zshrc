@@ -102,3 +102,9 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+dev() {
+  open "http://localhost:"$1
+}
