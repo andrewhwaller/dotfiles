@@ -112,7 +112,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 get_dotfiles() {
-  cd ~/dotfiles && git pull
+  cd ~/dotfiles && git pull --ff-only
 }
 
 dev() {
