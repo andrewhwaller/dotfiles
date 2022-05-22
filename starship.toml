@@ -18,3 +18,5 @@ style_root = "black bold"
 format = "[$user]($style) is in "
 disabled = false
 show_always = true
+
+format = "[$username][🗂]$directory$all"
