@@ -10,4 +10,11 @@ success_symbol = "[➜](bold green)" # The "success_symbol" segment is being set
 
 # Disable the package module, hiding it from the prompt completely
 [package]
+disabled = true
+
+[username]
+style_user = "white bold"
+style_root = "black bold"
+format = "user: [$user]($style) "
 disabled = false
+show_always = true
