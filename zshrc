@@ -101,6 +101,7 @@ export EDITOR='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias nvconfig="nvim ~/.config/nvim/init.vim"
+alias zshconfig="nvim ~/.zshrc"
 alias rubydir="cd ~/RubymineProjects"
 alias real-presence="nvim ~/RubymineProjects/real-presence"
 
