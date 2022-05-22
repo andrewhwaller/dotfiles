@@ -18,8 +18,10 @@ call plug#begin("~/.vim/plugged")
   let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
   Plug 'leafgarland/typescript-vim'
   Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-fugitive'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'dense-analysis/ale'
+  Plug 'glepnir/dashboard-nvim'
 call plug#end()
 "Config Section
 if (has("termguicolors"))
@@ -27,6 +29,11 @@ if (has("termguicolors"))
 endif
 syntax enable
 colorscheme ghdark
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set foldmethod=indent
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeIgnore = []
@@ -69,3 +76,4 @@ let g:ale_sign_error = '💀'
 let g:ale_sign_warning = '🌞'
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
+let g:dashboard_default_executive ='fzf'
