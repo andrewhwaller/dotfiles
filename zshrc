@@ -102,7 +102,9 @@ export EDITOR='nvim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias nvconfig="nvim ~/.config/nvim/init.vim"
 alias zshconfig="nvim ~/.zshrc"
-alias rubydir="cd ~/RubymineProjects"
+alias dotfiles="cd ~/dotfiles && ls && git status"
+alias rubydir="cd ~/RubymineProjects && ls"
+alias webdir="cd ~/WebstormProjects && ls"
 alias real-presence="nvim ~/RubymineProjects/real-presence"
 
 eval "$(starship init zsh)"
