@@ -33,7 +33,6 @@ set expandtab
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set foldmethod=indent
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeIgnore = []
