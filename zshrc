@@ -102,6 +102,7 @@ export EDITOR='nvim'
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias nvconfig="nvim ~/.config/nvim/init.vim"
 alias rubydir="cd ~/RubymineProjects"
+alias real-presence="nvim ~/RubymineProjects/real-presence"
 
 eval "$(starship init zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
