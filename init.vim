@@ -14,10 +14,12 @@ call plug#begin("~/.vim/plugged")
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-vetur', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
+  Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
+  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
   Plug 'leafgarland/typescript-vim'
   Plug 'tpope/vim-rails'
   Plug 'peitalin/vim-jsx-typescript'
+  Plug 'dense-analysis/ale'
 call plug#end()
 "Config Section
 if (has("termguicolors"))
@@ -53,3 +55,17 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'
   \}
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+let g:ale_sign_column_always = 1
+let g:ale_fixers = {
+ \ 'javascript': ['prettier', 'eslint'],
+ \ 'typescript': ['prettier', 'eslint'],
+ \ 'vue': ['prettier', 'eslint'],
+ \ 'javascriptreact': ['prettier', 'eslint'],
+ \ 'typescriptreact': ['prettier', 'eslint'],
+ \ }
+let g:ale_sign_error = '💀'
+let g:ale_sign_warning = '🌞'
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 1
