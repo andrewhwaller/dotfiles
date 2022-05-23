@@ -29,6 +29,7 @@ if (has("termguicolors"))
 endif
 syntax enable
 colorscheme ghdark
+set number
 set expandtab
 set tabstop=2
 set shiftwidth=2
