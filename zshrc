@@ -106,6 +106,7 @@ alias dotfiles="cd ~/dotfiles && ls && git status"
 alias rubydir="cd ~/RubymineProjects && ls"
 alias webdir="cd ~/WebstormProjects && ls"
 alias real-presence="nvim ~/RubymineProjects/real-presence"
+alias lukan="webdir && nvim LukanPriorities" 
 
 eval "$(starship init zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
