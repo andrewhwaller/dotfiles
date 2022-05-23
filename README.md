@@ -1,5 +1,5 @@
 # dotfiles
-
+it's vim time
 ## Installation
 Clone into `$HOME` and create symlinks
 
