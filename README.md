@@ -10,7 +10,7 @@ Run `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/maste
 ### iTerm
 Run `brew install --cask iterm2`.
 To enable running the syncing script on iTerm launch, you will need to create an AutoLaunch directory inside iTerm's Scripts directory:
-`mkdir ~/Library/Application\ Support/iTerm2/Scripts/AutoLaunch`
+`mkdir ~/Library/Application\ Support/iTerm2/Scripts/AutoLaunch`.
 ### Starship
 Run `brew install starship`.
 ### Neovim
