@@ -15,7 +15,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 ``` shell
 brew install --cask iterm2
 ```
-To enable running the syncing script on iTerm launch, you will need to create an AutoLaunch directory inside iTerm's Scripts directory:
+#### Syncing via Git
+This repo includes `get_dotfiles.scpt`, an Applescript file which pulls this repo and source .zshrc to apply any new settings. To enable running the syncing script on iTerm launch, you will need to create an AutoLaunch directory inside iTerm's Scripts directory:
 ``` shell
 mkdir ~/Library/Application\ Support/iTerm2/Scripts/AutoLaunch
 ```
