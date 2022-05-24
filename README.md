@@ -1,11 +1,12 @@
 # dotfiles
 it's vim time, bb
 
-Includes config files for [Starship](https://starship.rs/), iTerm 2
+Includes config files for Vim/[MacVim](https://macvim-dev.github.io/macvim/), [zsh](https://www.zsh.org/), [iTerm 2](https://iterm2.com/), [Starship](https://starship.rs/), [Neovim](https://neovim.io/).
 ## Installation
 ### zsh
-Run `brew install zsh`
-
+Run `brew install zsh`.
+### oh-my-zsh
+Run `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`.
 ### iTerm
 Run `brew install --cask iterm2`.
 To enable running the syncing script on iTerm launch, you will need to create an AutoLaunch directory inside iTerm's Scripts directory:
