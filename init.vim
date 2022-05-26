@@ -24,6 +24,9 @@ call plug#begin("~/.vim/plugged")
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'dense-analysis/ale'
   Plug 'glepnir/dashboard-nvim'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'preservim/tagbar'
 call plug#end()
 "Config Section
 if (has("termguicolors"))
@@ -56,6 +59,7 @@ function! OpenTerminal()
   split term://bash
   resize 10
 endfunction
+nmap <F8> :TagbarToggle<CR>
 nnoremap <c-n> :call OpenTerminal()<CR>
 nnoremap <C-p> :FZF<CR>
 let g:fzf_action = {
@@ -79,3 +83,4 @@ let g:ale_sign_warning = '🌞'
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 let g:dashboard_default_executive ='fzf'
+let g:airline_theme='base16_railscasts'
