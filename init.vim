@@ -5,6 +5,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'airblade/vim-gitgutter'
   Plug 'pangloss/vim-javascript'
   Plug 'evanleck/vim-svelte'
+  Plug 'othree/html5.vim'
   Plug 'tpope/vim-endwise'
   Plug 'posva/vim-vue'
   Plug 'wesQ3/vim-windowswap'
@@ -85,3 +86,10 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 let g:dashboard_default_executive ='fzf'
 let g:airline_theme='base16_railscasts'
+let g:svelte_indent_script = 0
+let g:svelte_indent_style = 0
+let g:svelte_preprocessors = ['typescript']
+let g:svelte_preprocessor_tags = [
+  \ { 'name': 'postcss', 'tag': 'style', 'as': 'scss' }
+  \ ]
+let g:svelte_preprocessors = ['postcss']
