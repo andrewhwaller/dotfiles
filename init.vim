@@ -17,7 +17,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'airblade/vim-rooter'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
-  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
+  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-rust-analyzer']
   Plug 'leafgarland/typescript-vim'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-fugitive'
