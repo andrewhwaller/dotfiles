@@ -4,6 +4,8 @@ call plug#begin("~/.vim/plugged")
   Plug 'wojciechkepka/vim-github-dark'
   Plug 'airblade/vim-gitgutter'
   Plug 'pangloss/vim-javascript'
+  Plug 'evanleck/vim-svelte'
+  Plug 'othree/html5.vim'
   Plug 'tpope/vim-endwise'
   Plug 'posva/vim-vue'
   Plug 'wesQ3/vim-windowswap'
@@ -17,7 +19,11 @@ call plug#begin("~/.vim/plugged")
   Plug 'airblade/vim-rooter'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
+<<<<<<< HEAD
   let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-rust-analyzer']
+=======
+  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-svelte']
+>>>>>>> f5fb3313d435f347dd1ece5e11a42284a2ddc426
   Plug 'leafgarland/typescript-vim'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-fugitive'
@@ -84,3 +90,10 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 let g:dashboard_default_executive ='fzf'
 let g:airline_theme='base16_railscasts'
+let g:svelte_indent_script = 0
+let g:svelte_indent_style = 0
+let g:svelte_preprocessors = ['typescript']
+let g:svelte_preprocessor_tags = [
+  \ { 'name': 'postcss', 'tag': 'style', 'as': 'scss' }
+  \ ]
+let g:svelte_preprocessors = ['postcss']
