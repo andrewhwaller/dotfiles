@@ -128,9 +128,4 @@ dev() {
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Fig post block. Keep at the bottom of this file.
-<<<<<<< HEAD
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
-=======
-. "$HOME/.fig/shell/zshrc.post.zsh"
-. /usr/local/opt/asdf/libexec/asdf.sh
->>>>>>> b6f0c1c580dbe823cc9bf064dbee2468a8c3b34c
