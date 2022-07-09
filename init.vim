@@ -19,15 +19,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'airblade/vim-rooter'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'yaegassy/coc-volar', {'do': 'yarn install --frozen-lockfile'}
-<<<<<<< HEAD
-<<<<<<< HEAD
-  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-rust-analyzer']
-=======
-  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-svelte']
->>>>>>> f5fb3313d435f347dd1ece5e11a42284a2ddc426
-=======
-  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-svelte']
->>>>>>> f5fb3313d435f347dd1ece5e11a42284a2ddc426
+  let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-svelte', 'coc-rust-analyzer']
   Plug 'leafgarland/typescript-vim'
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-fugitive'
