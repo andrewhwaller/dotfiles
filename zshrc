@@ -109,7 +109,7 @@ alias dotfiles="cd ~/dotfiles && ls && git status"
 alias rubydir="cd ~/RubymineProjects && ls"
 alias webdir="cd ~/WebstormProjects && ls"
 alias realp="cd ~/RubymineProjects/real-presence && nvim ."
-alias lukanp="webdir && nvim LukanPrioritiesAstro" 
+alias lukanp="webdir && nvim LukanPrioritiesAstro"
 alias riptear="/usr/bin/open -a '/Applications/Google Chrome.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 
 eval "$(starship init zsh)"
