@@ -1,3 +1,9 @@
+set number
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+augroup END
 set mouse=a
 call plug#begin("~/.vim/plugged")
   " Plugin Section
@@ -15,6 +21,8 @@ call plug#begin("~/.vim/plugged")
   Plug 'ryanoasis/vim-devicons'
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
   Plug 'junegunn/fzf.vim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
   Plug 'rking/ag.vim'
   Plug 'airblade/vim-rooter'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -32,6 +40,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'github/copilot.vim'
   Plug 'tpope/vim-markdown'
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+  Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 call plug#end()
 "Config Section
 if (has("termguicolors"))
