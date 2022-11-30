@@ -29,6 +29,7 @@ call plug#begin("~/.vim/plugged")
   let g:coc_global_extensions = ['coc-emmet', 'coc-tailwindcss', 'coc-eslint', 'coc-solargraph', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver', 'coc-svelte', 'coc-rust-analyzer']
   Plug 'leafgarland/typescript-vim'
   Plug 'tpope/vim-rails'
+  Plug 'kchmck/vim-coffee-script'
   Plug 'tpope/vim-fugitive'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'dense-analysis/ale'
