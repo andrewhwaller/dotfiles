@@ -42,6 +42,7 @@ call plug#begin("~/.vim/plugged")
   Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
   Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'szw/vim-tags'
 call plug#end()
 "Config Section
 if (has("termguicolors"))
