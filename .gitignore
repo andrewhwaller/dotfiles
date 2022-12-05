@@ -1,1 +1,5 @@
 .DS_STORE
+/nvim/.github/
+/nvim/.gitignore
+/nvim/.git/
+.idea
