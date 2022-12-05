@@ -127,6 +127,10 @@ dev() {
   open "http://localhost:"$1
 }
 
+goog() { 
+  open /Applications/Brave\ Browser.app/ "http://www.google.com/search?q= $1"; 
+}
+
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # bun completions
@@ -142,3 +146,5 @@ export NVM_DIR="$HOME/.nvm"
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
