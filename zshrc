@@ -147,8 +147,6 @@ export NVM_DIR="$HOME/.nvm"
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
 # pnpm
 export PNPM_HOME="/Users/andrewhwaller/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
