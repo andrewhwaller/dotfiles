@@ -111,7 +111,7 @@ alias webdir="cd ~/WebstormProjects && ls"
 alias ghdir="cd ~/github && ls"
 alias realp="cd ~/RubymineProjects/real-presence && nvim ."
 alias lukanp="webdir && nvim LukanPrioritiesAstro"
-alias riptear="/usr/bin/open -a '/Applications/Google Chrome.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
+alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 
 eval "$(starship init zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
@@ -148,3 +148,8 @@ export NVM_DIR="$HOME/.nvm"
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# pnpm
+export PNPM_HOME="/Users/andrewhwaller/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
