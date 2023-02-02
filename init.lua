@@ -53,6 +53,7 @@ require('packer').startup(function(use)
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+  use 'RRethy/vim-illuminate'
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -61,7 +62,34 @@ require('packer').startup(function(use)
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
 
   use 'tpope/vim-endwise'
+  use 'tpope/vim-surround'
 
+  use {
+    'Pocco81/true-zen.nvim',
+    config = function()
+       require('true-zen').setup {
+        -- your config goes here
+        -- or just leave it empty :)
+       }
+    end,
+  }
+
+  use {
+    'folke/noice.nvim',
+    config = function()
+      require('noice').setup({
+          -- add any options here
+      })
+    end,
+    requires = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      'MunifTanjim/nui.nvim',
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      'rcarriga/nvim-notify',
+      }
+  }
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
   if has_plugins then
@@ -442,3 +470,12 @@ vim.opt.softtabstop = 2
 vim.opt.expandtab = true
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- True Zen keymaps
+local api = vim.api
+
+api.nvim_set_keymap("n", "<leader>zn", ":TZNarrow<CR>", {})
+api.nvim_set_keymap("v", "<leader>zn", ":'<,'>TZNarrow<CR>", {})
+api.nvim_set_keymap("n", "<leader>zf", ":TZFocus<CR>", {})
+api.nvim_set_keymap("n", "<leader>zm", ":TZMinimalist<CR>", {})
+api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
