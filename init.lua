@@ -96,6 +96,8 @@ require('packer').startup(function(use)
       'rcarriga/nvim-notify',
       }
   }
+
+  use 'famiu/nvim-reload'
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
   if has_plugins then
@@ -179,7 +181,7 @@ vim.o.updatetime = 50
 vim.wo.signcolumn = 'yes'
 
 -- Set scrolloff
-vim.o.scrolloff = 999
+vim.o.scrolloff = 8
 -- Set colorscheme
 vim.o.termguicolors = true
 vim.cmd [[colorscheme onedark]]
