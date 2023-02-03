@@ -43,6 +43,12 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
+  -- Highlight function args
+  use {
+    'm-demare/hlargs.nvim',
+    requires = { 'nvim-treesitter/nvim-treesitter' }
+  }
+
   -- Git related plugins
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
@@ -106,6 +112,8 @@ require('nvim-treesitter.configs').setup {
         enable = true,
     },
 }
+
+require('hlargs').setup()
 -- When we are bootstrapping a configuration, it doesn't
 -- make sense to execute the rest of the init.lua.
 --
