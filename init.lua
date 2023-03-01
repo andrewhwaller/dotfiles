@@ -64,6 +64,7 @@ require('packer').startup(function(use)
   use 'kchmck/vim-coffee-script'
   use 'tpope/vim-dadbod'
   use 'kristijanhusak/vim-dadbod-ui'
+  use 'lervag/vimtex'
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
