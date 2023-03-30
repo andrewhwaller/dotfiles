@@ -86,6 +86,12 @@ require('packer').startup(function(use)
     end,
   }
 
+  use {'nvim-orgmode/orgmode',
+    config = function()
+      require('orgmode').setup {}
+    end
+  }
+
   use {
     'folke/noice.nvim',
     config = function()
@@ -115,11 +121,23 @@ require('packer').startup(function(use)
   end
 end)
 
+require('orgmode').setup_ts_grammar()
+
 require('nvim-treesitter.configs').setup {
-    endwise = {
-        enable = true,
-    },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = {'org'},
+  },
+  ensure_installed = {'org'},
+  endwise = {
+      enable = true,
+  },
 }
+
+require('orgmode').setup({
+  org_agenda_files = {'~/github/org/**/*'},
+  org_default_notes_file = '~/github/org/refile.org',
+})
 
 require('hlargs').setup()
 -- When we are bootstrapping a configuration, it doesn't
@@ -487,6 +505,7 @@ cmp.setup {
     -- Other Sources
     { name = 'nvim_lsp', group_index = 2 },
     { name = 'luasnip', group_index = 2 },
+    { name = 'orgmode' }
   }
 }
 
