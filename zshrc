@@ -113,6 +113,7 @@ alias realp="cd ~/RubymineProjects/real-presence && nvim ."
 alias lukanp="webdir && nvim LukanPrioritiesAstro"
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 alias thesis="cd ~/github/thesis && ls"
+alias org="ghdir && cd org && nvim ."
 
 eval "$(starship init zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
