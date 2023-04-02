@@ -1,7 +1,7 @@
 # dotfiles
 it's vim time, bb
 
-Includes config files for Vim/[MacVim](https://macvim-dev.github.io/macvim/), [zsh](https://www.zsh.org/), [iTerm 2](https://iterm2.com/), [Starship](https://starship.rs/), [Neovim](https://neovim.io/).
+Includes config files for Vim/[MacVim](https://macvim-dev.github.io/macvim/), [zsh](https://www.zsh.org/), [iTerm 2](https://iterm2.com/), [Starship](https://starship.rs/), [Neovim](https://neovim.io/), and Doom (just for org-mode, tho).
 ## Installation
 ### zsh
 ``` shell
@@ -43,4 +43,5 @@ ln -s ~/dotfiles/zshrc ~/.zshrc
 ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 ln -s ~/dotfiles/init.lua ~/.config/nvim/init.lua
 ln -s ~/dotfiles/get_dotfiles.scpt ~/Library/Application\ Support/iTerm2/Scripts/AutoLaunch
+ln -s ~/dotfiles/config.el ~/.config/doom/config.el
 ```
