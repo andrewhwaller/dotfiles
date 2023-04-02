@@ -153,3 +153,4 @@ export NVM_DIR="$HOME/.nvm"
 export PNPM_HOME="/Users/andrewhwaller/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
+export PATH="$HOME/.config/emacs/bin:$PATH"
