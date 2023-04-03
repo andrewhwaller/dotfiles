@@ -83,3 +83,18 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(use-package! org-super-agenda
+  :after org-agenda
+  :init
+  (setq org-super-agenda-groups '((:name "Today"
+                                         :time-grid t
+                                         :scheduled today)
+                                  (:name "Due Today"
+                                         :deadline today)
+                                  (:name "Overdue"
+                                         :deadline past)
+                                  (:name "Due Soon"
+                                         :deadline future)))
+  :config
+  (org-super-agenda-mode))
