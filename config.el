@@ -41,17 +41,15 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/github/org")
-(add-to-list 'org-modules 'org-habit t)
-
-;; each state with ! is recorded as state change
-;; in this case I'm logging TODO and DONE states
-(setq org-todo-keywords
-      '((sequence "TODO(t!)" "NEXT(n)" "SOMD(s)" "WAFO(w)" "|" "DONE(d!)" "CANC(c!)")))
-;; I prefer to log TODO creation also
-(setq org-treat-insert-todo-heading-as-state-change t)
-;; log into LOGBOOK drawer
-(setq org-log-into-drawer t)
-
+(use-package! org-habit
+  :after org
+  :config
+  (setq org-habit-following-days 7
+        org-habit-preceding-days 35
+        org-habit-show-habits t))
+(use-package! org-super-agenda
+  :after org
+  :config)
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -83,18 +81,3 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-
-(use-package! org-super-agenda
-  :after org-agenda
-  :init
-  (setq org-super-agenda-groups '((:name "Today"
-                                         :time-grid t
-                                         :scheduled today)
-                                  (:name "Due Today"
-                                         :deadline today)
-                                  (:name "Overdue"
-                                         :deadline past)
-                                  (:name "Due Soon"
-                                         :deadline future)))
-  :config
-  (org-super-agenda-mode))
