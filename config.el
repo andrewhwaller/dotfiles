@@ -41,12 +41,21 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/github/org")
+
+(after! org
+  (setq org-deadline-warning-days 4
+        org-agenda-start-with-log-mode t
+        org-log-done 'time
+        org-log-into-drawer t
+        org-agenda-show-future-repeats nil))
+
 (use-package! org-habit
   :after org
   :config
   (setq org-habit-following-days 7
         org-habit-preceding-days 35
-        org-habit-show-habits t))
+        org-habit-show-habits t
+        org-habit-show-habits-only-for-today nil))
 (use-package! org-super-agenda
   :after org
   :config)
