@@ -66,6 +66,8 @@ require('packer').startup(function(use)
   use 'kristijanhusak/vim-dadbod-ui'
   use 'lervag/vimtex'
   use 'jxnblk/vim-mdx-js'
+  use 'jalvesaq/zotcite'
+  use 'jalvesaq/cmp-zotcite'
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -514,7 +516,17 @@ cmp.setup {
     -- Other Sources
     { name = 'nvim_lsp', group_index = 2 },
     { name = 'luasnip', group_index = 2 },
-    { name = 'orgmode' }
+    { name = 'orgmode' },
+    {
+      name = 'cmp_zotcite',
+      filetype = {
+        'tex',
+        'org',
+        'markdown',
+        'pandoc',
+        'latex'
+      }
+    }
   }
 }
 
