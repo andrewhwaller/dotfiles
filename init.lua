@@ -78,6 +78,7 @@ require('packer').startup(function(use)
 
   use 'tpope/vim-endwise'
   use 'tpope/vim-surround'
+  use 'jiangmiao/auto-pairs'
 
   use {
     'Pocco81/true-zen.nvim',
@@ -103,22 +104,22 @@ require('packer').startup(function(use)
     end
   }
 
-  use {
-    'folke/noice.nvim',
-    config = function()
-      require('noice').setup({
-          -- add any options here
-      })
-    end,
-    requires = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      'MunifTanjim/nui.nvim',
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      'rcarriga/nvim-notify',
-      }
-  }
+  -- use {
+  --   'folke/noice.nvim',
+  --   config = function()
+  --     require('noice').setup({
+  --         -- add any options here
+  --     })
+  --   end,
+  --   requires = {
+  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+  --     'MunifTanjim/nui.nvim',
+  --     -- OPTIONAL:
+  --     --   `nvim-notify` is only needed, if you want to use the notification view.
+  --     --   If not available, we use `mini` as the fallback
+  --     'rcarriga/nvim-notify',
+  --     }
+  -- }
 
   use 'famiu/nvim-reload'
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
