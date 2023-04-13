@@ -251,6 +251,10 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
+vim.keymap.set('n', 'j', 'jzz')
+vim.keymap.set('n', 'k', 'kzz')
+vim.keymap.set('n', '{', '{zz')
+vim.keymap.set('n', '}', '}zz')
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
