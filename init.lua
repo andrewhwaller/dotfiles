@@ -68,7 +68,17 @@ require('packer').startup(function(use)
   use 'jxnblk/vim-mdx-js'
   use 'jalvesaq/zotcite'
   use 'jalvesaq/cmp-zotcite'
-
+  -- Lua
+  use {
+    "folke/trouble.nvim",
+    requires = "nvim-tree/nvim-web-devicons",
+    config = function()
+      require("trouble").setup {
+        auto_close = true,
+        auto_preview = true,
+      }
+    end
+  }
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
   use 'ThePrimeagen/harpoon'
@@ -255,6 +265,27 @@ vim.keymap.set('n', 'j', 'jzz')
 vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
+
+-- Trouble keymaps
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+  {silent = true, noremap = true}
+)
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+  {silent = true, noremap = true}
+)
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
