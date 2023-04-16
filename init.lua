@@ -30,7 +30,7 @@ require('packer').startup(function(use)
     'hrsh7th/nvim-cmp',
     requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   }
-  
+
   use { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     run = function()
@@ -88,8 +88,12 @@ require('packer').startup(function(use)
 
   use 'tpope/vim-endwise'
   use 'tpope/vim-surround'
-  use 'jiangmiao/auto-pairs'
-
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      require("nvim-autopairs").setup {}
+    end
+  }
   use {
     'Pocco81/true-zen.nvim',
     config = function()
@@ -265,6 +269,38 @@ vim.keymap.set('n', 'j', 'jzz')
 vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
+
+-- Harpoon keymaps
+vim.keymap.set('n', '<leader>f', ':lua require("harpoon.ui").toggle_quick_menu()<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>a', ':lua require("harpoon.mark").add_file()<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>h', ':lua require("harpoon.ui").nav_file(1)<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>j', ':lua require("harpoon.ui").nav_file(2)<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>k', ':lua require("harpoon.ui").nav_file(3)<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>l', ':lua require("harpoon.ui").nav_file(4)<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>vh', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(1)<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>vj', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(2)<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>vk', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(3)<CR>',
+  { silent = true, noremap = true }
+)
+vim.keymap.set('n', '<leader>vl', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(4)<CR>',
+  { silent = true, noremap = true }
+)
 
 -- Trouble keymaps
 vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
