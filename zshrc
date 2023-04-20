@@ -114,6 +114,7 @@ alias lukanp="webdir && nvim LukanPrioritiesAstro"
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 alias thesis="cd ~/github/thesis && ls"
 alias org="ghdir && cd org && ls"
+alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h --git --no-permissions --no-user --time=accessed --group-directories-first"
 
 eval "$(starship init zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
