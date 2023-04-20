@@ -116,7 +116,6 @@ alias thesis="cd ~/github/thesis && ls"
 alias org="ghdir && cd org && ls"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h --git --no-permissions --no-user --time=accessed --group-directories-first"
 
-eval "$(starship init zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
@@ -155,3 +154,4 @@ export PNPM_HOME="/Users/andrewhwaller/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 export PATH="$HOME/.config/emacs/bin:$PATH"
+eval "$(starship init zsh)"
