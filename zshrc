@@ -110,14 +110,15 @@ alias rubydir="cdx ~/RubymineProjects o"
 alias webdir="cdx ~/WebstormProjects"
 alias ghdir="cdx ~/github"
 alias smdir="cdx ~/github/servemanager"
-alias realp="ghdir && cdx real-presence"
+alias realp="cdx ~/github/real-presence"
 alias lukanp="webdir && nvim LukanPrioritiesAstro"
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 alias thesis="cdx ~/github/thesis"
-alias org="ghdir && cdx org"
+alias org="cdx ~/github/org"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias cht="~/dotfiles/cht.sh"
 alias nvim="OPENAI_API_KEY=$(op item get "OpenAI" --fields credential) nvim"
+
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
@@ -128,7 +129,7 @@ get_dotfiles() {
 }
 
 dev() {
-  open "http://localhost:"$1
+  open "http://localhost:$@"
 }
 
 goog() { 
@@ -137,6 +138,17 @@ goog() {
 
 cdx() { 
   cd "$@" && exo; 
+}
+
+lg() {
+    export LAZYGIT_NEW_DIR_FILE=~/.lazygit/newdir
+
+    lazygit "$@"
+
+    if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
+            cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+            rm -f $LAZYGIT_NEW_DIR_FILE > /dev/null
+    fi
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
