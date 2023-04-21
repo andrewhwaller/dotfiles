@@ -115,6 +115,7 @@ alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.y
 alias thesis="cd ~/github/thesis && ls"
 alias org="ghdir && cd org && ls"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h --git --no-permissions --no-user --time=accessed --group-directories-first"
+alias cht="~/dotfiles/cht.sh"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
