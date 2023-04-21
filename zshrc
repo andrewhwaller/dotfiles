@@ -105,15 +105,16 @@ export EDITOR='nvim'
 alias obsidian="nvim ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents"
 alias nvconfig="nvim ~/.config/nvim/init.vim"
 alias zshconfig="nvim ~/.zshrc"
-alias dotfiles="cd ~/dotfiles && ls && git status"
-alias rubydir="cd ~/RubymineProjects && ls"
-alias webdir="cd ~/WebstormProjects && ls"
-alias ghdir="cd ~/github && ls"
-alias realp="ghdir && cd real-presence && nvim ."
+alias dotfiles="cdx ~/dotfiles && git status"
+alias rubydir="cdx ~/RubymineProjects o"
+alias webdir="cdx ~/WebstormProjects"
+alias ghdir="cdx ~/github"
+alias smdir="cdx ~/github/servemanager"
+alias realp="ghdir && cdx real-presence"
 alias lukanp="webdir && nvim LukanPrioritiesAstro"
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
-alias thesis="cd ~/github/thesis && ls"
-alias org="ghdir && cd org && ls"
+alias thesis="cdx ~/github/thesis"
+alias org="ghdir && cdx org"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias cht="~/dotfiles/cht.sh"
 
@@ -132,6 +133,10 @@ dev() {
 
 goog() { 
   open /Applications/Brave\ Browser.app/ "http://www.google.com/search?q= $1"; 
+}
+
+cdx() { 
+  cd "$@" && exo; 
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
