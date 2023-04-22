@@ -65,8 +65,10 @@ require('packer').startup(function(use)
         "nvim-telescope/telescope.nvim"
       }
   })
+  use 'numToStr/FTerm.nvim'
   use 'stevearc/dressing.nvim'
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
+  use { 'catppuccin/nvim', as = 'catppuccin' }
+
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
@@ -161,6 +163,9 @@ require('orgmode').setup({
 
 require('hlargs').setup()
 
+require('catppuccin').setup({
+  flavour = 'mocha',
+})
 -- When we are bootstrapping a configuration, it doesn't
 -- make sense to execute the rest of the init.lua.
 --
@@ -229,7 +234,7 @@ vim.wo.signcolumn = 'yes'
 vim.o.scrolloff = 8
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
+vim.cmd('colorscheme catppuccin')
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -265,6 +270,7 @@ vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
 
+vim.api.nvim_create_user_command('Ft', require('FTerm').toggle, { bang = true })
 -- Harpoon keymaps
 vim.keymap.set('n', '<leader>f', ':lua require("harpoon.ui").toggle_quick_menu()<CR>',
   { silent = true, noremap = true }
@@ -297,6 +303,8 @@ vim.keymap.set('n', '<leader>vl', ':vsplit<CR> | :lua require("harpoon.ui").nav_
   { silent = true, noremap = true }
 )
 
+-- DBUI keymaps
+vim.keymap.set('n', '<leader>db', ':DBUIToggle<CR>', { silent = true, noremap = true })
 -- Trouble keymaps
 vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
   {silent = true, noremap = true}
@@ -333,7 +341,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'onedark',
     component_separators = '|',
     section_separators = '',
   },
@@ -596,12 +603,6 @@ cmp.setup {
     }
   }
 }
-
-require('onedark').setup {
-  style = 'warmer'
-}
-require('onedark').load()
-
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
