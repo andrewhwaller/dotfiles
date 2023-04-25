@@ -117,7 +117,6 @@ alias thesis="cdx ~/github/thesis"
 alias org="cdx ~/github/org"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias cht="~/dotfiles/cht.sh"
-alias nvim="OPENAI_API_KEY=$(op item get "OpenAI" --fields credential) nvim"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
