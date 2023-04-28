@@ -117,7 +117,7 @@ alias thesis="cdx ~/github/thesis"
 alias org="cdx ~/github/org"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias cht="~/dotfiles/cht.sh"
-alias dm="doom -nw"
+alias dm="emacs -nw"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
