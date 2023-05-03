@@ -65,7 +65,7 @@ require('packer').startup(function(use)
         "nvim-telescope/telescope.nvim"
       }
   })
-  use 'numToStr/FTerm.nvim'
+  use 'kdheepak/lazygit.nvim'
   use 'stevearc/dressing.nvim'
   use { 'catppuccin/nvim', as = 'catppuccin' }
 
@@ -270,7 +270,8 @@ vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
 
-vim.api.nvim_create_user_command('Ft', require('FTerm').toggle, { bang = true })
+-- lazygit.nvim
+vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true, noremap = true })
 -- Harpoon keymaps
 vim.keymap.set('n', '<leader>f', ':lua require("harpoon.ui").toggle_quick_menu()<CR>',
   { silent = true, noremap = true }
