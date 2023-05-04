@@ -43,7 +43,7 @@ ZSH_THEME="robbyrussell"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -72,7 +72,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions)
+plugins=(git zsh-autosuggestions rails ruby bundler)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -89,7 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='code --wait'
 # fi
-export EDITOR='nvim'
+export EDITOR="nvim"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -118,11 +118,14 @@ alias org="cdx ~/github/org"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias cht="~/dotfiles/cht.sh"
 alias dm="emacs -nw"
+alias tmux_sessionizer="$HOME/dotfiles/tmux-sessionizer"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+bindkey -s ^f "tmux_sessionizer\n"
 
 get_dotfiles() {
   cd ~/dotfiles && git pull --ff-only
