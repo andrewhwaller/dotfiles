@@ -67,6 +67,7 @@ require('packer').startup(function(use)
   })
   use 'kdheepak/lazygit.nvim'
   use 'ThePrimeagen/git-worktree.nvim'
+  use 'numToStr/FTerm.nvim'
   use 'stevearc/dressing.nvim'
   use { 'catppuccin/nvim', as = 'catppuccin' }
 
@@ -271,6 +272,10 @@ vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
 
+-- FTerm
+vim.api.nvim_create_user_command('FTermToggle', require('FTerm').toggle, { bang= true })
+vim.keymap.set('n', '<leader>t', ':FTermToggle<CR>', { silent = true })
+vim.keymap.set('t', '<ESC>', require('FTerm').close, { silent = true })
 -- lazygit.nvim
 vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true, noremap = true })
 -- Harpoon keymaps
