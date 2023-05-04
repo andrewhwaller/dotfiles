@@ -105,16 +105,16 @@ export EDITOR="nvim"
 alias obsidian="nvim ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents"
 alias nvconfig="nvim ~/.config/nvim/init.vim"
 alias zshconfig="nvim ~/.zshrc"
-alias dotfiles="cdx ~/dotfiles && git status"
-alias rubydir="cdx ~/RubymineProjects o"
-alias webdir="cdx ~/WebstormProjects"
-alias ghdir="cdx ~/github"
-alias smdir="cdx ~/github/servemanager"
-alias realp="cdx ~/github/real-presence"
+alias dotfiles="cd ~/dotfiles && git status"
+alias rubydir="cd ~/RubymineProjects"
+alias webdir="cd ~/WebstormProjects"
+alias ghdir="cd ~/github"
+alias smdir="cd ~/github/servemanager"
+alias realp="cd ~/github/real-presence"
 alias lukanp="webdir && nvim LukanPrioritiesAstro"
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
-alias thesis="cdx ~/github/thesis"
-alias org="cdx ~/github/org"
+alias thesis="cd ~/github/thesis"
+alias org="cd ~/github/org"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias cht="~/dotfiles/cht.sh"
 alias dm="emacs -nw"
@@ -125,7 +125,13 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-bindkey -s ^f "tmux_sessionizer\n"
+_exo_on_cwd_change()  {
+  exo
+}
+
+(( $+functions[add-zsh-hook] )) || autoload -Uz add-zsh-hook
+
+add-zsh-hook chpwd _exo_on_cwd_change
 
 get_dotfiles() {
   cd ~/dotfiles && git pull --ff-only
@@ -137,10 +143,6 @@ dev() {
 
 goog() { 
   open /Applications/Brave\ Browser.app/ "http://www.google.com/search?q= $1"; 
-}
-
-cdx() { 
-  cd "$@" && exo; 
 }
 
 lg() {

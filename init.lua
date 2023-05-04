@@ -65,6 +65,8 @@ require('packer').startup(function(use)
         "nvim-telescope/telescope.nvim"
       }
   })
+  use 'kdheepak/lazygit.nvim'
+  use 'ThePrimeagen/git-worktree.nvim'
   use 'numToStr/FTerm.nvim'
   use 'stevearc/dressing.nvim'
   use { 'catppuccin/nvim', as = 'catppuccin' }
@@ -270,9 +272,12 @@ vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
 
-vim.keymap.set('n', '<C-f>', '!tmux neww tmux-sessionizer<CR>', { silent = true })
-
-vim.api.nvim_create_user_command('Ft', require('FTerm').toggle, { bang = true })
+-- FTerm
+vim.api.nvim_create_user_command('FTermToggle', require('FTerm').toggle, { bang= true })
+vim.keymap.set('n', '<leader>t', ':FTermToggle<CR>', { silent = true })
+vim.keymap.set('t', '<ESC>', require('FTerm').close, { silent = true })
+-- lazygit.nvim
+vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true, noremap = true })
 -- Harpoon keymaps
 vim.keymap.set('n', '<leader>f', ':lua require("harpoon.ui").toggle_quick_menu()<CR>',
   { silent = true, noremap = true }
@@ -382,6 +387,8 @@ require('telescope').setup {
     },
   },
 }
+
+require('telescope').load_extension('git_worktree')
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -620,5 +627,7 @@ api.nvim_set_keymap("v", "<leader>zn", ":'<,'>TZNarrow<CR>", {})
 api.nvim_set_keymap("n", "<leader>zf", ":TZFocus<CR>", {})
 api.nvim_set_keymap("n", "<leader>zm", ":TZMinimalist<CR>", {})
 api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
+
+api.nvim_set_keymap("n", "<leader>sa", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
 
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
