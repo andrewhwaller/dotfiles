@@ -272,6 +272,9 @@ vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
 
+-- Tmux sessionizer
+vim.keymap.set('n', '<C-f>', '!tmux neww tmux-sessionizer<CR>', { silent = true })
+
 -- FTerm
 vim.api.nvim_create_user_command('FTermToggle', require('FTerm').toggle, { bang= true })
 vim.keymap.set('n', '<leader>t', ':FTermToggle<CR>', { silent = true })
