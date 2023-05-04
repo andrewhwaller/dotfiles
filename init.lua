@@ -66,6 +66,7 @@ require('packer').startup(function(use)
       }
   })
   use 'kdheepak/lazygit.nvim'
+  use 'ThePrimeagen/git-worktree.nvim'
   use 'stevearc/dressing.nvim'
   use { 'catppuccin/nvim', as = 'catppuccin' }
 
@@ -382,6 +383,8 @@ require('telescope').setup {
   },
 }
 
+require('telescope').load_extension('git_worktree')
+
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
@@ -619,5 +622,7 @@ api.nvim_set_keymap("v", "<leader>zn", ":'<,'>TZNarrow<CR>", {})
 api.nvim_set_keymap("n", "<leader>zf", ":TZFocus<CR>", {})
 api.nvim_set_keymap("n", "<leader>zm", ":TZMinimalist<CR>", {})
 api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
+
+api.nvim_set_keymap("n", "<leader>sa", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
 
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
