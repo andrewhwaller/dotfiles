@@ -1,6 +1,4 @@
-# Fig pre block. Keep at the top of this file.
-# [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
-# If you come from bash you might have to change your $PATH.
+# # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
@@ -118,7 +116,7 @@ alias org="cd ~/github/org"
 alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias cht="~/dotfiles/cht.sh"
 alias dm="emacs -nw"
-alias tmux_sessionizer="$HOME/dotfiles/tmux-sessionizer"
+alias ts="$HOME/dotfiles/tmux-sessionizer"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -181,6 +179,3 @@ export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 export PATH="$HOME/.config/emacs/bin:$PATH"
 eval "$(starship init zsh)"
-
-# Fig post block. Keep at the bottom of this file.
-# [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
