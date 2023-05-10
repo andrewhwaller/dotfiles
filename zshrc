@@ -119,6 +119,7 @@ alias exo="LS_COLORS='$(vivid generate one-dark)';exa --color=auto --icons --lon
 alias cht="~/dotfiles/cht.sh"
 alias dm="emacs -nw"
 alias ts="$HOME/dotfiles/tmux-sessionizer"
+alias dbui="nvim -c 'DBUI'"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
