@@ -248,6 +248,9 @@ vim.o.completeopt = 'menuone,noselect'
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Netrw settings
+vim.g.netrw_banner = 0
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
