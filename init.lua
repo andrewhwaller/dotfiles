@@ -28,7 +28,15 @@ require('packer').startup(function(use)
 
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'jalvesaq/cmp-zotcite',
+    }
   }
 
   use { -- Highlight, edit, and navigate code
@@ -42,6 +50,8 @@ require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = 'nvim-treesitter',
   }
+
+  use 'nvim-treesitter/nvim-treesitter-context'
 
   -- Highlight function args
   use {
@@ -82,7 +92,6 @@ require('packer').startup(function(use)
   use 'lervag/vimtex'
   use 'jxnblk/vim-mdx-js'
   use 'jalvesaq/zotcite'
-  use 'jalvesaq/cmp-zotcite'
   -- Lua
   use {
     "folke/trouble.nvim",
@@ -601,6 +610,8 @@ cmp.setup {
   sources = {
     -- Other Sources
     { name = 'nvim_lsp', group_index = 2 },
+    { name = 'buffer' },
+    { name = 'path' },
     { name = 'luasnip', group_index = 2 },
     { name = 'orgmode' },
     {
