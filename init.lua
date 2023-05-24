@@ -250,6 +250,9 @@ vim.cmd('colorscheme catppuccin')
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
+-- Yank to system clipboard
+vim.o.clipboard = 'unnamedplus'
+
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
