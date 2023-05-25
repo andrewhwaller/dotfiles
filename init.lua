@@ -66,14 +66,14 @@ require('packer').startup(function(use)
   use 'github/copilot.vim'
   use({
     "jackMort/ChatGPT.nvim",
-      config = function()
-        require("chatgpt").setup()
-      end,
-      requires = {
-        "MunifTanjim/nui.nvim",
-        "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope.nvim"
-      }
+    config = function()
+      require("chatgpt").setup()
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
   })
   use 'kdheepak/lazygit.nvim'
   use 'ThePrimeagen/git-worktree.nvim'
@@ -81,10 +81,10 @@ require('packer').startup(function(use)
   use 'stevearc/dressing.nvim'
   use { 'catppuccin/nvim', as = 'catppuccin' }
 
-  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+  use 'nvim-lualine/lualine.nvim'           -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
-  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
-  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+  use 'numToStr/Comment.nvim'               -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth'                    -- Detect tabstop and shiftwidth automatically
   use 'RRethy/vim-illuminate'
   use 'kchmck/vim-coffee-script'
   use 'tpope/vim-dadbod'
@@ -121,10 +121,10 @@ require('packer').startup(function(use)
   use {
     'Pocco81/true-zen.nvim',
     config = function()
-       require('true-zen').setup {
+      require('true-zen').setup {
         -- your config goes here
         -- or just leave it empty :)
-       }
+      }
     end,
   }
 
@@ -159,16 +159,16 @@ require('orgmode').setup_ts_grammar()
 require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
-    additional_vim_regex_highlighting = {'org'},
+    additional_vim_regex_highlighting = { 'org' },
   },
-  ensure_installed = {'org'},
+  ensure_installed = { 'org' },
   endwise = {
-      enable = true,
+    enable = true,
   },
 }
 
 require('orgmode').setup({
-  org_agenda_files = {'~/github/org/**/*'},
+  org_agenda_files = { '~/github/org/**/*' },
   org_default_notes_file = '~/github/org/refile.org',
 })
 
@@ -200,6 +200,8 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
+-- Auto format on write
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.format()]]
 
 -- Set highlight on search
 vim.o.hlsearch = false
@@ -288,7 +290,7 @@ vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
 
 -- FTerm
-vim.api.nvim_create_user_command('FTermToggle', require('FTerm').toggle, { bang= true })
+vim.api.nvim_create_user_command('FTermToggle', require('FTerm').toggle, { bang = true })
 vim.keymap.set('n', '<leader>t', ':FTermToggle<CR>', { silent = true })
 vim.keymap.set('t', '<ESC>', require('FTerm').close, { silent = true })
 -- lazygit.nvim
@@ -329,22 +331,22 @@ vim.keymap.set('n', '<leader>vl', ':vsplit<CR> | :lua require("harpoon.ui").nav_
 vim.keymap.set('n', '<leader>db', ':DBUIToggle<CR>', { silent = true, noremap = true })
 -- Trouble keymaps
 vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-  {silent = true, noremap = true}
+  { silent = true, noremap = true }
 )
 
 -- [[ Highlight on yank ]]
@@ -608,7 +610,7 @@ cmp.setup {
       select = true,
     },
     ['<S-Tab>'] = cmp.mapping(function(fallback)
-     if cmp.visible() then
+      if cmp.visible() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
