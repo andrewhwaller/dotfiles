@@ -429,7 +429,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'ruby', 'rust', 'typescript', 'help', 'vim' },
 
   highlight = { enable = true },
   indent = { enable = true, disable = { 'python' } },
@@ -532,9 +532,25 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-
+  rust_analyzer = {},
+  tsserver = {},
+  solargraph = {
+    filetypes = { 'ruby' },
+    diagnostics = true,
+    completion = true,
+    definitions = true,
+    hover = true,
+    references = true,
+    rename = true,
+    typeDefinition = true,
+    documentSymbol = true,
+    workspaceSymbol = true,
+    codeAction = true,
+    signatureHelp = true,
+    initializationOptions = {
+      formatting = true,
+    },
+  },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -612,10 +628,10 @@ cmp.setup {
   },
   sources = {
     -- Other Sources
-    { name = 'nvim_lsp', group_index = 2 },
+    { name = 'nvim_lsp' },
     { name = 'buffer' },
     { name = 'path' },
-    { name = 'luasnip', group_index = 2 },
+    { name = 'luasnip' },
     { name = 'orgmode' },
     {
       name = 'cmp_zotcite',
