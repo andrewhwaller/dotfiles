@@ -36,6 +36,7 @@ require('packer').startup(function(use)
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
       'jalvesaq/cmp-zotcite',
+      'hrsh7th/cmp-nvim-lsp-signature-help'
     }
   }
 
@@ -535,21 +536,7 @@ local servers = {
   rust_analyzer = {},
   tsserver = {},
   solargraph = {
-    filetypes = { 'ruby' },
-    diagnostics = true,
-    completion = true,
-    definitions = true,
-    hover = true,
-    references = true,
-    rename = true,
-    typeDefinition = true,
-    documentSymbol = true,
-    workspaceSymbol = true,
-    codeAction = true,
-    signatureHelp = true,
-    initializationOptions = {
-      formatting = true,
-    },
+    on_attach = on_attach
   },
   lua_ls = {
     Lua = {
@@ -633,6 +620,7 @@ cmp.setup {
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'orgmode' },
+    { name = 'nvim_lsp_signature_help' },
     {
       name = 'cmp_zotcite',
       filetype = {
