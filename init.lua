@@ -524,6 +524,8 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
+require('lspconfig').solargraph.setup{}
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -535,9 +537,6 @@ local servers = {
   -- pyright = {},
   rust_analyzer = {},
   tsserver = {},
-  solargraph = {
-    on_attach = on_attach
-  },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -572,6 +571,7 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+
 
 -- Turn on lsp status information
 require('fidget').setup()
