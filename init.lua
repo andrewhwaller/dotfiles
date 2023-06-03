@@ -52,8 +52,6 @@ require('packer').startup(function(use)
     after = 'nvim-treesitter',
   }
 
-  use 'nvim-treesitter/nvim-treesitter-context'
-
   -- Highlight function args
   use {
     'm-demare/hlargs.nvim',
