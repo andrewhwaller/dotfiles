@@ -184,4 +184,7 @@ export PNPM_HOME="/Users/andrewhwaller/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 export PATH="$HOME/.config/emacs/bin:$PATH"
+# Add Docker Desktop for Mac (docker)
+export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
+
 eval "$(starship init zsh)"
