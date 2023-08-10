@@ -30,6 +30,7 @@ require('packer').startup(function(use)
     'hrsh7th/nvim-cmp',
     requires = {
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-omni',
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
       'hrsh7th/cmp-buffer',
@@ -365,6 +366,15 @@ require('lualine').setup {
     component_separators = '|',
     section_separators = '',
   },
+  sections = {
+    lualine_c = {
+      {
+        'filename',
+        file_status = true, -- displays file status (readonly status, modified status)
+        path = 1 -- 0 = just filename, 1 = relative path, 2 = absolute path
+      }
+    }
+  }
 }
 
 -- Enable Comment.nvim
@@ -618,6 +628,7 @@ cmp.setup {
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'orgmode' },
+    { name = 'omni' },
     { name = 'nvim_lsp_signature_help' },
     {
       name = 'cmp_zotcite',
