@@ -571,7 +571,7 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'orgmode' },
     { name = 'omni' },
-    -- { name = 'nvim_lsp_signature_help' },
+    { name = 'nvim_lsp_signature_help' },
     {
       name = 'cmp_zotcite',
       filetype = {
