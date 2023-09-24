@@ -38,7 +38,6 @@ You can set the font in iTerm if using Neovim; for MacVim, you'll need to set th
 Clone this repo into `$HOME` and create the following symlinks:
 #### symlinks
 ``` shell
-ln -s ~/dotfiles/vimrc ~/.vimrc # optional; only needed if you have a vanilla Vim config you want to sync
 ln -s ~/dotfiles/zshrc ~/.zshrc
 ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 ln -s ~/dotfiles/init.lua ~/.config/nvim/init.lua
