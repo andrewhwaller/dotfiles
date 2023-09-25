@@ -158,11 +158,13 @@ lg() {
     fi
 }
 
-# tmux-window-name() {
-# 	(~/.tmux/plugins/tmux-window-name/scripts/rename_session_windows.py &)
-# }
-#
-# add-zsh-hook chpwd tmux-window-name
+function chpwd() {
+  if [ -r $PWD/.zsh_config ]; then
+    source $PWD/.zsh_config
+  else
+    source $HOME/.zshrc
+  fi
+}
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -188,3 +190,4 @@ export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
 
 eval "$(starship init zsh)"
+eval "$(/Users/andrewhwaller/github/scripts/bin/law init -)"
