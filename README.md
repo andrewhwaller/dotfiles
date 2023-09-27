@@ -41,6 +41,7 @@ Clone this repo into `$HOME` and create the following symlinks:
 ln -s ~/dotfiles/zshrc ~/.zshrc
 ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 ln -s ~/dotfiles/init.lua ~/.config/nvim/init.lua
+ln -s ~/dotfiles/lua ~/.config/nvim/lua
 ln -s ~/dotfiles/get_dotfiles.scpt ~/Library/Application\ Support/iTerm2/Scripts/AutoLaunch
 ln -s ~/dotfiles/config.el ~/.config/doom/config.el
 ```
