@@ -23,15 +23,6 @@ require('lazy').setup('plugins')
 require('config.keymaps')
 require('config.options')
 
-require('nvim-treesitter.configs').setup {
-  highlight = {
-    enable = true,
-  },
-  endwise = {
-    enable = true,
-  },
-}
-
 require('hlargs').setup()
 
 require('catppuccin').setup({
@@ -129,7 +120,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'ruby', 'rust', 'javascript', 'typescript', 'tsx', 'vimdoc', 'vim', 'query', 'latex', 'lua' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'ruby', 'rust', 'javascript', 'typescript', 'tsx', 'vimdoc', 'vim', 'query', 'latex', 'lua', 'bash' },
   autotag = { enable = true },
   highlight = { enable = true },
   indent = { enable = true, disable = { 'python' } },
@@ -187,6 +178,8 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+
+require('nvim-treesitter.parsers').filetype_to_parsername.zsh = 'bash'
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
