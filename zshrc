@@ -190,4 +190,7 @@ export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
 
 eval "$(starship init zsh)"
-eval "$(/Users/andrewhwaller/github/scripts/bin/law init -)"
+
+if [ -f "/Users/andrewhwaller/github/scripts/bin/law" ]; then
+  eval "$(/Users/andrewhwaller/github/scripts/bin/law init -)"
+fi
