@@ -23,7 +23,7 @@ return {
     name = 'catppuccin'
   },
   'nvim-lualine/lualine.nvim',           -- Fancier statusline
-  'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   'numToStr/Comment.nvim',               -- "gc" to comment visual regions/lines
   'tpope/vim-sleuth',                    -- Detect tabstop and shiftwidth automatically
   'tpope/vim-dadbod',
