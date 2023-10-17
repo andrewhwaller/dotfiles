@@ -188,6 +188,7 @@ export PATH="$PNPM_HOME:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 # Add Docker Desktop for Mac (docker)
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
+export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
 
 eval "$(starship init zsh)"
 
