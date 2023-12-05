@@ -16,7 +16,6 @@ return {
   },
   'kchmck/vim-coffee-script',
   'lervag/vimtex',
-  'jxnblk/vim-mdx-js',
   'jalvesaq/zotcite',
   {
     'j-hui/fidget.nvim',
