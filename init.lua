@@ -223,8 +223,6 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
-require('lspconfig').solargraph.setup{}
-
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --
@@ -234,6 +232,7 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
+  solargraph = {},
   rust_analyzer = {},
   tsserver = {},
   lua_ls = {
@@ -320,6 +319,12 @@ cmp.setup {
         fallback()
       end
     end, { 'i', 's' }),
+  },
+  formatting = {
+    format = function(entry, vim_item)
+      vim_item.menu = entry.source.name
+      return require('lspkind').cmp_format({ mode = 'symbol_text' })(entry, vim_item)
+    end,
   },
   sources = {
     -- Other Sources
