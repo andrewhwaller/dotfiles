@@ -362,7 +362,11 @@ api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
 api.nvim_set_keymap("n", "<leader>sa", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
 
 -- Git Blame
-vim.g.gitblame_use_blame_commit_file_urls = true
+require("gitblame").setup({
+  enabled = false,
+  use_blame_commit_file_urls = true,
+})
+
 api.nvim_set_keymap("n", "<leader>gb", ":GitBlameToggle<CR>", {})
 api.nvim_set_keymap("n", "<leader>gg", ":GitBlameOpenCommitURL<CR>", {})
 
