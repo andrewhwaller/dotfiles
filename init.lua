@@ -366,4 +366,22 @@ vim.g.gitblame_use_blame_commit_file_urls = true
 api.nvim_set_keymap("n", "<leader>gb", ":GitBlameToggle<CR>", {})
 api.nvim_set_keymap("n", "<leader>gg", ":GitBlameOpenCommitURL<CR>", {})
 
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
+-- Netrw keymaps
+vim.keymap.set("n", "<leader>ee", ":Explore %:p:h<CR>",
+  { silent = true, noremap = true }
+)
+vim.keymap.set("n", "<leader>ev", ":Vexplore %:p:h<CR>",
+  { silent = true, noremap = true }
+)
+vim.keymap.set("n", "<leader>es", ":Sexplore %:p:h<CR>",
+  { silent = true, noremap = true }
+)
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argv(0) == "" then
+      vim.cmd("Explore")
+      require("telescope.builtin").find_files()
+    end
+  end,
+})

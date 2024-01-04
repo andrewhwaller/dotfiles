@@ -90,3 +90,8 @@ vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
 vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
   { silent = true, noremap = true }
 )
+
+-- Netrw keymaps
+vim.keymap.set("n", "<leader>e", ":Lexplore %:p:h<CR>",
+  { silent = true, noremap = true }
+)
