@@ -6,7 +6,13 @@ return {
       'nvim-lua/plenary.nvim'
     }
   },
-  'ThePrimeagen/harpoon',
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+  },
   -- Fuzzy Finder Algorithm which dependencies local dependencies to be built. Only load if `make` is available
   {
     'nvim-telescope/telescope-fzf-native.nvim',
