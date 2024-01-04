@@ -26,8 +26,33 @@ return {
   { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
   'numToStr/Comment.nvim',               -- "gc" to comment visual regions/lines
   'tpope/vim-sleuth',                    -- Detect tabstop and shiftwidth automatically
-  'tpope/vim-dadbod',
-  'kristijanhusak/vim-dadbod-ui',
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    dependencies = {
+      {
+        'tpope/vim-dadbod',
+        lazy = true
+      },
+      {
+        'kristijanhusak/vim-dadbod-completion',
+        ft = {
+          'sql',
+          'mysql',
+          'plsql',
+        },
+        lazy = true
+      },
+    },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+    },
+    init = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end
+  },
   {
     "folke/trouble.nvim",
     dependencies = "nvim-tree/nvim-web-devicons",
