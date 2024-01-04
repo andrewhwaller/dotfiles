@@ -35,39 +35,7 @@ vim.keymap.set('t', '<ESC>', require('FTerm').close, { silent = true })
 
 -- lazygit.nvim
 vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true, noremap = true })
-
--- Harpoon keymaps
-vim.keymap.set('n', '<leader>f', ':lua require("harpoon.ui").toggle_quick_menu()<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>m', ':lua require("harpoon.mark").add_file()<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>h', ':lua require("harpoon.ui").nav_file(1)<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>j', ':lua require("harpoon.ui").nav_file(2)<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>k', ':lua require("harpoon.ui").nav_file(3)<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>l', ':lua require("harpoon.ui").nav_file(4)<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>vh', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(1)<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>vj', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(2)<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>vk', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(3)<CR>',
-  { silent = true, noremap = true }
-)
-vim.keymap.set('n', '<leader>vl', ':vsplit<CR> | :lua require("harpoon.ui").nav_file(4)<CR>',
-  { silent = true, noremap = true }
-)
-
+--
 -- DBUI keymaps
 vim.keymap.set('n', '<leader>db', ':DBUIToggle<CR>', { silent = true, noremap = true })
 
