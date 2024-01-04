@@ -361,4 +361,6 @@ api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
 
 api.nvim_set_keymap("n", "<leader>sa", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
 
+api.nvim_set_keymap("n", "<leader>gb", ":GitBlameToggle<CR>", {})
+
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex)
