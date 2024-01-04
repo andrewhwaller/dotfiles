@@ -121,6 +121,9 @@ alias dm="emacs -nw"
 alias ts="$HOME/dotfiles/tmux-sessionizer"
 alias dbui="nvim -c 'DBUI'"
 alias dsh="gh dash"
+alias vim="nvim"
+alias vi="nvim"
+alias v="nvim"
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
