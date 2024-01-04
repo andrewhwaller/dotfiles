@@ -40,6 +40,36 @@ require('catppuccin').setup({
   }
 })
 
+local harpoon = require("harpoon")
+harpoon:setup()
+
+-- Harpoon keymaps
+vim.keymap.set("n", "<leader>m", function() harpoon:list():append() end)
+vim.keymap.set("n", "<leader>f", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+vim.keymap.set("n", "<leader>h", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<leader>j", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<leader>k", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<leader>l", function() harpoon:list():select(4) end)
+
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argv(0) == "" then
+      vim.cmd("Explore")
+
+      if harpoon:list():length() > 0 then
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      else
+        require("telescope.builtin").find_files()
+      end
+    end
+  end,
+})
+
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -335,6 +365,7 @@ cmp.setup {
     { name = 'orgmode' },
     { name = 'omni' },
     { name = 'nvim_lsp_signature_help' },
+    { name = 'vim-dadbod-completion' },
     {
       name = 'cmp_zotcite',
       filetype = {
@@ -380,12 +411,3 @@ vim.keymap.set("n", "<leader>ev", ":Vexplore %:p:h<CR>",
 vim.keymap.set("n", "<leader>es", ":Sexplore %:p:h<CR>",
   { silent = true, noremap = true }
 )
-
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    if vim.fn.argv(0) == "" then
-      vim.cmd("Explore")
-      require("telescope.builtin").find_files()
-    end
-  end,
-})
