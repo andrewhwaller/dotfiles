@@ -72,9 +72,8 @@ return {
     end
   },
   {
-    'Pocco81/true-zen.nvim',
-    config = function()
-      require('true-zen').setup {}
-    end
+    "folke/todo-comments.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    opts = {},
   }
 }
