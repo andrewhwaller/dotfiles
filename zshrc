@@ -102,16 +102,10 @@ export EDITOR="nvim"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias obsidian="nvim ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents"
-alias nvconfig="nvim ~/.config/nvim/init.vim"
-alias zshconfig="nvim ~/.zshrc"
 alias dotfiles="cd ~/dotfiles && git status"
-alias rubydir="cd ~/RubymineProjects"
-alias webdir="cd ~/WebstormProjects"
 alias ghdir="cd ~/github"
 alias smdir="cd ~/github/servemanager"
 alias realp="cd ~/github/real-presence"
-alias lukanp="webdir && nvim LukanPrioritiesAstro"
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 alias thesis="cd ~/github/thesis"
 alias org="cd ~/github/org"
@@ -138,16 +132,8 @@ _exo_on_cwd_change()  {
 
 add-zsh-hook chpwd _exo_on_cwd_change
 
-get_dotfiles() {
-  cd ~/dotfiles && git pull --ff-only
-}
-
 dev() {
   open "http://localhost:$@"
-}
-
-goog() { 
-  open /Applications/Brave\ Browser.app/ "http://www.google.com/search?q= $1"; 
 }
 
 lg() {
@@ -171,23 +157,12 @@ function chpwd() {
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# bun completions
-[ -s "/Users/andrewhwaller/.bun/_bun" ] && source "/Users/andrewhwaller/.bun/_bun"
-
-# Bun
-export BUN_INSTALL="/Users/andrewhwaller/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export LDFLAGS="-L/opt/homebrew/opt/capstone/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/capstone/include"
-# pnpm
-export PNPM_HOME="/Users/andrewhwaller/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
 export PATH="$HOME/.config/emacs/bin:$PATH"
 # Add Docker Desktop for Mac (docker)
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
@@ -199,3 +174,4 @@ if [ -f "/Users/andrewhwaller/github/scripts/bin/law" ]; then
   eval "$(/Users/andrewhwaller/github/scripts/bin/law init -)"
 fi
 export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
