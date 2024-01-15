@@ -167,6 +167,10 @@ export PATH="$HOME/.config/emacs/bin:$PATH"
 # Add Docker Desktop for Mac (docker)
 export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
 export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 eval "$(starship init zsh)"
 
