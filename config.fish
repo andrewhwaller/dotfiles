@@ -11,7 +11,10 @@ alias dsh="gh dash"
 alias vim="nvim"
 alias vi="nvim"
 alias v="nvim"
+alias lg="lazygit"
 
 fzf_configure_bindings --directory=\cf --variables=\e\cv
+
+set -U fish_greeting
 
 starship init fish | source
