@@ -17,4 +17,6 @@ fzf_configure_bindings --directory=\cf --variables=\e\cv
 
 set -U fish_greeting
 
+. (rbenv init - | source)
+
 starship init fish | source
