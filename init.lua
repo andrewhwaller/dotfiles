@@ -292,16 +292,8 @@ local servers = {
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
-  solargraph = {
-    autoformat = true,
-    completion = true,
-    diagnostic = true,
-    folding = true,
-    references = true,
-    rename = true,
-    symbols = true
-  },
   rust_analyzer = {},
+  ruby_ls = {},
   tsserver = {},
   lua_ls = {
     Lua = {
