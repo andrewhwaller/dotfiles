@@ -393,7 +393,7 @@ cmp.setup {
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'orgmode' },
-    { name = 'omni' },
+    { name = 'omni', keyword_length = 0 },
     { name = 'nvim_lsp_signature_help' },
     { name = 'vim-dadbod-completion' },
     {
@@ -408,17 +408,6 @@ cmp.setup {
     }
   }
 }
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
-
--- True Zen keymaps
-local api = vim.api
-
-api.nvim_set_keymap("n", "<leader>zn", ":TZNarrow<CR>", {})
-api.nvim_set_keymap("v", "<leader>zn", ":'<,'>TZNarrow<CR>", {})
-api.nvim_set_keymap("n", "<leader>zf", ":TZFocus<CR>", {})
-api.nvim_set_keymap("n", "<leader>zm", ":TZMinimalist<CR>", {})
-api.nvim_set_keymap("n", "<leader>za", ":TZAtaraxis<CR>", {})
 
 api.nvim_set_keymap("n", "<leader>sa", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
 
