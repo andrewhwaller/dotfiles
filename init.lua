@@ -96,6 +96,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'tex',
+  callback = function()
+    require('cmp').setup.buffer {
+      sources = {
+        {
+          name = 'omni',
+          keyword_length = 0
+        },
+        { name = 'vimtex' },
+        { name = 'buffer' }
+      }
+    }
+  end
+})
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -377,9 +392,27 @@ cmp.setup {
       end
     end, { 'i', 's' }),
   },
+  -- formatting = {
+  --   format = function(entry, vim_item)
+  --     vim_item.menu = ({
+  --       omni = (vim.inspect(vim_item.menu)),
+  --       luasnip = "[LuaSnip]",
+  --       buffer = "[Buffer]",
+  --     })[entry.source.name]
+  --     return require('lspkind').cmp_format({ mode = 'symbol_text' })(entry, vim_item)
+  --   end,
+  -- },
   formatting = {
+    fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
-      vim_item.menu = entry.source.name
+      vim_item.menu = ({
+        vimtex = "[Vimtex]" .. (vim_item.menu ~= nil and vim_item.menu or ""),
+        luasnip = "[Snippet]",
+        nvim_lsp = "[LSP]",
+        buffer = "[Buffer]",
+        cmdline = "[CMD]",
+        path = "[Path]",
+      })[entry.source.name]
       return require('lspkind').cmp_format({ mode = 'symbol_text' })(entry, vim_item)
     end,
   },
@@ -390,7 +423,10 @@ cmp.setup {
     { name = 'path' },
     { name = 'luasnip' },
     { name = 'orgmode' },
-    { name = 'omni', keyword_length = 0 },
+    {
+      name = 'omni',
+      keyword_length = 0
+    },
     { name = 'nvim_lsp_signature_help' },
     { name = 'vim-dadbod-completion' },
     {
