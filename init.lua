@@ -409,7 +409,7 @@ cmp.setup {
   }
 }
 
-api.nvim_set_keymap("n", "<leader>sa", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>sa", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", {})
 
 -- Git Blame
 require("gitblame").setup({
@@ -417,8 +417,8 @@ require("gitblame").setup({
   use_blame_commit_file_urls = true,
 })
 
-api.nvim_set_keymap("n", "<leader>gb", ":GitBlameToggle<CR>", {})
-api.nvim_set_keymap("n", "<leader>gg", ":GitBlameOpenCommitURL<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>gb", ":GitBlameToggle<CR>", {})
+vim.api.nvim_set_keymap("n", "<leader>gg", ":GitBlameOpenCommitURL<CR>", {})
 
 -- Netrw keymaps
 vim.keymap.set("n", "<leader>ee", ":Explore %:p:h<CR>",
