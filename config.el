@@ -6,9 +6,13 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
+(setq shell-file-name (executable-find "bash"))
+
 (setq user-full-name "Andrew Waller"
       user-mail-address "andrew@andrewhwaller.com")
 
+(add-hook 'window-setup-hook #'toggle-frame-maximized)
+(add-hook! 'window-setup-hook (x-focus-frame nil))
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
@@ -39,6 +43,13 @@
 (setq display-line-numbers-type t)
 
 (setq mac-option-modifier 'meta)
+(use-package nerd-icons
+  :custom
+  ;; The Nerd Font you want to use in GUI
+  ;; "Symbols Nerd Font Mono" is the default and is recommended
+  ;; but you can use any other Nerd Font if you want
+  (nerd-icons-font-family "BerkeleyMono Nerd Font Mono")
+  )
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
