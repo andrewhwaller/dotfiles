@@ -13,12 +13,19 @@
 
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 (add-hook! 'window-setup-hook (x-focus-frame nil))
-(defun my/org-mode-auto-commit ()
-  "Auto commit and push org files."
-  (when (string-suffix-p ".org" (buffer-file-name))
-    (call-process-shell-command "~/dotfiles/org-git-add-commit.sh" nil 0)))
+(advice-add 'org-agenda-quit :before 'org-save-all-org-buffers)
 
-(add-hook 'after-save-hook 'my/org-mode-auto-commit)
+(defun org-mode-auto-commit ()
+  "Auto commit and push org files."
+  (call-process-shell-command "~/dotfiles/org-git-add-commit.sh" nil 0))
+
+(add-hook 'after-save-hook 'org-mode-auto-commit)
+(add-hook 'org-after-todo-state-change-hook 'org-mode-auto-commit)
+(add-hook 'org-agenda-after-todo-action-hook 'org-mode-auto-commit)
+(add-hook 'org-agenda-finalize-hook 'org-mode-auto-commit)
+
+(setq org-link-frame-setup '((file . find-file-other-window)))
+(setq org-agenda-start-with-follow-mode t)
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
