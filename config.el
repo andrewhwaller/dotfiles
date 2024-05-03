@@ -13,6 +13,12 @@
 
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 (add-hook! 'window-setup-hook (x-focus-frame nil))
+(defun my/org-mode-auto-commit ()
+  "Auto commit and push org files."
+  (when (string-suffix-p ".org" (buffer-file-name))
+    (call-process-shell-command "~/dotfiles/org-git-add-commit.sh" nil 0)))
+
+(add-hook 'after-save-hook 'my/org-mode-auto-commit)
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
 ;; - `doom-font' -- the primary font to use
