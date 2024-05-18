@@ -8,10 +8,9 @@ alias exo="exa --color=auto --icons --long -h -a --git --no-permissions --no-use
 alias cht="~/dotfiles/cht.sh"
 alias dbui="nvim -c 'DBUI'"
 alias dsh="gh dash"
-alias vim="nvim"
-alias vi="nvim"
 alias v="nvim"
 alias lg="lazygit"
+alias bibclear="rm -rf $(biber --cache)"
 
 fzf_configure_bindings --directory=\cf --variables=\e\cv
 
