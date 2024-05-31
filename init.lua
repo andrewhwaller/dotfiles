@@ -307,6 +307,26 @@ local servers = {
   rust_analyzer = {},
   ruby_lsp = {},
   tsserver = {},
+  cssls = {
+    css = {
+      validate = true,
+      lint = {
+        unknownAtRules = 'ignore'
+      }
+    },
+    less = {
+      validate = true,
+      lint = {
+        unknownAtRules = 'ignore'
+      }
+    },
+    scss = {
+      validate = true,
+      lint = {
+        unknownAtRules = 'ignore'
+      }
+    },
+  },
   lua_ls = {
     Lua = {
       workspace = {
