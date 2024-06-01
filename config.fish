@@ -1,6 +1,8 @@
 if status is-interactive
-and not set -q TMUX
-    exec tmux
+    and not set -q TMUX
+    tmux has-session -t system 2>/dev/null; or tmux new-session -d -s "system" \; send-keys "btop" C-m
+    tmux has-session -t github-dash 2>/dev/null; or tmux new-session -d -s "github-dash" \; send-keys "gh dash" C-m
+    tmux attach-session -t system
 end
 
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
@@ -17,6 +19,7 @@ fzf_configure_bindings --directory=\cf --variables=\e\cv
 
 set -U fish_greeting
 set -x DISABLE_SPRING 1
+set -gx PATH /Users/andrewhwaller/.rbenv/versions/3.2.2/bin $PATH
 
 . (rbenv init - | source)
 
