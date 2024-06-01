@@ -1,8 +1,8 @@
 if status is-interactive
-    and not set -q TMUX
-    tmux has-session -t system 2>/dev/null; or tmux new-session -d -s "system" \; send-keys "btop" C-m
-    tmux has-session -t github-dash 2>/dev/null; or tmux new-session -d -s "github-dash" \; send-keys "gh dash" C-m
-    tmux attach-session -t system
+  and not set -q TMUX
+  tmux has-session -t dashboard 2>/dev/null; or tmux new-session -d -s "dashboard" \; \
+    send-keys "gh dash" C-m \;
+  tmux attach-session -t dashboard
 end
 
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
