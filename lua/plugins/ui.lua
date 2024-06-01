@@ -33,14 +33,20 @@ return {
           theme = 'catppuccin',
         },
         sections = {
-          lualine_c = {
+          lualine_b = {
             {
-              Harpoonline.format,
+              function()
+                local harpoon_status = Harpoonline.format()
+                local filename = vim.fn.expand('%:.')
+                return string.format('%s | %s', harpoon_status, filename)
+              end,
               'filename',
               file_status = true, -- displays file status (readonly status, modified status)
               path = 1            -- 0 = just filename, 1 = relative path, 2 = absolute path
             }
-          }
+          },
+          lualine_c = {'filetype', 'diagnostics'},
+          lualine_x = {'branch', 'diff'},
         }
       }
     end
