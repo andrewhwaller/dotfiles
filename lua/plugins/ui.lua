@@ -3,15 +3,33 @@ return {
     'm-demare/hlargs.nvim',
     dependencies = {
       'nvim-treesitter/nvim-treesitter'
-    }
+    },
+    config = function()
+      require('hlargs').setup()
+    end
   },
   'numToStr/FTerm.nvim',
   'stevearc/dressing.nvim',
   {
     'catppuccin/nvim',
-    name = 'catppuccin'
+    name = 'catppuccin',
+    config = function()
+      require('catppuccin').setup({
+        flavour = 'mocha',
+        integrations = {
+          cmp = true,
+          treesitter = true,
+          harpoon = true,
+          mason = true,
+          telescope = {
+            enabled = true,
+          },
+          lsp_trouble = true,
+          gitsigns = true,
+        }
+      })
+    end
   },
-  'nvim-lualine/lualine.nvim',           -- Fancier statusline
   {
     'nvim-lualine/lualine.nvim',
     dependencies = {
@@ -51,8 +69,20 @@ return {
       }
     end
   },
-  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
-  'numToStr/Comment.nvim',               -- "gc" to comment visual regions/lines
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
+    opts = {},
+    config = function()
+      require('ibl').setup()
+    end
+  },
+  {
+    'numToStr/Comment.nvim',               -- "gc" to comment visual regions/lines
+    config = function()
+      require('Comment').setup()
+    end
+  },
   'tpope/vim-sleuth',                    -- Detect tabstop and shiftwidth automatically
   {
     'kristijanhusak/vim-dadbod-ui',
@@ -82,10 +112,10 @@ return {
     end
   },
   {
-    "folke/trouble.nvim",
-    dependencies = "nvim-tree/nvim-web-devicons",
+    'folke/trouble.nvim',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-      require("trouble").setup {
+      require('trouble').setup {
         auto_close = true,
         auto_preview = true,
       }
@@ -96,12 +126,12 @@ return {
   {
     'windwp/nvim-autopairs',
     config = function()
-      require("nvim-autopairs").setup {}
+      require('nvim-autopairs').setup {}
     end
   },
   {
-    "folke/todo-comments.nvim",
-    dependencies = "nvim-lua/plenary.nvim",
+    'folke/todo-comments.nvim',
+    dependencies = 'nvim-lua/plenary.nvim',
     opts = {},
   }
 }
