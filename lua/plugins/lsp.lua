@@ -2,16 +2,21 @@ return {
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      -- Useful status updates for LSP
       {
         'j-hui/fidget.nvim',
-        tag = 'legacy'
+        tag = 'legacy',
+        config = function()
+          require('fidget').setup()
+        end
       },
-      -- Additional lua configuration, makes nvim stuff amazing
-      'folke/neodev.nvim',
+      {
+        'folke/neodev.nvim',
+        config = function()
+          require('neodev').setup()
+        end
+      },
     },
   },
   'kchmck/vim-coffee-script',
