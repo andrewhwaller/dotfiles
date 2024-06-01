@@ -1,7 +1,8 @@
-local harpoon = require('harpoon')
 
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
+    local harpoon = require('harpoon')
+
     if vim.fn.argv(0) == '' then
       vim.cmd('Explore')
 
