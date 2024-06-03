@@ -38,13 +38,13 @@ You can set the font in iTerm if using Neovim; for MacVim, you'll need to set th
 Clone this repo into `$HOME` and create the following symlinks:
 #### symlinks
 ``` shell
-ln -s ~/dotfiles/zshrc ~/.zshrc
-ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
-ln -s ~/dotfiles/init.lua ~/.config/nvim/init.lua
-ln -s ~/dotfiles/config.fish ~/.config/fish/config.fish
-ln -s ~/dotfiles/lua ~/.config/nvim/lua
-ln -s ~/dotfiles/config.el ~/.config/doom/config.el
-ln -s ~/dotfiles/kitty.conf ~/.config/kitty/kitty.conf
+ln -s ~/dotfiles/zsh/zshrc ~/.zshrc
+ln -s ~/dotfiles/starship/starship.toml ~/.config/starship.toml
+ln -s ~/dotfiles/nvim/init.lua ~/.config/nvim/init.lua
+ln -s ~/dotfiles/nvim/lua ~/.config/nvim/lua
+ln -s ~/dotfiles/fish/config.fish ~/.config/fish/config.fish
+ln -s ~/dotfiles/doom/config.el ~/.config/doom/config.el
+ln -s ~/dotfiles/kitty ~/.config/kitty
 ln -s ~/dotfiles/sketchybar ~/.config/sketchybar
 ln -s ~/dotfiles/gh-dash ~/.config/gh-dash
 ```
