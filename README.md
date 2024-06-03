@@ -43,7 +43,7 @@ ln -s ~/dotfiles/starship.toml ~/.config/starship.toml
 ln -s ~/dotfiles/init.lua ~/.config/nvim/init.lua
 ln -s ~/dotfiles/config.fish ~/.config/fish/config.fish
 ln -s ~/dotfiles/lua ~/.config/nvim/lua
-ln -s ~/dotfiles/get_dotfiles.scpt ~/Library/Application\ Support/iTerm2/Scripts/AutoLaunch
 ln -s ~/dotfiles/config.el ~/.config/doom/config.el
 ln -s ~/dotfiles/kitty.conf ~/.config/kitty/kitty.conf
+ln -s ~/dotfiles/sketchybar ~/.config/sketchybar
 ```
