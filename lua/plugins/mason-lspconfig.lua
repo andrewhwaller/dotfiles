@@ -4,7 +4,7 @@ return {
     local mason_lspconfig = require('mason-lspconfig')
     local servers = {
       rust_analyzer = {},
-      ruby_lsp = {},
+      ruby_ls = {},
       tsserver = {},
       cssls = {
         css = {
