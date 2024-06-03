@@ -45,6 +45,7 @@ ln -s ~/dotfiles/nvim/lua ~/.config/nvim/lua
 ln -s ~/dotfiles/fish/config.fish ~/.config/fish/config.fish
 ln -s ~/dotfiles/doom/config.el ~/.config/doom/config.el
 ln -s ~/dotfiles/kitty ~/.config/kitty
+ln -s ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/sketchybar ~/.config/sketchybar
 ln -s ~/dotfiles/gh-dash ~/.config/gh-dash
 ```
