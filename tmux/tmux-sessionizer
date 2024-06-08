@@ -21,7 +21,7 @@ create_tmux_session() {
     tmux new-window -t $selected_name -c $selected
 
     tmux new-window -t $selected_name -c $selected
-    tmux send-keys -t $selected_name 'lg' C-m
+    tmux send-keys -t $selected_name 'lazygit' C-m
 
     tmux attach -t $selected_name
 }
