@@ -13,26 +13,37 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
-create_tmux_session() {
-    tmux new-session -d -s $selected_name -c $selected
+init_tmux_session() {
+    if [ -d "$selected/.git" ]; then
+        create_selected_session
+        create_dev_windows
+    else
+        create_selected_session
+    fi
 
+    tmux attach -t $selected_name
+}
+
+create_selected_session() {
+    tmux new-session -d -s $selected_name -c $selected
+}
+
+create_dev_windows() {
     tmux send-keys -t $selected_name 'nvim' C-m
 
     tmux new-window -t $selected_name -c $selected
 
     tmux new-window -t $selected_name -c $selected
     tmux send-keys -t $selected_name 'lazygit' C-m
-
-    tmux attach -t $selected_name
 }
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    create_tmux_session
+    init_tmux_session
     exit 0
 fi
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
-    create_tmux_session
+    init_tmux_session
 fi
 
 tmux switch-client -t $selected_name
