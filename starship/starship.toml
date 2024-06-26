@@ -22,3 +22,6 @@ show_always = true
 
 [directory]
 truncate_to_repo = true
+[ruby]
+format = "via [$symbol $version]($style) "
+symbol = "[\ue791](red)"
