@@ -2,7 +2,7 @@ local icons = require("icons")
 local colors = require("colors")
 local settings = require("settings")
 sbar.exec(
-	"killall network_load >/dev/null; $CONFIG_DIR/helpers/event_providers/network_load/bin/network_load en1 network_update 2.0"
+	"killall network_load >/dev/null; $CONFIG_DIR/helpers/event_providers/network_load/bin/network_load en0 network_update 2.0"
 )
 
 -- Background around the cpu item
@@ -33,7 +33,7 @@ local wifi_up =
 					style = settings.font.style_map.Bold,
 					size = 9
 				},
-				string = "en1 Bps"
+				string = "en0 Bps"
 			},
 			y_offset = 4
 		}
@@ -59,7 +59,7 @@ local wifi_down =
 					size = 9
 				},
 				color = colors.granit.one,
-				string = "en1 Bps"
+				string = "en0 Bps"
 			},
 			y_offset = -4
 		}
@@ -303,7 +303,7 @@ local function toggle_details()
 			end
 		)
 		sbar.exec(
-			"ipconfig getifaddr en1",
+			"ipconfig getifaddr en0",
 			function(result)
 				ip:set(
 					{
@@ -313,7 +313,7 @@ local function toggle_details()
 			end
 		)
 		sbar.exec(
-			"ipconfig getsummary en1 | awk -F ' SSID : '  '/ SSID : / {print $2}'",
+			"ipconfig getsummary en0 | awk -F ' SSID : '  '/ SSID : / {print $2}'",
 			function(result)
 				ssid:set(
 					{
