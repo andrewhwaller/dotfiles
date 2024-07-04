@@ -130,3 +130,5 @@ vim.keymap.set("n", "<leader>ev", ":Vexplore %:p:h<CR>",
 vim.keymap.set("n", "<leader>es", ":Sexplore %:p:h<CR>",
   { silent = true, noremap = true }
 )
+
+vim.keymap.set('v', '<leader>gs', ':CodeSnap<CR>', { silent = true })

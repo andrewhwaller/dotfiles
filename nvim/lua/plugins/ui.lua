@@ -94,5 +94,17 @@ return {
     'folke/todo-comments.nvim',
     dependencies = 'nvim-lua/plenary.nvim',
     opts = {},
+  },
+  {
+    'mistricky/codesnap.nvim',
+    build = 'make',
+    config = function()
+      require('codesnap').setup({
+        has_breadcrumbs = true,
+        has_line_number = true,
+        bg_theme = 'bamboo',
+        watermark = '',
+      })
+    end
   }
 }
