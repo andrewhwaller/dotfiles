@@ -60,7 +60,7 @@ local padding_left = sbar.add("item", "padding.left", {
 for i = 1, 10 do
 	local space = sbar.add("space", "space." .. i, {
 		space = i,
-		position = "center",
+		position = "right",
 	})
 	spaces[i] = space
 
