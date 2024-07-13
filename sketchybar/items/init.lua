@@ -1,6 +1,7 @@
 require("items.calendar")
 
 require("items.volume")
+require("items.battery")
 require("items.cpu")
 require("items.wifi")
 require("items.media")

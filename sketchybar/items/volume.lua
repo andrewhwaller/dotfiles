@@ -43,8 +43,8 @@ local volume_icon =
             label = {
                 align = "right",
                 color = colors.bar.foreground_alt,
-            }
-            -- click_script = "osascript $CONFIG_DIR/items/scripts/openSoundMenu.scpt"
+            },
+            click_script = "osascript $CONFIG_DIR/items/scripts/openSoundMenu.scpt"
         }
     )
 
