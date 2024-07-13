@@ -108,4 +108,10 @@ return {
       }
     end
   },
+  {
+    'OrangeT/vim-csharp',
+  },
+  {
+    'jlcrochet/vim-razor',
+  }
 }
