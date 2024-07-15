@@ -25,5 +25,6 @@ return {
   {
     'j-hui/fidget.nvim',
     tag = 'legacy'
-  }
+  },
+  'vim-scripts/dbext.vim'
 }
