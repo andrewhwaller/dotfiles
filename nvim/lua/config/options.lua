@@ -62,3 +62,7 @@ vim.opt.softtabstop = 2
 vim.opt.expandtab = true
 
 vim.o.synmaxcol = 0
+
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.cmd([[ set nofoldenable ]])
