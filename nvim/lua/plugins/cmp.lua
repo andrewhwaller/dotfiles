@@ -104,9 +104,9 @@ return {
               'latex'
             }
           },
-          {
-            name = 'supermaven'
-          }
+          -- {
+          --   name = 'supermaven'
+          -- }
         }
       }
     end
