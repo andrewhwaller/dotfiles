@@ -20,12 +20,6 @@ return {
     },
   },
   'kchmck/vim-coffee-script',
-  {
-    'lervag/vimtex',
-    config = function()
-      vim.g.vimtex_view_method = 'skim'
-    end
-  },
   'jalvesaq/zotcite',
   {
     'j-hui/fidget.nvim',
