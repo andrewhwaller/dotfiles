@@ -5,6 +5,8 @@ if status is-interactive
   tmux attach-session -t dashboard
 end
 
+export EDITOR=nvim
+
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 alias exo="exa --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
@@ -36,3 +38,4 @@ end
 __check_nvm
 
 starship init fish | source
+~/.local/bin/mise activate fish | source
