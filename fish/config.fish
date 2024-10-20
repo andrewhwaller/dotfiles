@@ -16,9 +16,6 @@ fzf_configure_bindings --directory=\cf --variables=\e\cv
 
 set -U fish_greeting
 set -x DISABLE_SPRING 1
-set -gx PATH /Users/andrewhwaller/.rbenv/versions/3.2.2/bin $PATH
-
-. (rbenv init - | source)
 
 function __check_nvm --on-variable PWD --description 'Do nvm stuff'
   if test -f .nvmrc
