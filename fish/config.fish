@@ -17,6 +17,10 @@ fzf_configure_bindings --directory=\cf --variables=\e\cv
 set -U fish_greeting
 set -x DISABLE_SPRING 1
 
+if test (uname) = "Linux"
+    set -x SIGNAL_PASSWORD_STORE gnome-libsecret
+end
+
 function __check_nvm --on-variable PWD --description 'Do nvm stuff'
   if test -f .nvmrc
     set node_version (node -v)
@@ -36,3 +40,7 @@ __check_nvm
 
 starship init fish | source
 ~/.local/bin/mise activate fish | source
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
