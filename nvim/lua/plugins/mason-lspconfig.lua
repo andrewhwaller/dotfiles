@@ -5,7 +5,7 @@ return {
     local servers = {
       rust_analyzer = {},
       ruby_lsp = {},
-      tsserver = {},
+      ts_ls = {},
       cssls = {
         css = {
           validate = true,
