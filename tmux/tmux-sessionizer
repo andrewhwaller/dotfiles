@@ -4,7 +4,7 @@ selected=$(find -L ~/github ~ -mindepth 1 -maxdepth 2 -type d | fzf \
     --exact \
     --bind "change:top" \
     --bind "shift-tab:up,tab:down" \
-    --preview 'exa --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first {}')
+    --preview 'eza --color=always --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first {}')
 
 if [[ -z $selected ]]; then
     exit 0
