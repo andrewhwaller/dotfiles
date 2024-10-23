@@ -1,8 +1,7 @@
 if status is-interactive
   and not set -q TMUX
-  tmux has-session -t dashboard 2>/dev/null; or tmux new-session -d -s "dashboard" \; \
-    send-keys "gh dash" C-m \;
-  tmux attach-session -t dashboard
+  tmux has-session -t home 2>/dev/null; or tmux new-session -d -s "home" \;
+  tmux attach-session -t home 
 end
 
 export EDITOR=nvim
@@ -44,3 +43,5 @@ starship init fish | source
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+fish_add_path /home/andrewhwaller/.spicetify
