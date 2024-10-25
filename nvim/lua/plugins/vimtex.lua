@@ -7,5 +7,12 @@ return {
     if os_name == 'Darwin' then
       vim.g.vimtex_view_method = 'skim'
     end
+
+    vim.api.nvim_create_autocmd({"CursorMoved", "BufWritePost"}, {
+      pattern = "*.tex",
+      callback = function()
+        vim.cmd("VimtexView")
+      end,
+    })
   end
 }
