@@ -44,4 +44,6 @@ starship init fish | source
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
+set -U fish_user_paths /usr/bin $fish_user_paths
+
 fish_add_path /home/andrewhwaller/.spicetify
