@@ -104,6 +104,7 @@ return {
         has_line_number = true,
         bg_theme = 'bamboo',
         watermark = '',
+        code_font_family = 'BerkeleyMono Nerd Font Mono',
       })
     end
   }
