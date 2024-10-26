@@ -7,9 +7,10 @@ end
 export EDITOR=nvim
 
 alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
-alias exo="exa --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
+alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
 alias lg="lazygit"
+alias coffee="ssh terminal.shop"
 
 fzf_configure_bindings --directory=\cf --variables=\e\cv
 
