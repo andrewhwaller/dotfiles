@@ -28,4 +28,5 @@ set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
 
 set -U fish_user_paths /usr/bin $fish_user_paths
+set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
 set -gx PATH (mise bin-paths) $PATH
