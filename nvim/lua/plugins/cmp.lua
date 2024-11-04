@@ -57,16 +57,6 @@ return {
             end
           end, { 'i', 's' }),
         },
-        -- formatting = {
-        --   format = function(entry, vim_item)
-        --     vim_item.menu = ({
-        --       omni = (vim.inspect(vim_item.menu)),
-        --       luasnip = "[LuaSnip]",
-        --       buffer = "[Buffer]",
-        --     })[entry.source.name]
-        --     return require('lspkind').cmp_format({ mode = 'symbol_text' })(entry, vim_item)
-        --   end,
-        -- },
         formatting = {
           fields = { "kind", "abbr", "menu" },
           format = function(entry, vim_item)
@@ -104,9 +94,6 @@ return {
               'latex'
             }
           },
-          -- {
-          --   name = 'supermaven'
-          -- }
         }
       }
     end
