@@ -32,3 +32,5 @@ set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
 
 set --export MISE_INSTALL `which mise`
 set -gx PATH $MISE_INSTALL $PATH
+
+set -U fish_user_paths $HOME/.config/composer/vendor/bin
