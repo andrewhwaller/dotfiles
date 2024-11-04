@@ -29,4 +29,6 @@ set --export PATH $BUN_INSTALL/bin $PATH
 
 set -U fish_user_paths /usr/bin $fish_user_paths
 set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
-set -gx PATH (mise bin-paths) $PATH
+
+set --export MISE_INSTALL `which mise`
+set -gx PATH $MISE_INSTALL $PATH
