@@ -66,3 +66,9 @@ vim.o.synmaxcol = 0
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.cmd([[ set nofoldenable ]])
+
+vim.filetype.add({
+  pattern = {
+    ['.*%.blade%.php'] = 'blade',
+  },
+})
