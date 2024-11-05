@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 selected=$(find -L ~/github ~ -mindepth 1 -maxdepth 2 -type d | fzf \
-    --exact \
     --bind "change:top" \
     --bind "shift-tab:up,tab:down" \
     --preview 'eza --color=always --icons --classify --long -h -a --git --no-permissions --no-user --no-filesize --changed --git --group-directories-first {}')
