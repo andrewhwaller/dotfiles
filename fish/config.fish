@@ -34,3 +34,4 @@ set --export MISE_INSTALL `which mise`
 set -gx PATH $MISE_INSTALL $PATH
 
 set -U fish_user_paths $HOME/.config/composer/vendor/bin
+~/.local/bin/mise activate fish | source

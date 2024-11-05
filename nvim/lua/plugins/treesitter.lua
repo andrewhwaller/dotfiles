@@ -79,7 +79,7 @@ return {
           files = { 'src/parser.c' },
           branch = 'main',
         },
-        filetype = 'blade',
+        filetype = 'html',
       }
     end
   }
