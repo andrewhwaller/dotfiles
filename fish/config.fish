@@ -21,17 +21,12 @@ if test (uname) = "Linux"
     set -x SIGNAL_PASSWORD_STORE gnome-libsecret
 end
 
-starship init fish | source
-
-# bun
 set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
+set -U fish_user_paths $BUN_INSTALL/bin $fish_user_paths
+set -U fish_user_paths /Applications/Postgres.app/Contents/Versions/latest/bin $fish_user_paths
+set -U fish_user_paths $HOME/.config/composer/vendor/bin $fish_user_paths
+set -U fish_user_paths /opt/homebrew/bin $fish_user_paths
+set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
 
-set -U fish_user_paths /usr/bin $fish_user_paths
-set -gx PATH /Applications/Postgres.app/Contents/Versions/latest/bin $PATH
-
-set --export MISE_INSTALL `which mise`
-set -gx PATH $MISE_INSTALL $PATH
-
-set -U fish_user_paths $HOME/.config/composer/vendor/bin
 ~/.local/bin/mise activate fish | source
+starship init fish | source
