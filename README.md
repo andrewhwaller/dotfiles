@@ -3,22 +3,9 @@ it's vim time, bb
 
 Includes config files for [zsh](https://www.zsh.org/), [iTerm 2](https://iterm2.com/), [Starship](https://starship.rs/), [Neovim](https://neovim.io/), and Doom (just for org-mode, tho).
 ## Installation
-### zsh
+### fish
 ``` shell
-brew install zsh
-```
-### oh-my-zsh
-``` shell
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-### iTerm
-``` shell
-brew install --cask iterm2
-```
-#### Syncing via Git
-This repo includes `get_dotfiles.scpt`, an Applescript file which pulls this repo and source .zshrc to apply any new settings. To enable running the syncing script on iTerm launch, you will need to create an AutoLaunch directory inside iTerm's Scripts directory:
-``` shell
-mkdir ~/Library/Application\ Support/iTerm2/Scripts/AutoLaunch
+brew install fish
 ```
 ### Starship
 ``` shell
@@ -33,7 +20,6 @@ You'll need at least one Nerd Font-compatible font installed to make NERDTree ic
 ``` shell
 brew tap homebrew/cask-fonts && brew install --cask font-hack-nerd-font
 ``` 
-You can set the font in iTerm if using Neovim; for MacVim, you'll need to set the font in your .vimrc.
 ### Clone repo
 Clone this repo into `$HOME` and create the following symlinks:
 #### symlinks
