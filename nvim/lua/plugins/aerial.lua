@@ -28,6 +28,6 @@ return {
       aerial.focus()
     end
 
-    vim.api.nvim_set_keymap('n', '<leader>a', '', {callback = toggle_aerial_and_focus, noremap = true, silent = true})
+    vim.api.nvim_set_keymap('n', '<leader>b', '', {callback = toggle_aerial_and_focus, noremap = true, silent = true})
   end
 }
