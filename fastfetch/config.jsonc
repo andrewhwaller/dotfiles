@@ -62,11 +62,6 @@
             "keyColor": "yellow"
         },
         {
-            "type": "packages",
-            "key": "│ ├󰏖",
-            "keyColor": "yellow"
-        },
-        {
             "type": "shell",
             "key": "└ └",
             "keyColor": "yellow"
@@ -75,11 +70,6 @@
         {
             "type": "de",
             "key": " DE",
-            "keyColor": "blue"
-        },
-        {
-            "type": "lm",
-            "key": "│ ├",
             "keyColor": "blue"
         },
         {
