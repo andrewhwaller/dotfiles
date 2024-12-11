@@ -22,6 +22,7 @@ if test (uname) = "Linux"
 end
 
 set --export BUN_INSTALL "$HOME/.bun"
+set -U fish_user_paths /usr/bin $fish_user_paths
 set -U fish_user_paths $BUN_INSTALL/bin $fish_user_paths
 set -U fish_user_paths /Applications/Postgres.app/Contents/Versions/latest/bin $fish_user_paths
 set -U fish_user_paths $HOME/.config/composer/vendor/bin $fish_user_paths
