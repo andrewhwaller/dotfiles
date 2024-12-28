@@ -1,3 +1,4 @@
 theme = catppuccin-mocha
 font-family = "Monaspace Xenon"
 keybind = super+t=toggle_quick_terminal
+font-size = 14
