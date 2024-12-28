@@ -1,4 +1,3 @@
 theme = catppuccin-mocha
-font-family = "Luxi Mono"
+font-family = "Monaspace Xenon"
 keybind = super+t=toggle_quick_terminal
-bold-is-bright = true
