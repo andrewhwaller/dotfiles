@@ -29,5 +29,5 @@ set -U fish_user_paths $HOME/.config/composer/vendor/bin $fish_user_paths
 set -U fish_user_paths /opt/homebrew/bin $fish_user_paths
 set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
 
-~/.local/bin/mise activate fish | source
+source ( ~/.local/bin/mise activate | psub )
 starship init fish | source
