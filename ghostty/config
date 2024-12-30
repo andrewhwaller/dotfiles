@@ -1,5 +1,7 @@
 theme = catppuccin-mocha
+font-family = ""
 font-family = "Monaspace Xenon"
+font-family = "Symbols Nerd Font"
 keybind = super+t=toggle_quick_terminal
 font-size = 16
 window-save-state = always
