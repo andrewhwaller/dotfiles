@@ -33,6 +33,7 @@ ln -s ~/dotfiles/doom/config.el ~/.config/doom/config.el
 ln -s ~/dotfiles/kitty ~/.config/kitty
 ln -s ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
 ln -s ~/dotfiles/gh-dash ~/.config/gh-dash
+ln -s ~/dotfiles/ghostty ~/.config/ghostty
 
 # Linux only
 ln -s ~/dotfiles/hypr ~/.config/hypr
