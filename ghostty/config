@@ -1,6 +1,6 @@
-theme = catppuccin-mocha
+theme = catppuccin-latte
 font-family = ""
-font-family = "Monaspace Xenon"
+font-family = "TX-02"
 font-family = "Symbols Nerd Font"
 keybind = super+t=toggle_quick_terminal
 font-size = 14
