@@ -12,3 +12,4 @@ macos-icon-ghost-color = "f5e0dc"
 macos-icon-screen-color = "11111b"
 
 window-colorspace = "display-p3"
+gtk-titlebar = false
