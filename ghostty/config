@@ -14,3 +14,4 @@ macos-option-as-alt = right
 
 window-colorspace = "display-p3"
 gtk-titlebar = false
+confirm-close-surface = false
