@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# fzf to find relevant directories with all the eza options for previewing dir contents
 selected=$(find -L ~/github ~ -mindepth 1 -maxdepth 2 -type d | fzf \
     --bind "change:top" \
     --bind "shift-tab:up,tab:down" \
@@ -13,6 +14,7 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 init_tmux_session() {
+    # If we're in a git worktree of any kind, whether bare or otherwise, start a new session and fire up some dev tools
     if git -C "$selected" rev-parse --is-inside-work-tree &>/dev/null; then
         create_selected_session
         create_dev_windows
@@ -20,20 +22,25 @@ init_tmux_session() {
         create_selected_session
     fi
 
-    tmux attach -t $selected_name
+    tmux attach -t "$selected_name"
 }
 
+# Create a new tmux session and use the selected dir as the working directory/the name for the session
 create_selected_session() {
-    tmux new-session -d -s $selected_name -c $selected
+    tmux new-session -d -s "$selected_name" -c "$selected"
 }
 
+# Create new windows for nvim, shell, and lazygit
 create_dev_windows() {
-    tmux send-keys -t $selected_name 'nvim' C-m
+    # Create new window for nvim
+    tmux send-keys -t "$selected_name" 'nvim' C-m
 
-    tmux new-window -t $selected_name -c $selected
+    # Create new window for shell
+    tmux new-window -t "$selected_name" -c "$selected"
 
-    tmux new-window -t $selected_name -c $selected
-    tmux send-keys -t $selected_name 'lazygit' C-m
+    # Create new window for lazygit
+    tmux new-window -t "$selected_name" -c "$selected"
+    tmux send-keys -t "$selected_name" 'lazygit' C-m
 }
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
@@ -41,8 +48,11 @@ if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     exit 0
 fi
 
-if ! tmux has-session -t=$selected_name 2> /dev/null; then
+# If the session doesn't exist, create it
+if ! tmux has-session -t="$selected_name" 2> /dev/null; then
     init_tmux_session
 fi
 
-tmux switch-client -t $selected_name
+# If the session exists, switch to it
+# This will still work if the session has already been created
+tmux switch-client -t "$selected_name"
