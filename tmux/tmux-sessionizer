@@ -13,7 +13,7 @@ selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
 init_tmux_session() {
-    if [ -d "$selected/.git" ]; then
+    if git -C "$selected" rev-parse --is-inside-work-tree &>/dev/null; then
         create_selected_session
         create_dev_windows
     else
