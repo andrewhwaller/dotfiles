@@ -56,26 +56,6 @@ vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true, noremap = tru
 -- DBUI keymaps
 vim.keymap.set('n', '<leader>db', ':DBUIToggle<CR>', { silent = true, noremap = true })
 
--- Trouble keymaps
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-  { silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>",
-  { silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>",
-  { silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>",
-  { silent = true, noremap = true }
-)
-vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-  { silent = true, noremap = true }
-)
-vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
-  { silent = true, noremap = true }
-)
-
 -- Netrw keymaps
 vim.keymap.set("n", "<leader>e", ":Lexplore %:p:h<CR>",
   { silent = true, noremap = true }
