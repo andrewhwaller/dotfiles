@@ -1,5 +1,5 @@
 return {
-  'github/copilot.vim',
+  -- 'github/copilot.vim',
   'kdheepak/lazygit.nvim',
   'ThePrimeagen/git-worktree.nvim'
 }
