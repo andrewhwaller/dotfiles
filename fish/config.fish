@@ -31,3 +31,6 @@ set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
 
 source ( ~/.local/bin/mise activate | psub )
 starship init fish | source
+
+# Added by Windsurf
+fish_add_path /Users/andrewhwaller/.codeium/windsurf/bin
