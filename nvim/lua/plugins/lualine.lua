@@ -2,7 +2,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = {
-      'abeldekat/harpoonline', version = '*'
+      'abeldekat/harpoonline'
     },
     config = function()
       local Harpoonline = require('harpoonline')
@@ -13,7 +13,7 @@ return {
       })
 
       local function lsp_clients()
-        local clients = vim.lsp.get_active_clients()
+        local clients = vim.lsp.get_clients()
 
         if next(clients) == nil then
           return 'No LSP attached!'
