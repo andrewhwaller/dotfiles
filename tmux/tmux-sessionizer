@@ -18,6 +18,8 @@ init_tmux_session() {
     if git -C "$selected" rev-parse --is-inside-work-tree &>/dev/null; then
         create_selected_session
         create_dev_windows
+        # Select first window
+        tmux select-window -t "$selected_name":1
     else
         create_selected_session
     fi
@@ -41,6 +43,12 @@ create_dev_windows() {
     # Create new window for lazygit
     tmux new-window -t "$selected_name" -c "$selected"
     tmux send-keys -t "$selected_name" 'lazygit' C-m
+    
+    # Create new window for opencode (skip for LaTeX projects)
+    if ! ls "$selected"/*.tex &>/dev/null; then
+        tmux new-window -t "$selected_name" -c "$selected"
+        tmux send-keys -t "$selected_name" 'opencode' C-m
+    fi
 }
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
