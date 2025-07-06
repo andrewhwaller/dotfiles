@@ -34,22 +34,6 @@ vim.keymap.set('n', 'k', 'kzz')
 vim.keymap.set('n', '{', '{zz')
 vim.keymap.set('n', '}', '}zz')
 
--- FTerm
-local FTerm = require('FTerm')
-function OpenFTermAtCurrentFileDirectory()
-  local current_file_directory = vim.fn.expand('%:p:h')
-  local terminal = FTerm:new({
-    cmd = 'cd ' .. current_file_directory .. ' && $SHELL',
-    dimensions = {
-      height = 0.9,
-      width = 0.9
-    }
-  })
-
-  terminal:toggle()
-end
-vim.api.nvim_create_user_command('FTermToggle', require('FTerm').toggle, { bang = true })
-
 -- lazygit.nvim
 vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>', { silent = true, noremap = true })
 --
