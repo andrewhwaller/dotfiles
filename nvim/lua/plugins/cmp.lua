@@ -97,6 +97,7 @@ return {
             'latex'
           }
         },
+        { name = 'vimtex' },
       }
     }
   end

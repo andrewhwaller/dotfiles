@@ -1,5 +1,6 @@
 return {
   "micangl/cmp-vimtex",
+  dependencies = { "hrsh7th/nvim-cmp" },
   config = function()
     require('cmp_vimtex').setup({
       additional_information = {
