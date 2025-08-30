@@ -44,10 +44,10 @@ create_dev_windows() {
     tmux new-window -t "$selected_name" -c "$selected"
     tmux send-keys -t "$selected_name" 'lazygit' C-m
     
-    # Create new window for opencode (skip for LaTeX projects)
+    # Create new window for claude (skip for LaTeX projects)
     if ! ls "$selected"/*.tex &>/dev/null; then
         tmux new-window -t "$selected_name" -c "$selected"
-        tmux send-keys -t "$selected_name" 'opencode' C-m
+        tmux send-keys -t "$selected_name" 'claude' C-m
     fi
 }
 
