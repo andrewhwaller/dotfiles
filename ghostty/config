@@ -1,17 +1,17 @@
-theme = "Catppuccin Mocha"
-font-family = ""
-font-family = "TX-02"
-font-family = "Symbols Nerd Font"
+theme = Catppuccin Mocha
+font-family =
+font-family = TX-02
+font-family = Symbols Nerd Font
 keybind = super+t=toggle_quick_terminal
 font-size = 14
 window-save-state = always
 
-macos-icon = "custom-style"
-macos-icon-frame = "beige"
-macos-icon-ghost-color = "f5e0dc"
-macos-icon-screen-color = "11111b"
+macos-icon = custom-style
+macos-icon-frame = beige
+macos-icon-ghost-color = f5e0dc
+macos-icon-screen-color = 11111b
 macos-option-as-alt = right
 
-window-colorspace = "display-p3"
+window-colorspace = display-p3
 gtk-titlebar = false
 confirm-close-surface = false

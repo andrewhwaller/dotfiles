@@ -28,3 +28,6 @@ truncate_to_repo = true
 [ruby]
 format = "via [$symbol $version]($style) "
 symbol = "[\ue791](red)"
+
+[docker_context]
+disabled = true
