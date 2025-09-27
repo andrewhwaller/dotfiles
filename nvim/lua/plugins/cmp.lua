@@ -1,105 +1,139 @@
 return {
-  { -- Autocompletion
-    'hrsh7th/nvim-cmp',
+  {
+    'jalvesaq/zotcite',
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-omni',
-      'onsails/lspkind-nvim',
-      {
-        "L3MON4D3/LuaSnip",
-        -- follow latest release.
-        version = "2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-        -- install jsregexp (optional!).
-        build = "make install_jsregexp"
-      },
-      'saadparwaiz1/cmp_luasnip',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      {
-        'jalvesaq/cmp-zotcite',
-        dependencies = { 'jalvesaq/zotcite' }
-      },
-      'micangl/cmp-vimtex',
-      'hrsh7th/cmp-nvim-lsp-signature-help'
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-telescope/telescope.nvim',
     },
-  config = function()
-    local cmp = require('cmp')
-    local luasnip = require('luasnip')
+    config = function()
+      -- Find the Zotero database automatically
+      local zotero_data_dir
+      if vim.fn.has('mac') == 1 then
+        zotero_data_dir = vim.fn.expand('~/Zotero')
+      elseif vim.fn.has('unix') == 1 then
+        zotero_data_dir = vim.fn.expand('~/.zotero/zotero')
+      elseif vim.fn.has('win32') == 1 then
+        zotero_data_dir = vim.fn.expand('~/Zotero')
+      end
 
-    cmp.setup {
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
-      },
-      mapping = cmp.mapping.preset.insert {
-        -- ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<CR>'] = cmp.mapping.confirm {
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        },
-        ['<S-Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          else
-            fallback()
+      local zotero_db_path
+      if zotero_data_dir and vim.fn.isdirectory(zotero_data_dir) == 1 then
+        zotero_db_path = zotero_data_dir .. '/zotero.sqlite'
+        if vim.fn.filereadable(zotero_db_path) == 0 then
+          -- Try alternative locations
+          local profiles_dir = zotero_data_dir .. '/Profiles'
+          if vim.fn.isdirectory(profiles_dir) == 1 then
+            local profiles = vim.fn.glob(profiles_dir .. '/*', false, true)
+            for _, profile in ipairs(profiles) do
+              local db_path = profile .. '/zotero.sqlite'
+              if vim.fn.filereadable(db_path) == 1 then
+                zotero_db_path = db_path
+                break
+              end
+            end
           end
-        end, { 'i', 's' }),
-        ['<M-Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-      },
-      formatting = {
-        fields = { "kind", "abbr", "menu" },
-        format = function(entry, vim_item)
-          vim_item.menu = ({
-            vimtex = "[Vimtex]" .. (vim_item.menu ~= nil and vim_item.menu or ""),
-            luasnip = "[Snippet]",
-            nvim_lsp = "[LSP]",
-            buffer = "[Buffer]",
-            cmdline = "[CMD]",
-            path = "[Path]",
-          })[entry.source.name]
-          return require('lspkind').cmp_format({ mode = 'symbol_text' })(entry, vim_item)
-        end,
-      },
-      sources = {
-        -- Other Sources
-        { name = 'nvim_lsp' },
-        { name = 'buffer' },
-        { name = 'path' },
-        { name = 'luasnip' },
-        { name = 'orgmode' },
-        {
-          name = 'omni',
-          keyword_length = 0
+        end
+      end
+
+      print("Zotero database path:", zotero_db_path)
+
+      require('zotcite').setup({
+        filetypes = { 'tex', 'latex' },
+        SQL_path = zotero_db_path,
+      })
+    end,
+  },
+  {
+    'saghen/blink.cmp',
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+      'jalvesaq/zotcite',
+    },
+    version = '1.*',
+    config = function()
+      local config = {
+        keymap = {
+          preset = 'none', -- Use custom keymaps
+          ['<C-Space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+          ['<C-e>'] = { 'hide' },
+          ['<CR>'] = { 'accept', 'fallback' },
+          ['<S-Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+          ['<M-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+          ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+          ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
         },
-        { name = 'nvim_lsp_signature_help' },
-        { name = 'vim-dadbod-completion' },
-        {
-          name = 'cmp_zotcite',
-          filetypes = {
-            'tex',
-            'org',
-            'markdown',
-            'pandoc',
-            'latex'
-          }
+
+        appearance = {
+          nerd_font_variant = 'mono',
+          kind_icons = {
+            Text = '󰉿',
+            Method = '󰊕',
+            Function = '󰊕',
+            Constructor = '󰒓',
+            Field = '󰜢',
+            Variable = '󰆦',
+            Property = '󰖷',
+            Class = '󱡠',
+            Interface = '󱡠',
+            Struct = '󱡠',
+            Module = '󰅩',
+            Unit = '󰪚',
+            Value = '󰦨',
+            Keyword = '󰻾',
+            File = '󰈔',
+            Reference = '󰬲',
+            Folder = '󰉋',
+            Color = '󰏘',
+            Constant = '󰏿',
+            Enum = '󰦨',
+            EnumMember = '󰦨',
+            Event = '󱐋',
+            Operator = '󰪚',
+            TypeParameter = '󰬛',
+          },
         },
-        { name = 'vimtex' },
+
+        sources = {
+          default = { 'lsp', 'path', 'snippets', 'buffer' },
+          per_filetype = {
+            tex = { 'lsp', 'path', 'snippets', 'buffer', 'omni' },
+            latex = { 'lsp', 'path', 'snippets', 'buffer', 'omni' },
+          },
+          providers = {},
+        },
+
+        completion = {
+          accept = {
+            auto_brackets = {
+              enabled = true,
+            },
+          },
+          menu = {
+            auto_show = true,
+            scrollbar = true,
+            draw = {
+              treesitter = {},
+              columns = { { 'kind_icon' }, { 'label', 'label_description', gap = 1 }, { 'source_name' } },
+            },
+            winblend = 0,
+          },
+          documentation = {
+            auto_show = true,
+            auto_show_delay_ms = 200,
+            treesitter_highlighting = false,
+          },
+        },
+
+        signature = {
+          enabled = true,
+        },
+
+        fuzzy = {
+          implementation = 'prefer_rust_with_warning',
+        },
       }
-    }
-  end
-  }
+
+      require('blink.cmp').setup(config)
+    end,
+  },
 }
