@@ -35,19 +35,25 @@ return {
         end
       end
 
-      print("Zotero database path:", zotero_db_path)
+      if not zotero_db_path then
+        vim.notify('zotcite: could not locate zotero.sqlite automatically', vim.log.levels.WARN)
+      end
 
-      require('zotcite').setup({
+      local setup_opts = {
         filetypes = { 'tex', 'latex' },
-        SQL_path = zotero_db_path,
-      })
+      }
+
+      if zotero_db_path then
+        setup_opts.zotero_SQL_path = zotero_db_path
+      end
+
+      require('zotcite').setup(setup_opts)
     end,
   },
   {
     'saghen/blink.cmp',
     dependencies = {
       'rafamadriz/friendly-snippets',
-      'jalvesaq/zotcite',
     },
     version = '1.*',
     config = function()
