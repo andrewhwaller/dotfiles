@@ -1,7 +1,13 @@
 -- Native LSP setup for Neovim 0.11 with blink.cmp integration
 
--- Get blink.cmp LSP capabilities
-local capabilities = require('blink.cmp').get_lsp_capabilities()
+local capabilities
+local ok, blink_cmp = pcall(require, 'blink.cmp')
+if ok and blink_cmp.get_lsp_capabilities then
+  capabilities = blink_cmp.get_lsp_capabilities()
+else
+  -- Fall back to vanilla capabilities during bootstrap or when blink.cmp is missing
+  capabilities = vim.lsp.protocol.make_client_capabilities()
+end
 
 vim.lsp.config.rust_analyzer = {
   cmd = { 'rust-analyzer' },
@@ -163,6 +169,5 @@ return {
     end
   },
   'kchmck/vim-coffee-script',
-  'jalvesaq/zotcite',
   'vim-scripts/dbext.vim'
 }
