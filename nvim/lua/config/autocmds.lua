@@ -16,21 +16,14 @@ vim.api.nvim_create_autocmd('VimEnter', {
 
 
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'tex',
-  callback = function()
-    require('cmp').setup.buffer {
-      sources = {
-        {
-          name = 'omni',
-          keyword_length = 0
-        },
-        { name = 'vimtex' },
-        { name = 'buffer' }
-      }
-    }
-  end
-})
+-- LaTeX completion handled by blink.cmp through LSP automatically
+-- No need for manual buffer source configuration
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = 'tex',
+--   callback = function()
+--     -- Old nvim-cmp buffer setup - replaced by blink.cmp
+--   end
+-- })
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
