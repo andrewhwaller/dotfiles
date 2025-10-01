@@ -1,9 +1,19 @@
--- Native LSP setup for Neovim 0.11
+-- Native LSP setup for Neovim 0.11 with blink.cmp integration
+
+local capabilities
+local ok, blink_cmp = pcall(require, 'blink.cmp')
+if ok and blink_cmp.get_lsp_capabilities then
+  capabilities = blink_cmp.get_lsp_capabilities()
+else
+  -- Fall back to vanilla capabilities during bootstrap or when blink.cmp is missing
+  capabilities = vim.lsp.protocol.make_client_capabilities()
+end
 
 vim.lsp.config.rust_analyzer = {
   cmd = { 'rust-analyzer' },
   filetypes = { 'rust' },
   root_markers = { 'Cargo.toml', '.git' },
+  capabilities = capabilities,
   settings = {
     ['rust-analyzer'] = {
       cargo = { allFeatures = true },
@@ -16,12 +26,14 @@ vim.lsp.config.ts_ls = {
   cmd = { 'typescript-language-server', '--stdio' },
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   root_markers = { 'package.json', 'tsconfig.json', '.git' },
+  capabilities = capabilities,
 }
 
 vim.lsp.config.cssls = {
   cmd = { 'vscode-css-language-server', '--stdio' },
   filetypes = { 'css', 'scss', 'less' },
   root_markers = { 'package.json', '.git' },
+  capabilities = capabilities,
   settings = {
     css = { validate = true, lint = { unknownAtRules = 'ignore' } },
     scss = { validate = true },
@@ -33,6 +45,7 @@ vim.lsp.config.lua_ls = {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   root_markers = { '.luarc.json', '.git' },
+  capabilities = capabilities,
   settings = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -46,6 +59,7 @@ vim.lsp.config.stimulus_ls = {
   cmd = { 'stimulus-language-server', '--stdio' },
   filetypes = { 'html', 'eruby', 'blade', 'php', 'slim', 'haml', 'twig', 'liquid', 'vue', 'svelte' },
   root_markers = { 'package.json', 'Gemfile', '.git' },
+  capabilities = capabilities,
 }
 
 local function detect_ruby_formatter()
@@ -60,6 +74,7 @@ vim.lsp.config.ruby_lsp = {
   cmd = { 'ruby-lsp' },
   filetypes = { 'ruby' },
   root_markers = { 'Gemfile', '.git' },
+  capabilities = capabilities,
 }
 
 vim.lsp.enable({'ruby_lsp', 'rust_analyzer', 'ts_ls', 'cssls', 'lua_ls', 'stimulus_ls'})
@@ -69,9 +84,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local bufnr = args.buf
     
-    if client:supports_method('textDocument/completion') then
-      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-    end
+    -- Native completion disabled - using blink.cmp instead
+    -- if client:supports_method('textDocument/completion') then
+    --   vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+    -- end
     
     if client:supports_method('textDocument/formatting') then
       if vim.bo[bufnr].filetype == 'ruby' then
@@ -153,6 +169,5 @@ return {
     end
   },
   'kchmck/vim-coffee-script',
-  'jalvesaq/zotcite',
   'vim-scripts/dbext.vim'
 }

@@ -5,7 +5,7 @@ return {
     require('catppuccin').setup({
       flavour = 'mocha',
       integrations = {
-        cmp = true,
+        blink_cmp = true,
         treesitter = true,
         harpoon = true,
         mason = true,

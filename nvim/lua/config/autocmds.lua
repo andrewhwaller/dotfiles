@@ -14,24 +14,6 @@ vim.api.nvim_create_autocmd('VimEnter', {
   end,
 })
 
-
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'tex',
-  callback = function()
-    require('cmp').setup.buffer {
-      sources = {
-        {
-          name = 'omni',
-          keyword_length = 0
-        },
-        { name = 'vimtex' },
-        { name = 'buffer' }
-      }
-    }
-  end
-})
--- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
@@ -39,12 +21,4 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
   group = highlight_group,
   pattern = '*',
-})
-
-vim.api.nvim_create_augroup("BladeFiletypeRelated", { clear = true })
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  group = "BladeFiletypeRelated",
-  pattern = "*.blade.php",
-  command = "set ft=blade",
 })
