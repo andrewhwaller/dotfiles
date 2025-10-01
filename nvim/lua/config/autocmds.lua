@@ -22,9 +22,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  group = "BladeFiletypeRelated",
-  pattern = "*.blade.php",
-  command = "set ft=blade",
-})
