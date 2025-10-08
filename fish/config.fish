@@ -32,3 +32,28 @@ set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
 ~/.local/bin/mise activate fish | source
 
 starship init fish | source
+
+# opencode
+fish_add_path /Users/andrewhwaller/.opencode/bin
+
+function clear_biber_cache --description "Delete the cache directory returned by 'biber --cache'"
+    set -l cache_path_raw (command biber --cache ^/dev/null)
+    or begin
+        echo "Failed to run biber --cache"
+        return 1
+    end
+
+    set -l cache_path (string trim -- "$cache_path_raw")
+    if test -z "$cache_path"
+        echo "biber --cache returned an empty path"
+        return 1
+    end
+
+    if not test -e "$cache_path"
+        echo "Cache path $cache_path does not exist"
+        return 0
+    end
+
+    command rm -rf -- "$cache_path"
+    echo "Removed $cache_path"
+end
