@@ -8,7 +8,7 @@ command_timeout = 3600
 format = "$directory$all"
 
 [character]
-success_symbol = "[~\\$](green)"
+success_symbol = "[\\$>](green)"
 error_symbol = "[\uead7](bold red)"
 
 [package]
