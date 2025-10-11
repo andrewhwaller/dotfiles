@@ -77,7 +77,13 @@ vim.lsp.config.ruby_lsp = {
   capabilities = capabilities,
 }
 
-vim.lsp.enable({'ruby_lsp', 'rust_analyzer', 'ts_ls', 'cssls', 'lua_ls', 'stimulus_ls'})
+vim.lsp.config.copilot = {
+  cmd = { 'copilot-language-server', '--stdio' },
+  root_markers = { '.git' },
+  capabilities = capabilities,
+}
+
+vim.lsp.enable({'ruby_lsp', 'rust_analyzer', 'ts_ls', 'cssls', 'lua_ls', 'stimulus_ls', 'copilot'})
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('native-lsp-attach', {}),
   callback = function(args)
