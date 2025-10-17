@@ -27,3 +27,14 @@ symbol = "[\ue791](red)"
 
 [docker_context]
 disabled = true
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "bold blue"
+
+[username]
+show_always = false
+format = "[$user]($style)"
+style_user = "bold yellow"
+style_root = "bold red"
