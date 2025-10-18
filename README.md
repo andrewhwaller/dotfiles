@@ -16,7 +16,7 @@ Configuration files for:
 
 ## Quick Start
 
-### One-Line Install
+### Desktop/Laptop Install (macOS or Linux with GUI)
 
 ```bash
 git clone https://github.com/andrewhwaller/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./install.sh
@@ -29,26 +29,54 @@ The install script will:
 4. Symlink all configs to appropriate locations
 5. On Linux with Hyprland: Deploy Hyprland configs
 
+### Ubuntu Server Install
+
+```bash
+# Install GitHub CLI
+sudo apt update
+sudo apt install -y gh
+
+# Authenticate with GitHub
+gh auth login
+
+# Clone repo
+gh repo clone andrewhwaller/dotfiles ~/dotfiles
+
+# Run install
+cd ~/dotfiles
+./install-server.sh
+```
+
+Installs Fish, Neovim, Tmux, Starship, and mise. Symlinks server configs only (no GUI).
+
 ## Platform Differences
 
 ### macOS
 - Uses Homebrew for package installation
 - No Hyprland (macOS window management)
 - Core dev tools only
+- Install with: `./install.sh`
 
-### Linux
+### Linux Desktop (Arch/Hyprland)
 - Hyprland with modular configuration (if Hyprland is installed)
 - Works on any Arch-based system
 - Can integrate with system utilities if available
+- Install with: `./install.sh`
+
+### Ubuntu Server
+- Core tools: Fish, Neovim, Tmux, Starship, mise
+- No GUI applications
+- Uses apt package manager
+- Install with: `./install-server.sh`
 
 ## Hyprland Configuration (Linux)
 
-Your Hyprland config now uses Omarchy's modular structure:
+Your Hyprland config uses a modular structure:
 
 ```
 ~/.config/hypr/
 ├── hyprland.conf       # Main config (sources everything)
-├── monitors.conf       # Monitor setup
+├── monitors.conf       # Monitor setup (created from example on first install)
 ├── input.conf          # Keyboard/mouse settings
 ├── bindings.conf       # Your custom keybindings
 ├── envs.conf           # Environment variables
@@ -58,6 +86,10 @@ Your Hyprland config now uses Omarchy's modular structure:
 ```
 
 **How it works**: If you're using a system with default configs (like Omarchy), those are sourced first from `~/.local/share/omarchy/default/hypr/`, then your configs override specific settings. On vanilla Hyprland, only your configs are used.
+
+### Per-Machine Monitor Configuration
+
+On first install, `monitors.conf` is created from the example template at `~/.config/hypr/monitors.conf`. Edit this file to match your monitor setup - it won't be overwritten on subsequent installs.
 
 ## Key Features
 
@@ -155,18 +187,20 @@ See `hypr/bindings.conf` for your custom keybindings
 
 ```
 dotfiles/
-├── fish/              # Fish shell config
-├── starship/          # Starship prompt config
-├── nvim/              # Neovim config (Lazy.nvim)
-├── tmux/              # Tmux configuration
-├── hypr/              # Hyprland configs (modular)
-├── ghostty/           # Ghostty terminal config
-├── kitty/             # Kitty terminal config
-├── zsh/               # Zsh (optional fallback)
-├── gh-dash/           # GitHub CLI dashboard
-├── opencode/          # OpenCode AI config
-├── install.sh         # Universal installer
-└── OMARCHY_INTEGRATION.md  # Detailed integration docs
+├── fish/                      # Fish shell config
+├── starship/                  # Starship prompt config
+├── nvim/                      # Neovim config (Lazy.nvim)
+├── tmux/                      # Tmux configuration
+├── hypr/                      # Hyprland configs (modular)
+│   └── monitors.conf.example  # Monitor setup template
+├── ghostty/                   # Ghostty terminal config
+├── kitty/                     # Kitty terminal config
+├── zsh/                       # Zsh (optional fallback)
+├── gh-dash/                   # GitHub CLI dashboard
+├── opencode/                  # OpenCode AI config
+├── install.sh                 # Desktop/laptop installer (macOS/Linux)
+├── install-server.sh          # Ubuntu server installer (headless)
+└── OMARCHY_INTEGRATION.md     # Detailed integration docs
 ```
 
 ## License
