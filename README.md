@@ -91,6 +91,18 @@ Your Hyprland config uses a modular structure:
 
 On first install, `monitors.conf` is created from the example template at `~/.config/hypr/monitors.conf`. Edit this file to match your monitor setup - it won't be overwritten on subsequent installs.
 
+### Theme Switching (Omarchy Integration)
+
+On Hyprland systems with Omarchy, your configs automatically integrate with Omarchy's theme switching:
+
+- **Neovim**: Automatically detects and uses `~/.config/omarchy/current/theme/neovim.lua` if present
+- **Ghostty**: Theme config symlinked to `~/.config/omarchy/current/theme/ghostty.conf`
+- **Tmux**: Uses [omarchy-tmux](https://github.com/joaofelipegalvao/omarchy-tmux) plugin for automatic theme sync
+- **Hyprland**: Sources Omarchy theme for border colors
+- **Fallback**: Uses Catppuccin Mocha on non-Omarchy systems
+
+When you run `omarchy-theme-set <theme-name>` (or `Super + Ctrl + Shift + Space`), all applications update to the new theme automatically.
+
 ## Key Features
 
 ### Fish Shell
