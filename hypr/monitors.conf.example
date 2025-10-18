@@ -1,0 +1,24 @@
+# Monitor Configuration Example
+# See https://wiki.hyprland.org/Configuring/Monitors/
+#
+# Copy this file to monitors.conf.<hostname> and customize for your machine
+# Run 'hostname' to find your machine name
+#
+# Example: cp monitors.conf.example monitors.conf.$(hostname)
+
+# Single monitor (laptop)
+# monitor = eDP-1, preferred, auto, 1
+
+# Multi-monitor desktop setup
+# monitor = HDMI-A-3, 1920x1080@60, 0x0, auto
+# monitor = DP-2, 1920x1080@60, 1920x0, auto
+# monitor = HDMI-A-2, 1920x1200@60, 3840x0, auto
+# workspace = 1, monitor:HDMI-A-3
+# workspace = 2, monitor:DP-2, default:true
+# workspace = 3, monitor:HDMI-A-2
+
+# External monitor when docked
+# monitor = eDP-1, 1920x1080@60, 0x0, 1
+# monitor = HDMI-A-1, 2560x1440@60, 1920x0, 1
+# workspace = 1, monitor:eDP-1, default:true
+# workspace = 2, monitor:HDMI-A-1

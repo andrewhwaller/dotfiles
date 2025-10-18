@@ -1,4 +1,4 @@
-theme = Catppuccin Mocha
+import = theme.conf
 font-family =
 font-family = TX-02
 font-family = Symbols Nerd Font
