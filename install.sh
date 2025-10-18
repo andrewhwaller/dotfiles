@@ -144,7 +144,6 @@ if [[ "$OS" == "linux" ]]; then
         echo "Hyprland detected ✓"
         echo "Deploying Hyprland configuration..."
         create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
-        create_symlink "$DOTFILES_DIR/hypr/monitors.conf" "$HOME/.config/hypr/monitors.conf"
         create_symlink "$DOTFILES_DIR/hypr/input.conf" "$HOME/.config/hypr/input.conf"
         create_symlink "$DOTFILES_DIR/hypr/bindings.conf" "$HOME/.config/hypr/bindings.conf"
         create_symlink "$DOTFILES_DIR/hypr/envs.conf" "$HOME/.config/hypr/envs.conf"
@@ -157,6 +156,51 @@ if [[ "$OS" == "linux" ]]; then
         create_symlink "$DOTFILES_DIR/hypr/wofi" "$HOME/.config/hypr/wofi"
         create_symlink "$DOTFILES_DIR/hypr/scripts" "$HOME/.config/hypr/scripts"
         create_symlink "$DOTFILES_DIR/hypr/wallpapers" "$HOME/.config/hypr/wallpapers"
+
+        # Create monitors.conf if it doesn't exist
+        if [[ ! -f "$HOME/.config/hypr/monitors.conf" ]]; then
+            echo "  Creating monitors.conf from example (customize for your setup)"
+            cp "$DOTFILES_DIR/hypr/monitors.conf.example" "$HOME/.config/hypr/monitors.conf"
+        else
+            echo "  ✓ monitors.conf already exists"
+        fi
+
+        # Setup theme integration with Omarchy (if present)
+        if [[ -d "$HOME/.config/omarchy/current/theme" ]]; then
+            echo "  Omarchy theme system detected"
+
+            # Ghostty theme
+            echo "  Linking Ghostty theme to Omarchy current theme..."
+            ln -nsf "$HOME/.config/omarchy/current/theme/ghostty.conf" "$HOME/.config/ghostty/theme.conf"
+            echo "  ✓ Ghostty will follow Omarchy theme switching"
+
+            # Tmux theme integration
+            echo "  Setting up omarchy-tmux plugin..."
+            if [[ ! -d "$HOME/.config/tmux/plugins/omarchy-tmux" ]]; then
+                echo "  Installing omarchy-tmux..."
+                git clone https://github.com/joaofelipegalvao/omarchy-tmux "$HOME/.config/tmux/plugins/omarchy-tmux"
+
+                # Install inotify-tools for auto-reload
+                if command_exists pacman; then
+                    echo "  Installing inotify-tools (required for tmux auto-reload)..."
+                    sudo pacman -S --needed inotify-tools
+                fi
+
+                # Setup systemd service for auto-reload
+                if [[ -f "$HOME/.config/tmux/plugins/omarchy-tmux/scripts/omarchy-tmux-install.sh" ]]; then
+                    echo "  Setting up omarchy-tmux systemd service for automatic theme reload..."
+                    bash "$HOME/.config/tmux/plugins/omarchy-tmux/scripts/omarchy-tmux-install.sh"
+                    echo "  ✓ Systemd service enabled (omarchy-tmux-monitor)"
+                fi
+            else
+                echo "  ✓ omarchy-tmux already installed"
+            fi
+
+            echo "  Note: Neovim and Tmux automatically detect and use Omarchy themes"
+        else
+            echo "  Omarchy theme system not detected"
+            echo "  Using default theme configs (Catppuccin Mocha)"
+        fi
     else
         echo "Hyprland not detected, skipping Hyprland configs"
     fi
