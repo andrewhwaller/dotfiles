@@ -62,9 +62,12 @@ if ! command_exists fish; then
             exit 1
         fi
     elif [[ "$OS" == "linux" ]]; then
-        # Check if on Omarchy (has pacman)
-        if command_exists pacman; then
+        if command_exists yay; then
+            yay -S --needed --noconfirm fish
+        elif command_exists pacman; then
             sudo pacman -S --needed --noconfirm fish
+        elif command_exists apt; then
+            sudo apt update && sudo apt install -y fish
         else
             echo "Error: Unsupported package manager. Please install fish manually."
             exit 1
@@ -90,7 +93,29 @@ fi
 echo ""
 
 # ==========================================
-# 2. Install Starship (if needed)
+# 2. Install fzf (if needed)
+# ==========================================
+echo "=== fzf ==="
+if ! command_exists fzf; then
+    echo "fzf not found. Installing..."
+    if [[ "$OS" == "macos" ]]; then
+        brew install fzf
+    elif [[ "$OS" == "linux" ]]; then
+        if command_exists yay; then
+            yay -S --needed --noconfirm fzf
+        elif command_exists pacman; then
+            sudo pacman -S --needed --noconfirm fzf
+        elif command_exists apt; then
+            sudo apt update && sudo apt install -y fzf
+        fi
+    fi
+else
+    echo "fzf already installed ✓"
+fi
+echo ""
+
+# ==========================================
+# 3. Install Starship (if needed)
 # ==========================================
 echo "=== Starship Prompt ==="
 if ! command_exists starship; then
@@ -98,8 +123,12 @@ if ! command_exists starship; then
     if [[ "$OS" == "macos" ]]; then
         brew install starship
     elif [[ "$OS" == "linux" ]]; then
-        if command_exists pacman; then
+        if command_exists yay; then
+            yay -S --needed --noconfirm starship
+        elif command_exists pacman; then
             sudo pacman -S --needed --noconfirm starship
+        elif command_exists apt; then
+            curl -sS https://starship.rs/install.sh | sh -s -- -y
         fi
     fi
 else
@@ -108,19 +137,46 @@ fi
 echo ""
 
 # ==========================================
-# 3. Install mise (if needed)
+# 4. Install mise (if needed)
 # ==========================================
 echo "=== mise ==="
 if ! command_exists mise; then
     echo "mise not found. Installing..."
-    curl https://mise.run | sh
+    if [[ "$OS" == "macos" ]]; then
+        brew install mise
+    elif [[ "$OS" == "linux" ]]; then
+        if command_exists yay; then
+            yay -S --needed --noconfirm mise
+        elif command_exists pacman; then
+            sudo pacman -S --needed --noconfirm mise
+        elif command_exists apt; then
+            curl https://mise.run | sh
+        fi
+    fi
 else
     echo "mise already installed ✓"
 fi
 echo ""
 
 # ==========================================
-# 4. Symlink Core Configs (All Platforms)
+# 5. Install Fisher & fzf.fish plugin
+# ==========================================
+echo "=== Fisher & Fish Plugins ==="
+if [[ ! -f "$HOME/.config/fish/functions/fisher.fish" ]]; then
+    echo "Installing Fisher plugin manager..."
+    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+    echo "  ✓ Fisher installed"
+else
+    echo "Fisher already installed ✓"
+fi
+
+# Install fzf.fish plugin
+echo "Installing fzf.fish plugin..."
+fish -c "fisher install PatrickF1/fzf.fish" 2>/dev/null || echo "  ✓ fzf.fish already installed"
+echo ""
+
+# ==========================================
+# 6. Symlink Core Configs (All Platforms)
 # ==========================================
 echo "=== Core Configuration Files ==="
 create_symlink "$DOTFILES_DIR/fish/config.fish" "$HOME/.config/fish/config.fish"
@@ -134,7 +190,7 @@ create_symlink "$DOTFILES_DIR/opencode" "$HOME/.config/opencode"
 echo ""
 
 # ==========================================
-# 5. Linux-Specific (Hyprland)
+# 7. Linux-Specific (Hyprland)
 # ==========================================
 if [[ "$OS" == "linux" ]]; then
     echo "=== Linux-Specific Configs ==="
@@ -181,9 +237,12 @@ if [[ "$OS" == "linux" ]]; then
                 git clone https://github.com/joaofelipegalvao/omarchy-tmux "$HOME/.config/tmux/plugins/omarchy-tmux"
 
                 # Install inotify-tools for auto-reload
-                if command_exists pacman; then
+                if command_exists yay; then
                     echo "  Installing inotify-tools (required for tmux auto-reload)..."
-                    sudo pacman -S --needed inotify-tools
+                    yay -S --needed --noconfirm inotify-tools
+                elif command_exists pacman; then
+                    echo "  Installing inotify-tools (required for tmux auto-reload)..."
+                    sudo pacman -S --needed --noconfirm inotify-tools
                 fi
 
                 # Setup systemd service for auto-reload
@@ -208,7 +267,7 @@ if [[ "$OS" == "linux" ]]; then
 fi
 
 # ==========================================
-# 6. Optional Configs
+# 8. Optional Configs
 # ==========================================
 echo "=== Optional Configs ==="
 

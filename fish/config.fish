@@ -12,7 +12,10 @@ alias v="nvim"
 alias lg="lazygit"
 alias coffee="ssh terminal.shop"
 
-fzf_configure_bindings --directory=\cf --variables=\e\cv
+# Configure fzf keybindings if fzf.fish plugin is installed
+if functions -q fzf_configure_bindings
+    fzf_configure_bindings --directory=\cf --variables=\e\cv
+end
 
 set -U fish_greeting
 set -x DISABLE_SPRING 1
@@ -29,7 +32,12 @@ set -U fish_user_paths $HOME/.config/composer/vendor/bin $fish_user_paths
 set -U fish_user_paths /opt/homebrew/bin $fish_user_paths
 set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
 
-~/.local/bin/mise activate fish | source
+# Use mise if available (check common locations)
+if test -x ~/.local/bin/mise
+    ~/.local/bin/mise activate fish | source
+else if command -v mise &> /dev/null
+    mise activate fish | source
+end
 
 starship init fish | source
 
