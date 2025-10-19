@@ -199,7 +199,15 @@ if [[ "$OS" == "linux" ]]; then
     if command_exists hyprctl; then
         echo "Hyprland detected ✓"
         echo "Deploying Hyprland configuration..."
-        create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+
+        # Only create hyprland.conf symlink if it doesn't already exist
+        if [[ ! -f "$HOME/.config/hypr/hyprland.conf" ]]; then
+            create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+        else
+            echo "  ✓ hyprland.conf already exists, skipping"
+        fi
+
+        # Symlink discrete config files
         create_symlink "$DOTFILES_DIR/hypr/input.conf" "$HOME/.config/hypr/input.conf"
         create_symlink "$DOTFILES_DIR/hypr/bindings.conf" "$HOME/.config/hypr/bindings.conf"
         create_symlink "$DOTFILES_DIR/hypr/envs.conf" "$HOME/.config/hypr/envs.conf"
