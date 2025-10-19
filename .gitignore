@@ -3,3 +3,4 @@
 /nvim/.gitignore
 /nvim/.git/
 .idea
+ghostty/theme.conf
