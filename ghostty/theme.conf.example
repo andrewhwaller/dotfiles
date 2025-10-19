@@ -1,0 +1,5 @@
+# Ghostty theme configuration
+# On Hyprland systems, this file will be a symlink to ~/.config/omarchy/current/theme/ghostty.conf
+# On macOS, automatically switches between light/dark themes based on system appearance
+
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
