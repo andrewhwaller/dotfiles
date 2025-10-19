@@ -54,42 +54,28 @@ sudo apt update
 echo ""
 
 # ==========================================
-# 2. Install Core Tools
+# 2. Install Packages
 # ==========================================
-echo "=== Installing Core Tools ==="
+echo "=== Installing Packages ==="
+sudo apt install -y gpg wget curl
 
-# Fish shell
-if ! command_exists fish; then
-    echo "Installing Fish..."
-    sudo apt install -y fish
-else
-    echo "Fish already installed ✓"
+# Add gh repository
+if ! command_exists gh; then
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+    sudo apt update
 fi
 
-# Neovim
-if ! command_exists nvim; then
-    echo "Installing Neovim..."
-    # Try to install latest neovim
-    sudo apt install -y neovim
-else
-    echo "Neovim already installed ✓"
+# Add eza repository
+if ! command_exists eza; then
+    sudo mkdir -p /etc/apt/keyrings
+    wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+    sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+    sudo apt update
 fi
 
-# Tmux
-if ! command_exists tmux; then
-    echo "Installing Tmux..."
-    sudo apt install -y tmux
-else
-    echo "Tmux already installed ✓"
-fi
-
-# Curl (for installing other tools)
-if ! command_exists curl; then
-    echo "Installing Curl..."
-    sudo apt install -y curl
-else
-    echo "Curl already installed ✓"
-fi
+sudo apt install -y fish neovim tmux gh fzf eza
 echo ""
 
 # ==========================================
@@ -105,16 +91,27 @@ fi
 echo ""
 
 # ==========================================
-# 4. Install mise
+# 4. Install Additional Tools
 # ==========================================
-echo "=== mise ==="
+echo "=== Additional Tools ==="
+
 if ! command_exists mise; then
     echo "Installing mise..."
     curl https://mise.run | sh
-    # Add mise to path for this session
     export PATH="$HOME/.local/bin:$PATH"
 else
     echo "mise already installed ✓"
+fi
+
+if ! command_exists lazygit; then
+    echo "Installing lazygit..."
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": *"v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit -D -t /usr/local/bin/
+    rm lazygit lazygit.tar.gz
+else
+    echo "lazygit already installed ✓"
 fi
 echo ""
 
@@ -137,7 +134,26 @@ fi
 echo ""
 
 # ==========================================
-# 6. Symlink Core Server Configs
+# 6. Install Fisher & Fish Plugins
+# ==========================================
+echo "=== Fisher & Fish Plugins ==="
+if [[ ! -f "$HOME/.config/fish/functions/fisher.fish" ]]; then
+    echo "Installing Fisher plugin manager..."
+    fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+    echo "  ✓ Fisher installed"
+else
+    echo "Fisher already installed ✓"
+fi
+
+# Install fzf.fish plugin
+if command_exists fzf; then
+    echo "Installing fzf.fish plugin..."
+    fish -c "fisher install PatrickF1/fzf.fish" 2>/dev/null || echo "  ✓ fzf.fish already installed"
+fi
+echo ""
+
+# ==========================================
+# 7. Symlink Core Server Configs
 # ==========================================
 echo "=== Core Configuration Files ==="
 create_symlink "$DOTFILES_DIR/fish/config.fish" "$HOME/.config/fish/config.fish"
@@ -148,7 +164,7 @@ create_symlink "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 echo ""
 
 # ==========================================
-# 7. Optional Configs
+# 8. Optional Configs
 # ==========================================
 echo "=== Optional Configs ==="
 
