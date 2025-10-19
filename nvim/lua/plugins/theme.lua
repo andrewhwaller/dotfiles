@@ -17,14 +17,28 @@ if use_omarchy_theme then
   -- If anything goes wrong, fall through to default Catppuccin
 end
 
--- Fallback: Catppuccin Mocha (default for non-Hyprland systems)
+-- Fallback: Catppuccin with auto light/dark switching
 return {
   'catppuccin/nvim',
   name = 'catppuccin',
   priority = 1000,
   config = function()
+    -- Detect macOS theme on startup to prevent flash
+    if vim.fn.has('mac') == 1 then
+      local handle = io.popen('defaults read -g AppleInterfaceStyle 2>/dev/null')
+      if handle then
+        local result = handle:read('*a')
+        handle:close()
+        if result:match('Dark') then
+          vim.o.background = 'dark'
+        else
+          vim.o.background = 'light'
+        end
+      end
+    end
+
     require('catppuccin').setup({
-      flavour = 'mocha',
+      flavour = 'auto', -- auto-switches based on vim.o.background
       integrations = {
         blink_cmp = true,
         treesitter = true,
