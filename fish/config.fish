@@ -67,3 +67,5 @@ function clear_biber_cache --description "Delete the cache directory returned by
     command rm -rf -- "$cache_path"
     echo "Removed $cache_path"
 end
+
+eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
