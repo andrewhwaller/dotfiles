@@ -9,19 +9,6 @@ else
   capabilities = vim.lsp.protocol.make_client_capabilities()
 end
 
-vim.lsp.config.rust_analyzer = {
-  cmd = { 'rust-analyzer' },
-  filetypes = { 'rust' },
-  root_markers = { 'Cargo.toml', '.git' },
-  capabilities = capabilities,
-  settings = {
-    ['rust-analyzer'] = {
-      cargo = { allFeatures = true },
-      checkOnSave = { command = 'clippy' },
-    },
-  },
-}
-
 vim.lsp.config.ts_ls = {
   cmd = { 'typescript-language-server', '--stdio' },
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
