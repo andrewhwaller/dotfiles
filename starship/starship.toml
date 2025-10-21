@@ -5,36 +5,24 @@ add_newline = true
 
 command_timeout = 3600
 
-format = "$directory$all"
+# Format: ⟨hostname⟩ ~ ●
+format = "[⟨](base05)${hostname}[⟩](base05) $directory $character"
 
 [character]
-success_symbol = "[\\$>](green)"
-error_symbol = "[\uead7](bold red)"
+success_symbol = "[●](blue)"
+error_symbol = "[●](red)"
+format = "$symbol "
 
 [package]
 disabled = true
 
-[git_branch]
-symbol = ""
-format = "[$symbol$branch(:$remote_branch)]($style) "
+[hostname]
+ssh_only = false
+format = "[$hostname](base05)"
+disabled = false
 
 [directory]
 truncate_to_repo = true
-
-[ruby]
-format = "[$symbol $version]($style) "
-symbol = "[\ue791](red)"
-
-[docker_context]
-disabled = true
-
-[hostname]
-ssh_only = true
-format = "[@$hostname]($style) "
-style = "bold blue"
-
-[username]
-show_always = false
-format = "[$user]($style)"
-style_user = "bold yellow"
-style_root = "bold red"
+truncation_length = 100
+format = "[$path](blue)"
+home_symbol = "~"
