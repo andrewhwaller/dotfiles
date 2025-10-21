@@ -35,19 +35,13 @@ return {
         end
       end
 
-      if not zotero_db_path then
-        vim.notify('zotcite: could not locate zotero.sqlite automatically', vim.log.levels.WARN)
-      end
-
-      local setup_opts = {
-        filetypes = { 'tex', 'latex' },
-      }
-
+      -- Only setup zotcite if we found the database
       if zotero_db_path then
-        setup_opts.zotero_SQL_path = zotero_db_path
+        require('zotcite').setup({
+          filetypes = { 'tex', 'latex' },
+          zotero_SQL_path = zotero_db_path,
+        })
       end
-
-      require('zotcite').setup(setup_opts)
     end,
   },
   {
