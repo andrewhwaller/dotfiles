@@ -5,8 +5,8 @@ add_newline = true
 
 command_timeout = 3600
 
-# Format: ⟨hostname⟩ ~ ●
-format = "[⟨](base05)${hostname}[⟩](base05) $directory $character"
+# Format: ⟨user@hostname⟩ ~ ● (SSH) or ⟨hostname⟩ ~ ● (local)
+format = "[⟨](base05)$username${hostname}[⟩](base05) $directory $character"
 
 [character]
 success_symbol = "[●](blue)"
@@ -26,3 +26,8 @@ truncate_to_repo = true
 truncation_length = 100
 format = "[$path](blue)"
 home_symbol = "~"
+
+[username]
+format = "[$user@](base05)"
+show_always = false
+disabled = false
