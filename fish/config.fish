@@ -39,6 +39,8 @@ else if command -v mise &> /dev/null
     mise activate fish | source
 end
 
+source "$HOME/.cargo/env.fish"
+
 starship init fish | source
 
 # opencode
