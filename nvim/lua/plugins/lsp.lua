@@ -77,11 +77,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local bufnr = args.buf
     
-    -- Native completion disabled - using blink.cmp instead
-    -- if client:supports_method('textDocument/completion') then
-    --   vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-    -- end
-    
     if client:supports_method('textDocument/formatting') then
       if vim.bo[bufnr].filetype == 'ruby' then
         local formatter = detect_ruby_formatter()
