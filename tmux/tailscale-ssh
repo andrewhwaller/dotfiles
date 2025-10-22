@@ -1,21 +1,35 @@
 #!/usr/bin/env bash
 
-TAILSCALE_BIN="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+# Detect OS and set appropriate Tailscale binary path
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    TAILSCALE_BIN="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+else
+    # Linux and other systems - use tailscale from PATH
+    TAILSCALE_BIN="tailscale"
+fi
+
 GREEN='\033[0;32m'
 RESET='\033[0m'
 
 get_hosts() {
-    $TAILSCALE_BIN status | grep -v "^#" | awk '{
-        ip=$1
-        hostname=$2
-        os=$4
-        status=""
-        for(i=5; i<=NF; i++) {
-            if (status == "") status=$i
-            else status=status" "$i
+    $TAILSCALE_BIN status --json | jq -r '.Peer // {} | to_entries[] | .value |
+        [.HostName, .OS, (if .Online then "online" else "offline" end), .LastSeen] |
+        @tsv' | awk -F'\t' '{
+        hostname=$1
+        os=$2
+        online=$3
+        lastseen=$4
+
+        # Parse LastSeen timestamp
+        if (lastseen == "0001-01-01T00:00:00Z" || lastseen == "") {
+            display_time = online
+        } else {
+            cmd = "date -d \"" lastseen "\" +\"%b %d %H:%M\" 2>/dev/null || echo \"" online "\""
+            cmd | getline display_time
+            close(cmd)
         }
-        if (status == "") status="-"
-        printf "%-20s | %-15s | %-8s | %s\n", hostname, ip, os, status
+
+        printf "%-20s | %-15s | %-8s | %s\n", hostname, display_time, os, online
     }'
 }
 
