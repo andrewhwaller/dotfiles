@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+TAILSCALE_BIN="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+GREEN='\033[0;32m'
+RESET='\033[0m'
+
+get_hosts() {
+    $TAILSCALE_BIN status | grep -v "^#" | awk '{
+        ip=$1
+        hostname=$2
+        os=$4
+        status=""
+        for(i=5; i<=NF; i++) {
+            if (status == "") status=$i
+            else status=status" "$i
+        }
+        if (status == "") status="-"
+        printf "%-20s | %-15s | %-8s | %s\n", hostname, ip, os, status
+    }'
+}
+
+selected=$(get_hosts | fzf \
+    --color=16 \
+    --prompt=">> Liaison online, select host for transfer: " \
+    --bind "shift-tab:up,tab:down" \
+    --bind "change:top")
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+hostname=$(echo "$selected" | awk '{print $1}')
+
+echo -ne "${GREEN}>> identity${RESET} [$USER]: "
+read username
+
+ssh_opts=()
+if [[ -n $TMUX ]]; then
+    ssh_opts+=(-o "SendEnv TMUX")
+fi
+
+if [[ -z $username ]]; then
+    echo -e "${GREEN}>> establishing network link to $hostname...${RESET}"
+    ssh "${ssh_opts[@]}" "$hostname"
+else
+    echo -e "${GREEN}>> establishing network link to $hostname as $username...${RESET}"
+    ssh "${ssh_opts[@]}" "$username@$hostname"
+fi
