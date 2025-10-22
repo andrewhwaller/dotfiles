@@ -1,16 +1,16 @@
 if status is-interactive
   and not set -q TMUX
+  and not set -q SSH_CONNECTION
   tmux has-session -t home 2>/dev/null; or tmux new-session -d -s "home" \;
-  tmux attach-session -t home 
+  tmux attach-session -t home
 end
 
 export EDITOR=nvim
 
-alias riptear="/usr/bin/open -a '/Applications/Brave Browser.app' 'https://www.youtube.com/watch?v=KO-2rDf3SXg&t=1s'"
 alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
 alias lg="lazygit"
-alias coffee="ssh terminal.shop"
+alias allmind="~/dotfiles/tmux/tailscale-ssh"
 
 # Configure fzf keybindings if fzf.fish plugin is installed
 if functions -q fzf_configure_bindings
@@ -68,4 +68,6 @@ function clear_biber_cache --description "Delete the cache directory returned by
     echo "Removed $cache_path"
 end
 
-eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+if test -x ~/linuxbrew/.linuxbrew/bin/brew
+    eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+end
