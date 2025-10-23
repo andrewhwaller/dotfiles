@@ -12,30 +12,23 @@ GREEN='\033[0;32m'
 RESET='\033[0m'
 
 get_hosts() {
-    $TAILSCALE_BIN status --json | jq -r '.Peer // {} | to_entries[] | .value |
-        [.HostName, .OS, (if .Online then "online" else "offline" end), .LastSeen] |
-        @tsv' | awk -F'\t' '{
-        hostname=$1
-        os=$2
-        online=$3
-        lastseen=$4
-
-        # Parse LastSeen timestamp
-        if (lastseen == "0001-01-01T00:00:00Z" || lastseen == "") {
-            display_time = online
-        } else {
-            cmd = "date -d \"" lastseen "\" +\"%b %d %H:%M\" 2>/dev/null || echo \"" online "\""
-            cmd | getline display_time
-            close(cmd)
+    $TAILSCALE_BIN status | grep -v "^#" | awk '{
+        hostname=$2
+        os=$4
+        status=""
+        for(i=5; i<=NF; i++) {
+            if (status == "") status=$i
+            else status=status" "$i
         }
-
-        printf "%-20s | %-15s | %-8s | %s\n", hostname, display_time, os, online
+        if (status == "-" || status == "") status="online"
+        printf "%-20s | %-8s | %s\n", hostname, os, status
     }'
 }
 
 selected=$(get_hosts | fzf \
     --color=16 \
     --prompt=">> Liaison online, select host for transfer: " \
+    --cycle \
     --bind "shift-tab:up,tab:down" \
     --bind "change:top")
 

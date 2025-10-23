@@ -2,6 +2,7 @@
 
 # fzf to find relevant directories with all the eza options for previewing dir contents
 selected=$(find -L ~/github ~ -mindepth 1 -maxdepth 2 -type d | sort -u | fzf \
+    --cycle \
     --bind "change:top" \
     --bind "shift-tab:up,tab:down" \
     --preview 'eza --color=always --icons --classify --long -h -a --git --no-permissions --no-user --no-filesize --changed --git --group-directories-first {}')
