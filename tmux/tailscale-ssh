@@ -12,15 +12,31 @@ GREEN='\033[0;32m'
 RESET='\033[0m'
 
 get_hosts() {
-    $TAILSCALE_BIN status | grep -v "^#" | awk '{
+    $TAILSCALE_BIN status | grep -v "^#" | awk '
+    function human_bytes(bytes) {
+        if (bytes >= 1073741824) return sprintf("%.1fGB", bytes/1073741824)
+        if (bytes >= 1048576) return sprintf("%.1fMB", bytes/1048576)
+        if (bytes >= 1024) return sprintf("%.1fKB", bytes/1024)
+        return bytes "B"
+    }
+    {
         hostname=$2
         os=$4
         status=""
         for(i=5; i<=NF; i++) {
-            if (status == "") status=$i
-            else status=status" "$i
+            word=$i
+            # Convert tx/rx bytes to human readable
+            if (word ~ /^tx$/ && $(i+1) ~ /^[0-9]+$/) {
+                status = status (status ? " " : "") "tx:" human_bytes($(i+1))
+                i++
+            } else if (word ~ /^rx$/ && $(i+1) ~ /^[0-9]+$/) {
+                status = status (status ? " " : "") "rx:" human_bytes($(i+1))
+                i++
+            } else if (word != "-") {
+                status = status (status ? " " : "") word
+            }
         }
-        if (status == "-" || status == "") status="online"
+        if (status == "" || status == "-") status="online"
         printf "%-20s | %-8s | %s\n", hostname, os, status
     }'
 }
