@@ -10,7 +10,7 @@ export EDITOR=nvim
 alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
 alias lg="lazygit"
-alias allmind="~/dotfiles/tmux/tailscale-ssh"
+alias allmind="~/dotfiles/scripts/tailscale-ssh"
 
 # Configure fzf keybindings if fzf.fish plugin is installed
 if functions -q fzf_configure_bindings
