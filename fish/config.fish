@@ -57,7 +57,7 @@ end
 # Export NVIM_THEME for SSH forwarding to remote machines
 # Get current colorscheme directly from neovim
 # Note: This must come after mise activation to ensure the correct nvim binary is used
-set -l current_colorscheme (nvim --headless +'echo g:colors_name' +quit 2>/dev/null | string trim)
+set -l current_colorscheme (nvim --headless +'echo g:colors_name' +quit 2>&1 | string trim)
 if test -n "$current_colorscheme"
     set -x NVIM_THEME $current_colorscheme
 else
