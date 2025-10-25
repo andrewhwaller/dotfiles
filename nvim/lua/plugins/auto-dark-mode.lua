@@ -2,6 +2,8 @@
 -- Automatically switches between light and dark themes based on system appearance
 return {
   'f-person/auto-dark-mode.nvim',
+  -- Only enable on macOS
+  enabled = vim.fn.has('mac') == 1,
   opts = {
     update_interval = 1000,
     set_dark_mode = function()

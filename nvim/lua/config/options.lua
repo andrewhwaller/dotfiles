@@ -45,7 +45,10 @@ vim.wo.signcolumn = 'yes'
 vim.o.scrolloff = 8
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd('colorscheme catppuccin')
+-- Only use catppuccin on macOS
+if vim.fn.has('mac') == 1 then
+  vim.cmd('colorscheme catppuccin')
+end
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
