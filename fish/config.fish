@@ -13,9 +13,8 @@ else if command -v mise &> /dev/null
     mise activate fish | source
 end
 
-set -l current_colorscheme (nvim --headless +'echo g:colors_name' +quit 2>/dev/null | string trim)
-if test -n "$current_colorscheme"
-    set -x NVIM_THEME $current_colorscheme
+if test -f ~/.config/omarchy/current/theme/neovim.lua
+    set -x NVIM_THEME (grep 'colorscheme =' ~/.config/omarchy/current/theme/neovim.lua | sed -E 's/.*colorscheme = "([^"]+)".*/\1/')
 else
     set -x NVIM_THEME catppuccin
 end
