@@ -7,20 +7,19 @@
 -- Check if theme was forwarded via SSH (from client machine)
 local forwarded_theme = vim.env.NVIM_THEME
 if forwarded_theme then
-  -- Load theme on startup (themes.lua has all themes installed with lazy = true)
+  -- Don't install anything - themes.lua already has all themes installed
+  -- Just activate the colorscheme with a dummy plugin spec
   return {
     'nvim-lua/plenary.nvim', -- Use an already-installed plugin as placeholder
     lazy = false,
     priority = 1000,
     config = function()
-      -- Trigger lazy-loading of the theme plugin, then activate it
-      vim.schedule(function()
-        local ok = pcall(vim.cmd.colorscheme, forwarded_theme)
-        if not ok then
-          vim.notify('Theme "' .. forwarded_theme .. '" not found, falling back to habamax', vim.log.levels.WARN)
-          vim.cmd.colorscheme('habamax')
-        end
-      end)
+      -- Try to load the forwarded theme, fall back to habamax if not installed
+      local ok = pcall(vim.cmd.colorscheme, forwarded_theme)
+      if not ok then
+        vim.notify('Theme "' .. forwarded_theme .. '" not found, falling back to habamax', vim.log.levels.WARN)
+        vim.cmd.colorscheme('habamax')
+      end
     end
   }
 end

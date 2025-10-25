@@ -26,9 +26,6 @@ return {
   -- Rose Pine
   { 'rose-pine/neovim', name = 'rose-pine', lazy = true },
 
-  -- Catppuccin
-  { 'catppuccin/nvim', name = 'catppuccin', lazy = true },
-
   -- Tokyo Night
   { 'folke/tokyonight.nvim', lazy = true },
 }
