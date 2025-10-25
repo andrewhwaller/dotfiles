@@ -35,12 +35,12 @@ if test (uname) = "Linux"
 end
 
 set --export BUN_INSTALL "$HOME/.bun"
-set -U fish_user_paths /usr/bin $fish_user_paths
-set -U fish_user_paths $BUN_INSTALL/bin $fish_user_paths
-set -U fish_user_paths /Applications/Postgres.app/Contents/Versions/latest/bin $fish_user_paths
-set -U fish_user_paths $HOME/.config/composer/vendor/bin $fish_user_paths
-set -U fish_user_paths /opt/homebrew/bin $fish_user_paths
-set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
+fish_add_path /usr/bin
+fish_add_path $BUN_INSTALL/bin
+fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
+fish_add_path $HOME/.config/composer/vendor/bin
+fish_add_path /opt/homebrew/bin
+fish_add_path /opt/homebrew/sbin
 
 # Use mise if available (check common locations)
 if test -x ~/.local/bin/mise
@@ -49,7 +49,9 @@ else if command -v mise &> /dev/null
     mise activate fish | source
 end
 
-source "$HOME/.cargo/env.fish"
+if test -f "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
+end
 
 starship init fish | source
 
