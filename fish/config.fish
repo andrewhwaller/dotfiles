@@ -7,6 +7,16 @@ end
 
 export EDITOR=nvim
 
+# Export NVIM_THEME for SSH forwarding to remote machines
+# Get current colorscheme directly from neovim
+set -l current_colorscheme (nvim --headless +'echo g:colors_name' +quit 2>/dev/null | string trim)
+if test -n "$current_colorscheme"
+    set -x NVIM_THEME $current_colorscheme
+else
+    # Fallback if we can't detect (e.g., first time setup)
+    set -x NVIM_THEME catppuccin
+end
+
 alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
 alias lg="lazygit"
