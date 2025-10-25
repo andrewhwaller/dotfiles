@@ -18,6 +18,9 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Disable LazyVim import order check
+vim.g.lazyvim_check_order = false
+
 require('lazy').setup('plugins')
 
 require('config.keymaps')

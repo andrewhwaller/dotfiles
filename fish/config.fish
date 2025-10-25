@@ -1,17 +1,45 @@
-# Auto-launch tmux disabled
-# if status is-interactive
-#   and not set -q TMUX
-#   and not set -q SSH_CONNECTION
-#   tmux has-session -t home 2>/dev/null; or tmux new-session -d -s "home" \;
-#   tmux attach-session -t home
-# end
+if status is-interactive
+  and not set -q TMUX
+  and not set -q SSH_CONNECTION
+  if tmux list-sessions &>/dev/null
+    tmux attach
+  else
+    tmux new-session
+  end
+end
 
 export EDITOR=nvim
+
+if test -x ~/.local/bin/mise
+    ~/.local/bin/mise activate fish | source
+else if command -v mise &> /dev/null
+    mise activate fish | source
+end
+
+if not set -q NVIM_THEME
+    if test -f ~/.config/omarchy/current/theme/neovim.lua
+        set -x NVIM_THEME (grep 'colorscheme =' ~/.config/omarchy/current/theme/neovim.lua | sed -E 's/.*colorscheme = "([^"]+)".*/\1/')
+    else
+        set -x NVIM_THEME catppuccin
+    end
+end
 
 alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
 alias lg="lazygit"
 alias allmind="~/dotfiles/scripts/tailscale-ssh"
+
+function tmux
+    if test (count $argv) -eq 0
+        if command tmux list-sessions &>/dev/null
+            command tmux attach
+        else
+            command tmux new-session
+        end
+    else
+        command tmux $argv
+    end
+end
 
 # Configure fzf keybindings if fzf.fish plugin is installed
 if functions -q fzf_configure_bindings
@@ -26,21 +54,16 @@ if test (uname) = "Linux"
 end
 
 set --export BUN_INSTALL "$HOME/.bun"
-set -U fish_user_paths /usr/bin $fish_user_paths
-set -U fish_user_paths $BUN_INSTALL/bin $fish_user_paths
-set -U fish_user_paths /Applications/Postgres.app/Contents/Versions/latest/bin $fish_user_paths
-set -U fish_user_paths $HOME/.config/composer/vendor/bin $fish_user_paths
-set -U fish_user_paths /opt/homebrew/bin $fish_user_paths
-set -U fish_user_paths /opt/homebrew/sbin $fish_user_paths
+fish_add_path /usr/bin
+fish_add_path $BUN_INSTALL/bin
+fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
+fish_add_path $HOME/.config/composer/vendor/bin
+fish_add_path /opt/homebrew/bin
+fish_add_path /opt/homebrew/sbin
 
-# Use mise if available (check common locations)
-if test -x ~/.local/bin/mise
-    ~/.local/bin/mise activate fish | source
-else if command -v mise &> /dev/null
-    mise activate fish | source
+if test -f "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
 end
-
-source "$HOME/.cargo/env.fish"
 
 starship init fish | source
 
