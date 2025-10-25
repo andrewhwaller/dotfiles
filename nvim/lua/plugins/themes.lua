@@ -28,4 +28,7 @@ return {
 
   -- Tokyo Night
   { 'folke/tokyonight.nvim', lazy = true },
+
+  -- Catppuccin
+  { 'catppuccin/nvim', lazy = false },
 }
