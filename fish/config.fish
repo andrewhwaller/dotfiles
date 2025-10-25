@@ -16,10 +16,12 @@ else if command -v mise &> /dev/null
     mise activate fish | source
 end
 
-if test -f ~/.config/omarchy/current/theme/neovim.lua
-    set -x NVIM_THEME (grep 'colorscheme =' ~/.config/omarchy/current/theme/neovim.lua | sed -E 's/.*colorscheme = "([^"]+)".*/\1/')
-else
-    set -x NVIM_THEME catppuccin
+if not set -q NVIM_THEME
+    if test -f ~/.config/omarchy/current/theme/neovim.lua
+        set -x NVIM_THEME (grep 'colorscheme =' ~/.config/omarchy/current/theme/neovim.lua | sed -E 's/.*colorscheme = "([^"]+)".*/\1/')
+    else
+        set -x NVIM_THEME catppuccin
+    end
 end
 
 alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
