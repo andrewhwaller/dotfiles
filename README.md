@@ -105,6 +105,19 @@ When you run `omarchy-theme-set <theme-name>` (or `Super + Ctrl + Shift + Space`
 
 ## Key Features
 
+### SSH Theme Forwarding
+
+Your Neovim theme follows you across SSH connections.
+
+**Client setup** (machines you SSH from):
+- Add `SendEnv NVIM_THEME` to `~/.ssh/config`
+- Fish already exports the theme (fish/config.fish:57-66)
+
+**Host setup** (machines you SSH into):
+- Add `AcceptEnv NVIM_THEME` to `/etc/ssh/sshd_config`
+- Restart SSH: `sudo systemctl restart sshd`
+- Neovim already respects it (nvim/lua/plugins/theme-loader.lua:7-28)
+
 ### Fish Shell
 - Tmux auto-start on interactive sessions
 - mise for version management
