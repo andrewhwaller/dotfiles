@@ -22,3 +22,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
+
+-- Write current colorscheme to file for SSH forwarding
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = function()
+    local theme_file = vim.fn.expand('~/.config/current_nvim_theme')
+    local file = io.open(theme_file, 'w')
+    if file then
+      file:write(vim.g.colors_name or '')
+      file:close()
+    end
+  end,
+})

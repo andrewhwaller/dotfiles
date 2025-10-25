@@ -55,14 +55,17 @@ else if command -v mise &> /dev/null
 end
 
 # Export NVIM_THEME for SSH forwarding to remote machines
-# Get current colorscheme directly from neovim
-# Note: This must come after mise activation to ensure the correct nvim binary is used
-set -l current_colorscheme (nvim --headless +'try | echo g:colors_name | catch | endtry' +quit 2>/dev/null | string trim)
-# Filter out error messages that might have been captured
-if test -n "$current_colorscheme"; and not string match -q "*Error*" -- "$current_colorscheme"
-    set -x NVIM_THEME $current_colorscheme
+# Read from theme file written by neovim autocmd
+set -l theme_file ~/.config/current_nvim_theme
+if test -f $theme_file
+    set -l current_colorscheme (cat $theme_file | string trim)
+    if test -n "$current_colorscheme"
+        set -x NVIM_THEME $current_colorscheme
+    else
+        set -x NVIM_THEME catppuccin
+    end
 else
-    # Fallback if we can't detect (e.g., first time setup)
+    # Fallback if file doesn't exist (e.g., first time setup)
     set -x NVIM_THEME catppuccin
 end
 

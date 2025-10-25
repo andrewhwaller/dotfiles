@@ -61,9 +61,19 @@ ssh_opts=()
 if [[ -n $TMUX ]]; then
     ssh_opts+=(-o "SendEnv TMUX")
 fi
-if [[ -n $NVIM_THEME ]]; then
-    ssh_opts+=(-o "SendEnv NVIM_THEME")
+
+# Read current theme from config file
+theme_file="$HOME/.config/current_nvim_theme"
+if [[ -f "$theme_file" ]]; then
+    NVIM_THEME=$(cat "$theme_file" | tr -d '[:space:]')
 fi
+
+# Use theme from file, or fall back to env var, or default to catppuccin
+if [[ -z "$NVIM_THEME" ]]; then
+    NVIM_THEME="catppuccin"
+fi
+export NVIM_THEME
+ssh_opts+=(-o "SendEnv NVIM_THEME")
 
 if [[ -z $username ]]; then
     echo -e "${GREEN}>> establishing network link to $hostname...${RESET}"
