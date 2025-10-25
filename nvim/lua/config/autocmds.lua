@@ -24,13 +24,22 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Write current colorscheme to file for SSH forwarding
+local function write_current_theme()
+  local theme_file = vim.fn.expand('~/.config/current_nvim_theme')
+  local file = io.open(theme_file, 'w')
+  if file then
+    file:write(vim.g.colors_name or '')
+    file:close()
+  end
+end
+
 vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = write_current_theme,
+})
+
+vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
-    local theme_file = vim.fn.expand('~/.config/current_nvim_theme')
-    local file = io.open(theme_file, 'w')
-    if file then
-      file:write(vim.g.colors_name or '')
-      file:close()
-    end
+    -- Defer to ensure colorscheme is loaded
+    vim.defer_fn(write_current_theme, 100)
   end,
 })
