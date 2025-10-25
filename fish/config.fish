@@ -7,13 +7,16 @@ end
 
 export EDITOR=nvim
 
-# Export NVIM_THEME for SSH forwarding to remote machines
-# Get current colorscheme directly from neovim
+if test -x ~/.local/bin/mise
+    ~/.local/bin/mise activate fish | source
+else if command -v mise &> /dev/null
+    mise activate fish | source
+end
+
 set -l current_colorscheme (nvim --headless +'echo g:colors_name' +quit 2>/dev/null | string trim)
 if test -n "$current_colorscheme"
     set -x NVIM_THEME $current_colorscheme
 else
-    # Fallback if we can't detect (e.g., first time setup)
     set -x NVIM_THEME catppuccin
 end
 
@@ -41,13 +44,6 @@ fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
 fish_add_path $HOME/.config/composer/vendor/bin
 fish_add_path /opt/homebrew/bin
 fish_add_path /opt/homebrew/sbin
-
-# Use mise if available (check common locations)
-if test -x ~/.local/bin/mise
-    ~/.local/bin/mise activate fish | source
-else if command -v mise &> /dev/null
-    mise activate fish | source
-end
 
 if test -f "$HOME/.cargo/env.fish"
     source "$HOME/.cargo/env.fish"
