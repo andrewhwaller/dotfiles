@@ -61,6 +61,9 @@ ssh_opts=()
 if [[ -n $TMUX ]]; then
     ssh_opts+=(-o "SendEnv TMUX")
 fi
+if [[ -n $NVIM_THEME ]]; then
+    ssh_opts+=(-o "SendEnv NVIM_THEME")
+fi
 
 if [[ -z $username ]]; then
     echo -e "${GREEN}>> establishing network link to $hostname...${RESET}"
