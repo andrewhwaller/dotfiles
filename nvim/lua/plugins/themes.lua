@@ -1,9 +1,7 @@
 -- Collection of popular colorscheme plugins
 -- Installed lazily - only loaded when explicitly set as colorscheme
+-- Note: Catppuccin is NOT in this list because it's managed by theme-loader.lua
 return {
-  -- Catppuccin
-  { 'catppuccin/nvim', name = 'catppuccin', lazy = true },
-
   -- Everforest
   { 'sainnhe/everforest', lazy = true },
 
