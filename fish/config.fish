@@ -1,7 +1,11 @@
 if status is-interactive
   and not set -q TMUX
   and not set -q SSH_CONNECTION
-  tmux attach 2>/dev/null; or tmux new-session
+  if tmux list-sessions &>/dev/null
+    tmux attach
+  else
+    tmux new-session
+  end
 end
 
 export EDITOR=nvim
@@ -22,6 +26,18 @@ alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user
 alias v="nvim"
 alias lg="lazygit"
 alias allmind="~/dotfiles/scripts/tailscale-ssh"
+
+function tmux
+    if test (count $argv) -eq 0
+        if command tmux list-sessions &>/dev/null
+            command tmux attach
+        else
+            command tmux new-session
+        end
+    else
+        command tmux $argv
+    end
+end
 
 # Configure fzf keybindings if fzf.fish plugin is installed
 if functions -q fzf_configure_bindings
