@@ -10,16 +10,6 @@ end
 
 export EDITOR=nvim
 
-# Export NVIM_THEME for SSH forwarding to remote machines
-# Get current colorscheme directly from neovim
-set -l current_colorscheme (nvim --headless +'echo g:colors_name' +quit 2>/dev/null | string trim)
-if test -n "$current_colorscheme"
-    set -x NVIM_THEME $current_colorscheme
-else
-    # Fallback if we can't detect (e.g., first time setup)
-    set -x NVIM_THEME catppuccin
-end
-
 alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
 alias lg="lazygit"
@@ -62,6 +52,17 @@ if test -x ~/.local/bin/mise
     ~/.local/bin/mise activate fish | source
 else if command -v mise &> /dev/null
     mise activate fish | source
+end
+
+# Export NVIM_THEME for SSH forwarding to remote machines
+# Get current colorscheme directly from neovim
+# Note: This must come after mise activation to ensure the correct nvim binary is used
+set -l current_colorscheme (nvim --headless +'echo g:colors_name' +quit 2>/dev/null | string trim)
+if test -n "$current_colorscheme"
+    set -x NVIM_THEME $current_colorscheme
+else
+    # Fallback if we can't detect (e.g., first time setup)
+    set -x NVIM_THEME catppuccin
 end
 
 if test -f "$HOME/.cargo/env.fish"

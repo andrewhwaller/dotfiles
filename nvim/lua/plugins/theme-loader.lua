@@ -7,21 +7,26 @@
 -- Check if theme was forwarded via SSH (from client machine)
 local forwarded_theme = vim.env.NVIM_THEME
 if forwarded_theme then
-  -- Don't install anything - themes.lua already has all themes installed
-  -- Just activate the colorscheme with a dummy plugin spec
-  return {
-    'nvim-lua/plenary.nvim', -- Use an already-installed plugin as placeholder
-    lazy = false,
-    priority = 1000,
-    config = function()
-      -- Try to load the forwarded theme, fall back to habamax if not installed
-      local ok = pcall(vim.cmd.colorscheme, forwarded_theme)
-      if not ok then
-        vim.notify('Theme "' .. forwarded_theme .. '" not found, falling back to habamax', vim.log.levels.WARN)
-        vim.cmd.colorscheme('habamax')
+  -- Special case: if the forwarded theme is catppuccin, use the full plugin spec below
+  -- This ensures the plugin is properly loaded with all integrations
+  if forwarded_theme ~= 'catppuccin' then
+    -- For other themes, themes.lua already has them installed as lazy
+    -- Just activate the colorscheme with a dummy plugin spec
+    return {
+      'nvim-lua/plenary.nvim', -- Use an already-installed plugin as placeholder
+      lazy = false,
+      priority = 1000,
+      config = function()
+        -- Try to load the forwarded theme, fall back to habamax if not installed
+        local ok = pcall(vim.cmd.colorscheme, forwarded_theme)
+        if not ok then
+          vim.notify('Theme "' .. forwarded_theme .. '" not found, falling back to habamax', vim.log.levels.WARN)
+          vim.cmd.colorscheme('habamax')
+        end
       end
-    end
-  }
+    }
+  end
+  -- If forwarded_theme is 'catppuccin', fall through to the Catppuccin setup below
 end
 
 -- Check if Omarchy theme config exists
