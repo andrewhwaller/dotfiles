@@ -54,24 +54,6 @@ else if command -v mise &> /dev/null
     mise activate fish | source
 end
 
-# Export NVIM_THEME for SSH forwarding to remote machines
-# Only set if not already set (e.g., forwarded via SSH)
-if not set -q NVIM_THEME
-    # Read from theme file written by neovim autocmd
-    set -l theme_file ~/.config/current_nvim_theme
-    if test -f $theme_file
-        set -l current_colorscheme (cat $theme_file | string trim)
-        if test -n "$current_colorscheme"
-            set -x NVIM_THEME $current_colorscheme
-        else
-            set -x NVIM_THEME catppuccin
-        end
-    else
-        # Fallback if file doesn't exist (e.g., first time setup)
-        set -x NVIM_THEME catppuccin
-    end
-end
-
 if test -f "$HOME/.cargo/env.fish"
     source "$HOME/.cargo/env.fish"
 end
