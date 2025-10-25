@@ -1,8 +1,7 @@
 if status is-interactive
   and not set -q TMUX
   and not set -q SSH_CONNECTION
-  tmux has-session -t home 2>/dev/null; or tmux new-session -d -s "home" \;
-  tmux attach-session -t home
+  tmux attach 2>/dev/null; or tmux new-session
 end
 
 export EDITOR=nvim
