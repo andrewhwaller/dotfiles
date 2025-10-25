@@ -65,7 +65,15 @@ fi
 if [[ -z $username ]]; then
     echo -e "${GREEN}>> establishing network link to $hostname...${RESET}"
     ssh "${ssh_opts[@]}" "$hostname"
+    exit_code=$?
 else
     echo -e "${GREEN}>> establishing network link to $hostname as $username...${RESET}"
     ssh "${ssh_opts[@]}" "$username@$hostname"
+    exit_code=$?
+fi
+
+if [[ $exit_code -ne 0 ]]; then
+    RED='\033[0;31m'
+    echo -e "${RED}>> connection failed: unable to establish link to $hostname (exit code: $exit_code)${RESET}"
+    exit $exit_code
 fi
