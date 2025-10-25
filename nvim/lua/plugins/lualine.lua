@@ -33,7 +33,7 @@ return {
           icons_enabled = true,
           component_separators = '|',
           section_separators = '',
-          theme = 'catppuccin',
+          theme = 'auto',
         },
         sections = {
           lualine_b = {
