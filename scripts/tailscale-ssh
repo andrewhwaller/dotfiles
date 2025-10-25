@@ -73,6 +73,7 @@ if [[ -z "$NVIM_THEME" ]]; then
     NVIM_THEME="catppuccin"
 fi
 export NVIM_THEME
+echo -e "${GREEN}>> forwarding theme:${RESET} $NVIM_THEME"
 ssh_opts+=(-o "SendEnv NVIM_THEME")
 
 if [[ -z $username ]]; then
