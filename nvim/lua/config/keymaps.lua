@@ -82,3 +82,12 @@ vim.keymap.set("n", "<leader>es", ":Sexplore %:p:h<CR>",
 )
 
 vim.keymap.set('v', '<leader>gs', ':CodeSnap<CR>', { silent = true })
+
+-- Toggle between light and dark mode
+vim.keymap.set('n', '<leader>bg', function()
+  if vim.o.background == 'dark' then
+    vim.o.background = 'light'
+  else
+    vim.o.background = 'dark'
+  end
+end, { desc = 'Toggle light/dark mode' })
