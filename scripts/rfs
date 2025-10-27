@@ -5,12 +5,21 @@ set -euo pipefail
 # rfs: remote filesystem mounter for macOS using sshfs + macFUSE
 #
 # Commands:
-#   rfs mount <user@host:/abs/remote/path> [local-name]
-#   rfs open <local-name>
-#   rfs unmount <local-name>
+#   rfs mount [user@host:/abs/remote/path] [local-name]
+#   rfs remount [local-name]
+#   rfs open [local-name]
+#   rfs unmount [local-name]
+#   rfs remove [local-name]
 #   rfs list
 #
-# Examples:
+# Interactive Usage (no arguments - guided prompts):
+#   rfs mount       # prompts for user@host, path, and local name
+#   rfs remount     # shows menu of previous mounts to reconnect
+#   rfs open        # shows menu of available mounts to open
+#   rfs unmount     # shows menu of mounts to unmount
+#   rfs remove      # shows menu of mounts to remove (unmounts first if needed)
+#
+# Non-interactive Examples:
 #   rfs mount raven@ac-nightfall:/home/raven/thesis
 #   rfs open thesis
 #   rfs unmount thesis
@@ -32,10 +41,14 @@ MOUNT_ROOT="$HOME/mnt"
 
 usage() {
     echo "Usage:"
-    echo "  rfs mount <user@host:/abs/remote/path> [local-name]"
-    echo "  rfs open <local-name>"
-    echo "  rfs unmount <local-name>"
+    echo "  rfs mount [user@host:/abs/remote/path] [local-name]"
+    echo "  rfs remount [local-name]"
+    echo "  rfs open [local-name]"
+    echo "  rfs unmount [local-name]"
+    echo "  rfs remove [local-name]"
     echo "  rfs list"
+    echo ""
+    echo "All commands support interactive mode when run without arguments."
     exit 1
 }
 
@@ -45,28 +58,104 @@ ensure_mount_root() {
     fi
 }
 
+prompt_for_input() {
+    local prompt="$1"
+    local default="$2"
+    local result
+
+    if [ -n "$default" ]; then
+        read -p "$prompt [$default]: " result
+        echo "${result:-$default}"
+    else
+        read -p "$prompt: " result
+        echo "$result"
+    fi
+}
+
+fzf_select() {
+    local purpose="$1"
+    shift
+    local options=("$@")
+
+    if [ "${#options[@]}" -eq 0 ]; then
+        return 1
+    fi
+
+    printf "%s\n" "${options[@]}" | fzf --prompt="$purpose > " --height=40% --reverse
+}
+
 do_mount() {
-    if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    local REMOTE=""
+    local LOCAL_NAME=""
+    local REMOTE_USER_HOST=""
+    local REMOTE_PATH=""
+
+    # Interactive mode: if no arguments provided, prompt for everything
+    if [ "$#" -eq 0 ]; then
+        echo "[rfs] Interactive mount setup"
+        echo ""
+
+        REMOTE_USER_HOST=$(prompt_for_input "Remote user@host (e.g., user@hostname)" "")
+        if [ -z "$REMOTE_USER_HOST" ]; then
+            echo "rfs: remote user@host is required"
+            exit 1
+        fi
+
+        # Extract username to build home directory path
+        local username="${REMOTE_USER_HOST%%@*}"
+        local home_path="/home/$username"
+
+        echo "Remote subdirectory (relative to $home_path, e.g., 'thesis' or 'github/thesis')"
+        local path_input
+        path_input=$(prompt_for_input "Subdirectory" "")
+
+        if [ -z "$path_input" ]; then
+            # Default to home directory
+            REMOTE_PATH="$home_path"
+        else
+            # Strip leading slash if present and append to home
+            path_input="${path_input#/}"
+            REMOTE_PATH="$home_path/$path_input"
+        fi
+
+        # Build full remote spec
+        REMOTE="$REMOTE_USER_HOST:$REMOTE_PATH"
+
+        # Suggest local name from basename
+        local suggested_name="$(basename "$REMOTE_PATH")"
+        LOCAL_NAME=$(prompt_for_input "Local mount name" "$suggested_name")
+
+    # Semi-interactive: remote provided, maybe local name
+    elif [ "$#" -eq 1 ]; then
+        REMOTE="$1"
+
+        # Sanity: remote must include user@host:/absolute/path
+        if [[ "$REMOTE" != *:* ]]; then
+            echo "rfs: remote must look like user@host:/absolute/path"
+            exit 1
+        fi
+
+        # Infer local name from remote path basename
+        REMOTE_PATH="${REMOTE#*:}"
+        local suggested_name="$(basename "$REMOTE_PATH")"
+        LOCAL_NAME=$(prompt_for_input "Local mount name" "$suggested_name")
+
+    # Fully specified: use provided arguments
+    elif [ "$#" -eq 2 ]; then
+        REMOTE="$1"
+        LOCAL_NAME="$2"
+
+        # Sanity: remote must include user@host:/absolute/path
+        if [[ "$REMOTE" != *:* ]]; then
+            echo "rfs: remote must look like user@host:/absolute/path"
+            exit 1
+        fi
+    else
         usage
     fi
 
-    local REMOTE="$1"
-    local LOCAL_NAME="${2:-}"
-
-    # Sanity: remote must include user@host:/absolute/path
-    if [[ "$REMOTE" != *:* ]]; then
-        echo "rfs: remote must look like user@host:/absolute/path"
-        exit 1
-    fi
-
-    # If no local-name provided, infer from the remote path basename
     if [ -z "$LOCAL_NAME" ]; then
-        local REMOTE_PATH="${REMOTE#*:}"
-        LOCAL_NAME="$(basename "$REMOTE_PATH")"
-    fi
-
-    if [ -z "$LOCAL_NAME" ]; then
-        echo "rfs: could not infer local-name"
+        echo "rfs: could not determine local-name"
         exit 1
     fi
 
@@ -82,6 +171,10 @@ do_mount() {
 
     mkdir -p "$LOCAL_DIR"
 
+    # Save remote info for remounting later
+    echo "$REMOTE" > "$LOCAL_DIR/.rfs_remote"
+
+    echo ""
     echo "[rfs] mounting $REMOTE -> $LOCAL_DIR"
     # -o reconnect keeps the SSHFS mount up across transient drops
     # -o volname controls Finder's volume name
@@ -89,15 +182,69 @@ do_mount() {
         -o reconnect,volname="$LOCAL_NAME"
 
     echo "[rfs] mounted at $LOCAL_DIR"
-    echo "      Try: open $LOCAL_DIR"
+
+    # Auto-open prompt
+    local should_open
+    read -p "Open in Finder now? [Y/n]: " should_open
+    should_open="${should_open:-Y}"
+
+    if [[ "$should_open" =~ ^[Yy]$ ]]; then
+        echo "[rfs] opening $LOCAL_DIR"
+        open "$LOCAL_DIR"
+    else
+        echo "      Try: rfs open $LOCAL_NAME"
+    fi
 }
 
-do_open() {
-    if [ "$#" -ne 1 ]; then
+do_remount() {
+    local LOCAL_NAME=""
+
+    if [ "$#" -eq 0 ]; then
+        # Interactive mode: show selection menu of unmounted dirs
+        ensure_mount_root
+
+        # Collect unmounted directories that have remote info
+        local options=()
+        for d in "$MOUNT_ROOT"/*; do
+            [ -d "$d" ] || continue
+
+            # Skip if currently mounted
+            if mount | grep -q "on $d "; then
+                continue
+            fi
+
+            # Skip if no remote info stored
+            local remote_file="$d/.rfs_remote"
+            if [ ! -f "$remote_file" ]; then
+                continue
+            fi
+
+            local_name="$(basename "$d")"
+            remote_spec="$(cat "$remote_file")"
+            options+=("$local_name → $remote_spec")
+        done
+
+        if [ "${#options[@]}" -eq 0 ]; then
+            echo "rfs: no unmounted filesystems found to remount"
+            exit 1
+        fi
+
+        local result
+        result=$(fzf_select "filesystem to remount" "${options[@]}")
+        if [ $? -ne 0 ]; then
+            echo "rfs: cancelled"
+            exit 0
+        fi
+
+        # Extract just the name (before the arrow)
+        LOCAL_NAME=$(echo "$result" | sed 's/ →.*//')
+
+    elif [ "$#" -eq 1 ]; then
+        LOCAL_NAME="$1"
+    else
         usage
     fi
 
-    local LOCAL_NAME="$1"
     local LOCAL_DIR="$MOUNT_ROOT/$LOCAL_NAME"
 
     if [ ! -d "$LOCAL_DIR" ]; then
@@ -105,15 +252,116 @@ do_open() {
         exit 1
     fi
 
+    # Check if already mounted
+    if mount | grep -q "on $LOCAL_DIR "; then
+        echo "rfs: $LOCAL_DIR is already mounted"
+        exit 0
+    fi
+
+    # Read the stored remote info
+    local remote_file="$LOCAL_DIR/.rfs_remote"
+    if [ ! -f "$remote_file" ]; then
+        echo "rfs: no remote information found for $LOCAL_NAME"
+        echo "      Use 'rfs mount' to set up a new mount"
+        exit 1
+    fi
+
+    local REMOTE
+    REMOTE="$(cat "$remote_file")"
+
+    echo "[rfs] remounting $REMOTE -> $LOCAL_DIR"
+    sshfs "$REMOTE" "$LOCAL_DIR" \
+        -o reconnect,volname="$LOCAL_NAME"
+
+    echo "[rfs] remounted at $LOCAL_DIR"
+
+    # Auto-open prompt
+    local should_open
+    read -p "Open in Finder now? [Y/n]: " should_open
+    should_open="${should_open:-Y}"
+
+    if [[ "$should_open" =~ ^[Yy]$ ]]; then
+        echo "[rfs] opening $LOCAL_DIR"
+        open "$LOCAL_DIR"
+    fi
+}
+
+select_mount() {
+    local purpose="$1"  # "open" or "unmount" or "remove"
+    ensure_mount_root
+
+    # Collect available mounts
+    local options=()
+    for d in "$MOUNT_ROOT"/*; do
+        [ -d "$d" ] || continue
+        local_name="$(basename "$d")"
+        local dir="$MOUNT_ROOT/$local_name"
+
+        if mount | grep -q "on $dir "; then
+            options+=("$local_name [mounted]")
+        else
+            options+=("$local_name [not mounted]")
+        fi
+    done
+
+    if [ "${#options[@]}" -eq 0 ]; then
+        echo "rfs: no mounts found in $MOUNT_ROOT"
+        exit 1
+    fi
+
+    local result
+    result=$(fzf_select "mount to $purpose" "${options[@]}")
+    if [ $? -ne 0 ]; then
+        return 1
+    fi
+
+    # Extract just the name (strip the status)
+    echo "$result" | sed 's/ \[.*\]$//'
+}
+
+do_open() {
+    local LOCAL_NAME=""
+
+    if [ "$#" -eq 0 ]; then
+        # Interactive mode: show selection menu
+        LOCAL_NAME=$(select_mount "open")
+        if [ $? -ne 0 ]; then
+            echo "rfs: cancelled"
+            exit 0
+        fi
+    elif [ "$#" -eq 1 ]; then
+        LOCAL_NAME="$1"
+    else
+        usage
+    fi
+
+    local LOCAL_DIR="$MOUNT_ROOT/$LOCAL_NAME"
+
+    if [ ! -d "$LOCAL_DIR" ]; then
+        echo "rfs: $LOCAL_DIR does not exist"
+        exit 1
+    fi
+
+    echo "[rfs] opening $LOCAL_DIR"
     open "$LOCAL_DIR"
 }
 
 do_unmount() {
-    if [ "$#" -ne 1 ]; then
+    local LOCAL_NAME=""
+
+    if [ "$#" -eq 0 ]; then
+        # Interactive mode: show selection menu
+        LOCAL_NAME=$(select_mount "unmount")
+        if [ $? -ne 0 ]; then
+            echo "rfs: cancelled"
+            exit 0
+        fi
+    elif [ "$#" -eq 1 ]; then
+        LOCAL_NAME="$1"
+    else
         usage
     fi
 
-    local LOCAL_NAME="$1"
     local LOCAL_DIR="$MOUNT_ROOT/$LOCAL_NAME"
 
     if [ ! -d "$LOCAL_DIR" ]; then
@@ -138,6 +386,50 @@ do_unmount() {
     echo "[rfs] Could not unmount (volume busy?)."
     echo "      Close any Finder / Preview / Skim windows using $LOCAL_DIR and try again."
     exit 1
+}
+
+do_remove() {
+    local LOCAL_NAME=""
+
+    if [ "$#" -eq 0 ]; then
+        # Interactive mode: show selection menu
+        LOCAL_NAME=$(select_mount "remove")
+        if [ $? -ne 0 ]; then
+            echo "rfs: cancelled"
+            exit 0
+        fi
+    elif [ "$#" -eq 1 ]; then
+        LOCAL_NAME="$1"
+    else
+        usage
+    fi
+
+    local LOCAL_DIR="$MOUNT_ROOT/$LOCAL_NAME"
+
+    if [ ! -d "$LOCAL_DIR" ]; then
+        echo "rfs: $LOCAL_DIR does not exist"
+        exit 1
+    fi
+
+    # Check if mounted and unmount first
+    if mount | grep -q "on $LOCAL_DIR "; then
+        echo "[rfs] unmounting $LOCAL_DIR first..."
+
+        if diskutil unmount "$LOCAL_DIR" >/dev/null 2>&1; then
+            echo "[rfs] unmounted with diskutil"
+        elif umount "$LOCAL_DIR" >/dev/null 2>&1; then
+            echo "[rfs] unmounted with umount"
+        else
+            echo "[rfs] Could not unmount (volume busy?)."
+            echo "      Close any Finder / Preview / Skim windows using $LOCAL_DIR and try again."
+            exit 1
+        fi
+    fi
+
+    # Remove the directory (including hidden .rfs_remote file)
+    echo "[rfs] removing $LOCAL_DIR"
+    rm -rf "$LOCAL_DIR"
+    echo "[rfs] removed $LOCAL_NAME"
 }
 
 do_list() {
@@ -168,11 +460,17 @@ main() {
         mount)
             do_mount "$@"
             ;;
+        remount)
+            do_remount "$@"
+            ;;
         open)
             do_open "$@"
             ;;
         unmount|umount)
             do_unmount "$@"
+            ;;
+        remove|rm)
+            do_remove "$@"
             ;;
         list|ls)
             do_list
