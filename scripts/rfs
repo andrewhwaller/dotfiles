@@ -1,0 +1,187 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+##############################################################################
+# rfs: remote filesystem mounter for macOS using sshfs + macFUSE
+#
+# Commands:
+#   rfs mount <user@host:/abs/remote/path> [local-name]
+#   rfs open <local-name>
+#   rfs unmount <local-name>
+#   rfs list
+#
+# Examples:
+#   rfs mount raven@ac-nightfall:/home/raven/thesis
+#   rfs open thesis
+#   rfs unmount thesis
+#
+#   rfs mount raven@ac-nightfall:/home/raven/paper-draft draft
+#   rfs open draft
+#
+# This creates mounts under $MOUNT_ROOT/<local-name>, defaulting local-name to
+# the basename of the remote path.
+#
+# Requirements on macOS:
+#   - macFUSE installed
+#   - sshfs-mac installed (via brew tap gromgit/fuse && brew install gromgit/fuse/sshfs-mac)
+#
+##############################################################################
+
+# You can change this if you want mounts elsewhere
+MOUNT_ROOT="$HOME/mnt"
+
+usage() {
+    echo "Usage:"
+    echo "  rfs mount <user@host:/abs/remote/path> [local-name]"
+    echo "  rfs open <local-name>"
+    echo "  rfs unmount <local-name>"
+    echo "  rfs list"
+    exit 1
+}
+
+ensure_mount_root() {
+    if [ ! -d "$MOUNT_ROOT" ]; then
+        mkdir -p "$MOUNT_ROOT"
+    fi
+}
+
+do_mount() {
+    if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+        usage
+    fi
+
+    local REMOTE="$1"
+    local LOCAL_NAME="${2:-}"
+
+    # Sanity: remote must include user@host:/absolute/path
+    if [[ "$REMOTE" != *:* ]]; then
+        echo "rfs: remote must look like user@host:/absolute/path"
+        exit 1
+    fi
+
+    # If no local-name provided, infer from the remote path basename
+    if [ -z "$LOCAL_NAME" ]; then
+        local REMOTE_PATH="${REMOTE#*:}"
+        LOCAL_NAME="$(basename "$REMOTE_PATH")"
+    fi
+
+    if [ -z "$LOCAL_NAME" ]; then
+        echo "rfs: could not infer local-name"
+        exit 1
+    fi
+
+    ensure_mount_root
+
+    local LOCAL_DIR="$MOUNT_ROOT/$LOCAL_NAME"
+
+    # If this is already mounted, just report and exit
+    if mount | grep -q "on $LOCAL_DIR "; then
+        echo "rfs: $LOCAL_DIR is already mounted"
+        exit 0
+    fi
+
+    mkdir -p "$LOCAL_DIR"
+
+    echo "[rfs] mounting $REMOTE -> $LOCAL_DIR"
+    # -o reconnect keeps the SSHFS mount up across transient drops
+    # -o volname controls Finder's volume name
+    sshfs "$REMOTE" "$LOCAL_DIR" \
+        -o reconnect,volname="$LOCAL_NAME"
+
+    echo "[rfs] mounted at $LOCAL_DIR"
+    echo "      Try: open $LOCAL_DIR"
+}
+
+do_open() {
+    if [ "$#" -ne 1 ]; then
+        usage
+    fi
+
+    local LOCAL_NAME="$1"
+    local LOCAL_DIR="$MOUNT_ROOT/$LOCAL_NAME"
+
+    if [ ! -d "$LOCAL_DIR" ]; then
+        echo "rfs: $LOCAL_DIR does not exist"
+        exit 1
+    fi
+
+    open "$LOCAL_DIR"
+}
+
+do_unmount() {
+    if [ "$#" -ne 1 ]; then
+        usage
+    fi
+
+    local LOCAL_NAME="$1"
+    local LOCAL_DIR="$MOUNT_ROOT/$LOCAL_NAME"
+
+    if [ ! -d "$LOCAL_DIR" ]; then
+        echo "rfs: $LOCAL_DIR does not exist"
+        exit 1
+    fi
+
+    echo "[rfs] unmounting $LOCAL_DIR"
+
+    # First prefer diskutil (plays nicest with FUSE volumes on macOS)
+    if diskutil unmount "$LOCAL_DIR" >/dev/null 2>&1; then
+        echo "[rfs] unmounted with diskutil"
+        return
+    fi
+
+    # Fallback: umount
+    if umount "$LOCAL_DIR" >/dev/null 2>&1; then
+        echo "[rfs] unmounted with umount"
+        return
+    fi
+
+    echo "[rfs] Could not unmount (volume busy?)."
+    echo "      Close any Finder / Preview / Skim windows using $LOCAL_DIR and try again."
+    exit 1
+}
+
+do_list() {
+    ensure_mount_root
+
+    echo "[rfs] mounts under $MOUNT_ROOT:"
+    # iterate subdirs of $MOUNT_ROOT
+    for d in "$MOUNT_ROOT"/*; do
+        [ -d "$d" ] || continue
+        local_name="$(basename "$d")"
+        if mount | grep -q "on $d "; then
+            status="mounted"
+        else
+            status="not-mounted"
+        fi
+        echo "  $local_name -> $d [$status]"
+    done
+}
+
+main() {
+    if [ "$#" -lt 1 ]; then
+        usage
+    fi
+
+    local cmd="$1"; shift
+
+    case "$cmd" in
+        mount)
+            do_mount "$@"
+            ;;
+        open)
+            do_open "$@"
+            ;;
+        unmount|umount)
+            do_unmount "$@"
+            ;;
+        list|ls)
+            do_list
+            ;;
+        *)
+            usage
+            ;;
+    esac
+}
+
+main "$@"
+
