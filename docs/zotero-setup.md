@@ -1,6 +1,5 @@
-````markdown
 # Remote Zotero + Skim + `rfs` — New-Machine Setup
-_Last updated: Oct 27, 2025_
+_Last updated: Oct 28, 2025_
 
 This guide lets you recreate the exact workflow on **any** new pair of machines:
 
@@ -61,35 +60,127 @@ sudo apt install -y \
   x11vnc
 ```
 
-### A2) First-time Zotero login via a temporary virtual display
+### A2) First-time Zotero login via GUI (using zoteroctl)
+
+**Note:** You'll need the `zoteroctl` script installed first. If you haven't set it up yet, jump to section A4, then return here.
 
 *On the server:*
 
 ```bash
-Xvfb :1 -screen 0 1280x800x24 &
-x11vnc -display :1 -rfbport 5901 -localhost -nopw &
-export DISPLAY=:1
-export MOZ_DISABLE_GPU_ACCELERATION=1
-~/Zotero_linux-x86_64/zotero &
+# Launch the GUI session
+zoteroctl gui
 ```
+
+This will start Xvfb, x11vnc, and Zotero, then display connection instructions.
 
 *On the Mac (in another terminal):*
 
+Follow the connection instructions printed by `zoteroctl gui`, which will be:
+
 ```bash
 ssh -L 5901:localhost:5901 <remote-user>@<remote-host>
-open vnc://localhost:5901
+# Then in Finder: ⌘K and connect to vnc://localhost:5901
 ```
 
-In the VNC’d Zotero window:
+In the VNC'd Zotero window:
 
 * Sign in to Zotero and enable Sync
-* Install the **Better BibTeX** add-on (`.xpi`) via “Install from file…”
+* Install the **Better BibTeX** add-on (`.xpi`) via "Install from file…"
 
 (You can `scp` the `.xpi` up first if needed, e.g. `scp ~/Downloads/zotero-better-bibtex.xpi <remote-user>@<remote-host>:~`.)
 
-You can stop `x11vnc`/`Xvfb` after this; Zotero is now configured.
+When done, stop the GUI session:
 
-### A3) Better BibTeX auto-export to a portable path
+```bash
+zoteroctl gui-stop
+```
+
+### A3) Set up Zotero to run headless on boot
+
+Create a systemd user service to automatically start Zotero in headless mode:
+
+```bash
+mkdir -p ~/.config/systemd/user
+```
+
+Create the service file at `~/.config/systemd/user/zotero-headless.service`:
+
+```ini
+[Unit]
+Description=Zotero Headless Background Service
+After=network.target
+
+[Service]
+Type=simple
+Environment="MOZ_HEADLESS=1"
+ExecStart=/home/<remote-user>/Zotero_linux-x86_64/zotero --headless
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
+```
+
+Enable and start the service:
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable zotero-headless.service
+systemctl --user start zotero-headless.service
+loginctl enable-linger $USER  # Ensures service starts even when not logged in
+```
+
+Verify it's running:
+
+```bash
+systemctl --user status zotero-headless.service
+```
+
+**Note:** You'll see warnings about X server and graphics in the logs—these are expected and harmless for headless operation.
+
+### A4) Install the `zoteroctl` management script
+
+The dotfiles repo includes a convenient control script for managing both the headless service and GUI sessions:
+
+```bash
+# Create ~/bin if it doesn't exist
+mkdir -p ~/bin
+
+# Symlink the script from dotfiles
+ln -sf ~/dotfiles/scripts/zoteroctl ~/bin/zoteroctl
+chmod +x ~/dotfiles/scripts/zoteroctl
+
+# Add ~/bin to PATH (fish shell)
+fish_add_path ~/bin
+```
+
+**Usage:**
+
+```bash
+# Interactive menu
+zoteroctl
+
+# Headless service commands
+zoteroctl status      # Show service status
+zoteroctl start       # Start the service
+zoteroctl stop        # Stop the service
+zoteroctl restart     # Restart the service
+zoteroctl logs        # View live logs (Ctrl+C to exit)
+zoteroctl recent      # View recent logs
+zoteroctl ps          # Check running processes
+zoteroctl enable      # Enable autostart on boot
+zoteroctl disable     # Disable autostart
+
+# GUI session commands (for one-time setup or troubleshooting)
+zoteroctl gui         # Launch GUI session with Xvfb + VNC
+zoteroctl gui-status  # Check GUI session status
+zoteroctl gui-stop    # Stop GUI session
+
+# Get help
+zoteroctl help        # Show all available commands
+```
+
+### A5) Better BibTeX auto-export to a portable path
 
 Create a per-user TEXMF tree and point the auto-export there:
 
@@ -109,7 +200,14 @@ In Zotero (same VNC session):
 
 Zotero will keep that `Zotero.bib` current on the server automatically.
 
-> Tip: Any time you need Zotero to run again headless, start `Xvfb :1` (if not running), set `DISPLAY=:1` and `MOZ_DISABLE_GPU_ACCELERATION=1`, then launch `~/Zotero_linux-x86_64/zotero &`.
+> **Tip:** If you ever need to access the Zotero GUI again (for preferences, debugging, etc.), simply run:
+> ```bash
+> zoteroctl gui
+> ```
+> Follow the displayed connection instructions, then stop the session when done:
+> ```bash
+> zoteroctl gui-stop
+> ```
 
 ---
 
@@ -268,17 +366,18 @@ rfs unmount thesis
 
 ## Quick checklist
 
-* [ ] Server: Zotero extracted to `~/Zotero_linux-x86_64/`
-* [ ] Server: runtime deps + `xvfb` + `x11vnc` installed
-* [ ] Server: one-time Zotero sign-in via `Xvfb :1` + VNC
-* [ ] Server: Better BibTeX auto-export → `<remote-home>/texmf/bibtex/bib/Zotero.bib`
-* [ ] Mac: macFUSE + sshfs installed
-* [ ] Mac: `~/mnt` + `~/bin` exist; `fish_add_path ~/bin` done
-* [ ] Mac: `rfs` symlinked from dotfiles and executable
-* [ ] Mac: Skim auto-reload enabled; optional “Revert” shortcut set
+### Server (Linux)
+* [ ] Zotero extracted to `~/Zotero_linux-x86_64/`
+* [ ] Runtime deps + `xvfb` + `x11vnc` installed
+* [ ] One-time Zotero sign-in via `Xvfb :1` + VNC
+* [ ] systemd service created and enabled at `~/.config/systemd/user/zotero-headless.service`
+* [ ] `loginctl enable-linger` run to enable service on boot
+* [ ] `zoteroctl` script symlinked from dotfiles to `~/bin/zoteroctl`
+* [ ] Better BibTeX auto-export → `<remote-home>/texmf/bibtex/bib/Zotero.bib`
 
-```
-
-::contentReference[oaicite:0]{index=0}
-```
+### Mac (local)
+* [ ] macFUSE + sshfs installed
+* [ ] `~/mnt` + `~/bin` exist; `fish_add_path ~/bin` done
+* [ ] `rfs` + `ts` scripts symlinked from dotfiles and executable
+* [ ] Skim auto-reload enabled; optional "Revert" shortcut set
 
