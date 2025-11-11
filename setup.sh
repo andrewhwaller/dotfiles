@@ -262,6 +262,27 @@ if [[ "$OS" == "arch" ]]; then
         echo "Hyprland detected ✓"
         echo "Deploying Hyprland configuration..."
 
+        # Setup machine-specific environment variables FIRST (before symlinking envs.conf)
+        HOSTNAME=$(cat /etc/hostname 2>/dev/null || echo "unknown")
+        if [[ -f "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" ]]; then
+            echo "  Found machine-specific env config for $HOSTNAME"
+            create_symlink "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" "$HOME/.config/hypr/envs.machine.conf"
+        else
+            # Create empty file to prevent source errors
+            if [[ ! -f "$HOME/.config/hypr/envs.machine.conf" ]]; then
+                echo "  Creating empty envs.machine.conf (no host-specific config)"
+                touch "$HOME/.config/hypr/envs.machine.conf"
+            fi
+        fi
+
+        # Create monitors.conf if it doesn't exist (before symlinking)
+        if [[ ! -f "$HOME/.config/hypr/monitors.conf" ]]; then
+            echo "  Creating monitors.conf from example (customize for your setup)"
+            cp "$DOTFILES_DIR/hypr/monitors.conf.example" "$HOME/.config/hypr/monitors.conf"
+        else
+            echo "  ✓ monitors.conf already exists"
+        fi
+
         # Symlink hyprland.conf and discrete config files
         create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
         create_symlink "$DOTFILES_DIR/hypr/input.conf" "$HOME/.config/hypr/input.conf"
@@ -276,27 +297,6 @@ if [[ "$OS" == "arch" ]]; then
         create_symlink "$DOTFILES_DIR/hypr/wofi" "$HOME/.config/hypr/wofi"
         create_symlink "$DOTFILES_DIR/hypr/scripts" "$HOME/.config/hypr/scripts"
         create_symlink "$DOTFILES_DIR/hypr/wallpapers" "$HOME/.config/hypr/wallpapers"
-
-        # Create monitors.conf if it doesn't exist
-        if [[ ! -f "$HOME/.config/hypr/monitors.conf" ]]; then
-            echo "  Creating monitors.conf from example (customize for your setup)"
-            cp "$DOTFILES_DIR/hypr/monitors.conf.example" "$HOME/.config/hypr/monitors.conf"
-        else
-            echo "  ✓ monitors.conf already exists"
-        fi
-
-        # Setup machine-specific environment variables
-        HOSTNAME=$(cat /etc/hostname 2>/dev/null || echo "unknown")
-        if [[ -f "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" ]]; then
-            echo "  Found machine-specific env config for $HOSTNAME"
-            create_symlink "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" "$HOME/.config/hypr/envs.machine.conf"
-        else
-            # Create empty file to prevent source errors
-            if [[ ! -f "$HOME/.config/hypr/envs.machine.conf" ]]; then
-                echo "  Creating empty envs.machine.conf (no host-specific config)"
-                touch "$HOME/.config/hypr/envs.machine.conf"
-            fi
-        fi
 
         # Setup theme integration with Omarchy (if present)
         if [[ -d "$HOME/.config/omarchy/current/theme" ]]; then
