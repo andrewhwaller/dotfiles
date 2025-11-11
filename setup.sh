@@ -262,14 +262,8 @@ if [[ "$OS" == "arch" ]]; then
         echo "Hyprland detected ✓"
         echo "Deploying Hyprland configuration..."
 
-        # Only create hyprland.conf symlink if it doesn't already exist
-        if [[ ! -f "$HOME/.config/hypr/hyprland.conf" ]]; then
-            create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
-        else
-            echo "  ✓ hyprland.conf already exists, skipping"
-        fi
-
-        # Symlink discrete config files
+        # Symlink hyprland.conf and discrete config files
+        create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
         create_symlink "$DOTFILES_DIR/hypr/input.conf" "$HOME/.config/hypr/input.conf"
         create_symlink "$DOTFILES_DIR/hypr/bindings.conf" "$HOME/.config/hypr/bindings.conf"
         create_symlink "$DOTFILES_DIR/hypr/envs.conf" "$HOME/.config/hypr/envs.conf"
@@ -289,6 +283,19 @@ if [[ "$OS" == "arch" ]]; then
             cp "$DOTFILES_DIR/hypr/monitors.conf.example" "$HOME/.config/hypr/monitors.conf"
         else
             echo "  ✓ monitors.conf already exists"
+        fi
+
+        # Setup machine-specific environment variables
+        HOSTNAME=$(cat /etc/hostname 2>/dev/null || echo "unknown")
+        if [[ -f "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" ]]; then
+            echo "  Found machine-specific env config for $HOSTNAME"
+            create_symlink "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" "$HOME/.config/hypr/envs.machine.conf"
+        else
+            # Create empty file to prevent source errors
+            if [[ ! -f "$HOME/.config/hypr/envs.machine.conf" ]]; then
+                echo "  Creating empty envs.machine.conf (no host-specific config)"
+                touch "$HOME/.config/hypr/envs.machine.conf"
+            fi
         fi
 
         # Setup theme integration with Omarchy (if present)
