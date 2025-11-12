@@ -6,7 +6,8 @@
   "height": 26,
   "modules-left": [
     "hyprland/workspaces",
-    "custom/tailscale"
+    "custom/tailscale",
+    "custom/tailscale-machines"
   ],
   "modules-center": [
     "clock"
@@ -90,6 +91,13 @@
     "exec": "~/.config/waybar/scripts/tailscale-status.sh",
     "return-type": "json",
     "interval": 3,
+    "on-click": "kitty --class floating-terminal -e sh -c 'tailscale status; read -p \"Press Enter to close...\"'"
+  },
+
+  "custom/tailscale-machines": {
+    "exec": "~/.config/waybar/scripts/tailscale-machines.sh",
+    "return-type": "json",
+    "interval": 10,
     "on-click": "kitty --class floating-terminal -e sh -c 'tailscale status; read -p \"Press Enter to close...\"'"
   }
 }
