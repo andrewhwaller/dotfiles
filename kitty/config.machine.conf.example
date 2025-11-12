@@ -1,0 +1,12 @@
+# Machine-specific Kitty configuration example
+# This file is created/symlinked by the setup script based on hostname
+# Copy this to config.$HOSTNAME.conf and customize for your machine
+
+# Font size (required - set for your machine)
+font_size 14.0
+
+# Example: Override window settings
+# window_padding_width 8
+
+# Example: Different cursor settings
+# cursor_shape beam
