@@ -9,3 +9,6 @@ ghostty/config.machine.conf
 ghostty/theme.conf
 alacritty/config.machine.toml
 kitty/config.machine.conf
+hypr/envs.machine.conf
+hypr/autostart.machine.conf
+hypr/monitors.machine.conf
