@@ -3,4 +3,9 @@
 /nvim/.gitignore
 /nvim/.git/
 .idea
+
+# Machine-specific symlinks (created by setup scripts)
+ghostty/config.machine.conf
 ghostty/theme.conf
+alacritty/config.machine.toml
+kitty/config.machine.conf

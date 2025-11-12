@@ -10,6 +10,7 @@ Configuration files for:
 - [Neovim](https://neovim.io/) - Text editor with Lazy.nvim
 - [Tmux](https://github.com/tmux/tmux) - Terminal multiplexer
 - [Ghostty](https://ghostty.org/) - Terminal emulator
+- [Alacritty](https://alacritty.org/) - GPU-accelerated terminal
 - [Kitty](https://sw.kovidgoyal.net/kitty/) - Alternative terminal
 - [Hyprland](https://hyprland.org/) - Wayland compositor (Linux only)
 - [opencode](https://opencode.ai/) - AI code assistant
@@ -19,10 +20,10 @@ Configuration files for:
 ### Desktop/Laptop Install (macOS or Linux with GUI)
 
 ```bash
-git clone https://github.com/andrewhwaller/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./install.sh
+git clone https://github.com/andrewhwaller/dotfiles.git ~/dotfiles && cd ~/dotfiles && ./setup.sh
 ```
 
-The install script will:
+The setup script will:
 1. Detect your OS (macOS or Linux)
 2. Install Fish shell if needed and set it as default
 3. Install Starship and mise if needed
@@ -44,7 +45,7 @@ gh repo clone andrewhwaller/dotfiles ~/dotfiles
 
 # Run install
 cd ~/dotfiles
-./install-server.sh
+./server-setup.sh
 ```
 
 Installs Fish, Neovim, Tmux, Starship, and mise. Symlinks server configs only (no GUI).
@@ -55,19 +56,19 @@ Installs Fish, Neovim, Tmux, Starship, and mise. Symlinks server configs only (n
 - Uses Homebrew for package installation
 - No Hyprland (macOS window management)
 - Core dev tools only
-- Install with: `./install.sh`
+- Install with: `./setup.sh`
 
 ### Linux Desktop (Arch/Hyprland)
 - Hyprland with modular configuration (if Hyprland is installed)
 - Works on any Arch-based system
 - Can integrate with system utilities if available
-- Install with: `./install.sh`
+- Install with: `./setup.sh`
 
 ### Ubuntu Server
 - Core tools: Fish, Neovim, Tmux, Starship, mise
 - No GUI applications
 - Uses apt package manager
-- Install with: `./install-server.sh`
+- Install with: `./server-setup.sh`
 
 ## Hyprland Configuration (Linux)
 
@@ -150,7 +151,7 @@ chsh -s $(which fish)
 ```bash
 cd ~/dotfiles
 git pull
-./install.sh
+./setup.sh
 ```
 
 ## Troubleshooting
@@ -175,12 +176,20 @@ dotfiles/
 ├── hypr/                      # Hyprland configs (modular)
 │   └── monitors.conf.example  # Monitor setup template
 ├── ghostty/                   # Ghostty terminal config
+├── alacritty/                 # Alacritty terminal config
 ├── kitty/                     # Kitty terminal config
 ├── zsh/                       # Zsh (optional fallback)
 ├── gh-dash/                   # GitHub CLI dashboard
 ├── opencode/                  # OpenCode AI config
-├── install.sh                 # Desktop/laptop installer (macOS/Linux)
-└── install-server.sh          # Ubuntu server installer (headless)
+├── scripts/                   # Setup scripts (modular)
+│   ├── common.sh              # Shared functions
+│   ├── setup-packages-*.sh    # OS-specific package installation
+│   ├── setup-shell.sh         # Fish + Fisher setup
+│   ├── setup-symlinks.sh      # Config symlinks
+│   ├── setup-hyprland.sh      # Hyprland setup (Arch)
+│   └── setup-optional.sh      # Optional configs
+├── setup.sh                   # Main setup script (desktop/laptop)
+└── server-setup.sh            # Server setup script (headless)
 ```
 
 ## License
