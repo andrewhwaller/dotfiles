@@ -26,8 +26,7 @@
       "1": [],
       "2": [],
       "3": [],
-      "4": [],
-      "5": []
+      "4": []
     }
   },
 
@@ -61,14 +60,14 @@
     "tooltip-format-ethernet": "{ifname}\n↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
     "tooltip-format-disconnected": "Network Disconnected",
     "interval": 3,
-    "on-click": "nm-connection-editor"
+    "on-click": "kitty --class floating-terminal -e impala"
   },
 
   "pulseaudio": {
     "format": "VOL {volume}%",
     "format-muted": "MUTE",
     "on-click": "pavucontrol",
-    "on-click-right": "pamixer -t",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "tooltip-format": "Volume: {volume}%",
     "scroll-step": 5
   },
