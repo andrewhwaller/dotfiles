@@ -56,6 +56,30 @@ create_symlink() {
     echo "  ✓ Linked: $dest"
 }
 
+# Function to setup machine-specific config
+# This creates symlinks for machine-specific configs based on hostname
+# Pattern: config.$HOSTNAME.conf -> config.machine.conf
+# Usage: setup_machine_config "config_name" "source_dir" "dest_path"
+# Example: setup_machine_config "envs" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/envs.machine.conf"
+setup_machine_config() {
+    local config_name="$1"
+    local source_dir="$2"
+    local dest_path="$3"
+    local hostname=$(cat /etc/hostname 2>/dev/null || echo "unknown")
+    local source_file="$source_dir/${config_name}.$hostname.conf"
+
+    if [[ -f "$source_file" ]]; then
+        echo "  Found machine-specific $config_name config for $hostname"
+        create_symlink "$source_file" "$dest_path"
+    else
+        # Create empty file to prevent source errors
+        if [[ ! -f "$dest_path" ]]; then
+            echo "  Creating empty ${config_name}.machine.conf (no host-specific config)"
+            touch "$dest_path"
+        fi
+    fi
+}
+
 # ==========================================
 # 1. Install Packages
 # ==========================================
@@ -235,6 +259,11 @@ fi
 # 4. Create Symlinks
 # ==========================================
 echo "=== Core Configuration Files ==="
+
+# Setup Ghostty machine-specific config (before symlinking the directory)
+echo "Setting up Ghostty machine-specific configuration..."
+setup_machine_config "config" "$DOTFILES_DIR/ghostty" "$DOTFILES_DIR/ghostty/config.machine.conf"
+
 create_symlink "$DOTFILES_DIR/fish/config.fish" "$HOME/.config/fish/config.fish"
 create_symlink "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
 create_symlink "$DOTFILES_DIR/nvim/init.lua" "$HOME/.config/nvim/init.lua"
@@ -248,7 +277,7 @@ create_symlink "$DOTFILES_DIR/opencode" "$HOME/.config/opencode"
 create_symlink "$DOTFILES_DIR/gtk-3.0/settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
 create_symlink "$DOTFILES_DIR/gtk-4.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"
 
-# On macOS, copy theme.conf example if it doesn't exist (on Arch, it will be a symlink to Omarchy)
+# On macOS, copy theme.conf example if it doesn't exist
 if [[ "$OS" == "macos" && ! -f "$HOME/.config/ghostty/theme.conf" ]]; then
     echo "  Creating Ghostty theme.conf from example..."
     cp "$DOTFILES_DIR/ghostty/theme.conf.example" "$HOME/.config/ghostty/theme.conf"
@@ -266,30 +295,10 @@ if [[ "$OS" == "arch" ]]; then
         echo "Hyprland detected ✓"
         echo "Deploying Hyprland configuration..."
 
-        # Setup machine-specific environment variables FIRST (before symlinking envs.conf)
-        HOSTNAME=$(cat /etc/hostname 2>/dev/null || echo "unknown")
-        if [[ -f "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" ]]; then
-            echo "  Found machine-specific env config for $HOSTNAME"
-            create_symlink "$DOTFILES_DIR/hypr/envs.$HOSTNAME.conf" "$HOME/.config/hypr/envs.machine.conf"
-        else
-            # Create empty file to prevent source errors
-            if [[ ! -f "$HOME/.config/hypr/envs.machine.conf" ]]; then
-                echo "  Creating empty envs.machine.conf (no host-specific config)"
-                touch "$HOME/.config/hypr/envs.machine.conf"
-            fi
-        fi
-
-        # Setup machine-specific autostart config
-        if [[ -f "$DOTFILES_DIR/hypr/autostart.$HOSTNAME.conf" ]]; then
-            echo "  Found machine-specific autostart config for $HOSTNAME"
-            create_symlink "$DOTFILES_DIR/hypr/autostart.$HOSTNAME.conf" "$HOME/.config/hypr/autostart.machine.conf"
-        else
-            # Create empty file to prevent source errors
-            if [[ ! -f "$HOME/.config/hypr/autostart.machine.conf" ]]; then
-                echo "  Creating empty autostart.machine.conf (no host-specific config)"
-                touch "$HOME/.config/hypr/autostart.machine.conf"
-            fi
-        fi
+        # Setup machine-specific configs
+        echo "Setting up machine-specific Hyprland configuration..."
+        setup_machine_config "envs" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/envs.machine.conf"
+        setup_machine_config "autostart" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/autostart.machine.conf"
 
         # Create monitors.conf if it doesn't exist (before symlinking)
         if [[ ! -f "$HOME/.config/hypr/monitors.conf" ]]; then
@@ -314,48 +323,8 @@ if [[ "$OS" == "arch" ]]; then
         create_symlink "$DOTFILES_DIR/hypr/scripts" "$HOME/.config/hypr/scripts"
         create_symlink "$DOTFILES_DIR/hypr/wallpapers" "$HOME/.config/hypr/wallpapers"
 
-        # Setup theme integration with Omarchy (if present)
-        if [[ -d "$HOME/.config/omarchy/current/theme" ]]; then
-            echo "  Omarchy theme system detected"
-
-            # Ghostty theme
-            echo "  Linking Ghostty theme to Omarchy current theme..."
-            ln -nsf "$HOME/.config/omarchy/current/theme/ghostty.conf" "$HOME/.config/ghostty/theme.conf"
-            echo "  ✓ Ghostty will follow Omarchy theme switching"
-
-            # Tmux theme integration
-            echo "  Setting up omarchy-tmux plugin..."
-            if [[ ! -d "$HOME/.config/tmux/plugins/omarchy-tmux" ]]; then
-                echo "  Installing omarchy-tmux..."
-                git clone https://github.com/joaofelipegalvao/omarchy-tmux "$HOME/.config/tmux/plugins/omarchy-tmux"
-
-                # Install inotify-tools for auto-reload
-                if command_exists yay; then
-                    echo "  Installing inotify-tools (required for tmux auto-reload)..."
-                    yay -S --needed --noconfirm inotify-tools
-                elif command_exists pacman; then
-                    echo "  Installing inotify-tools (required for tmux auto-reload)..."
-                    sudo pacman -S --needed --noconfirm inotify-tools
-                fi
-
-                # Setup systemd service for auto-reload
-                if [[ -f "$HOME/.config/tmux/plugins/omarchy-tmux/scripts/omarchy-tmux-install.sh" ]]; then
-                    echo "  Setting up omarchy-tmux systemd service for automatic theme reload..."
-                    bash "$HOME/.config/tmux/plugins/omarchy-tmux/scripts/omarchy-tmux-install.sh"
-                    echo "  ✓ Systemd service enabled (omarchy-tmux-monitor)"
-                fi
-            else
-                echo "  ✓ omarchy-tmux already installed"
-            fi
-
-            echo "  Note: Neovim and Tmux automatically detect and use Omarchy themes"
-        else
-            echo "  Omarchy theme system not detected"
-            echo "  Using default theme configs (Catppuccin Mocha)"
-        fi
-
-        # Configure dark mode preferences
-        echo "Configuring dark mode for GTK apps and Ghostty..."
+        # Configure dark mode preferences for GTK apps
+        echo "Configuring dark mode preferences..."
         if command -v gsettings &> /dev/null; then
             gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
             echo "  ✓ GTK color scheme set to prefer-dark"
