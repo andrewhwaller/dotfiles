@@ -35,7 +35,7 @@ yay -S --needed \
 read -p "Install Hyprland and related tools? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  yay -S --needed hyprland hyprpaper hyprlock hypridle waybar xdg-desktop-portal-gtk
+  yay -S --needed hyprland hyprpaper hyprlock hypridle waybar xdg-desktop-portal-gtk iwd impala
 fi
 
 echo "✓ Arch Linux packages installed"
