@@ -18,17 +18,11 @@ echo "Deploying Hyprland configuration..."
 echo "Setting up machine-specific Hyprland configuration..."
 setup_machine_config "envs" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/envs.machine.conf"
 setup_machine_config "autostart" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/autostart.machine.conf"
-
-# Create monitors.conf if it doesn't exist (before symlinking)
-if [[ ! -f "$HOME/.config/hypr/monitors.conf" ]]; then
-    echo "  Creating monitors.conf from example (customize for your setup)"
-    cp "$DOTFILES_DIR/hypr/monitors.conf.example" "$HOME/.config/hypr/monitors.conf"
-else
-    echo "  ✓ monitors.conf already exists"
-fi
+setup_machine_config "monitors" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/monitors.machine.conf"
 
 # Symlink hyprland.conf and discrete config files
 create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+create_symlink "$DOTFILES_DIR/hypr/monitors.conf" "$HOME/.config/hypr/monitors.conf"
 create_symlink "$DOTFILES_DIR/hypr/input.conf" "$HOME/.config/hypr/input.conf"
 create_symlink "$DOTFILES_DIR/hypr/bindings.conf" "$HOME/.config/hypr/bindings.conf"
 create_symlink "$DOTFILES_DIR/hypr/envs.conf" "$HOME/.config/hypr/envs.conf"
@@ -41,6 +35,9 @@ create_symlink "$DOTFILES_DIR/hypr/hypridle.conf" "$HOME/.config/hypr/hypridle.c
 create_symlink "$DOTFILES_DIR/hypr/wofi" "$HOME/.config/hypr/wofi"
 create_symlink "$DOTFILES_DIR/hypr/scripts" "$HOME/.config/hypr/scripts"
 create_symlink "$DOTFILES_DIR/hypr/wallpapers" "$HOME/.config/hypr/wallpapers"
+
+# Symlink waybar configuration
+create_symlink "$DOTFILES_DIR/waybar" "$HOME/.config/waybar"
 
 # Configure dark mode preferences for GTK apps
 echo "Configuring dark mode preferences..."
