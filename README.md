@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal dotfiles for macOS and Linux (with Omarchy support)
+Personal dotfiles for macOS and Linux
 
 ## What's Included
 
@@ -85,23 +85,11 @@ Your Hyprland config uses a modular structure:
 └── mocha.conf          # Catppuccin Mocha colors
 ```
 
-**How it works**: If you're using a system with default configs (like Omarchy), those are sourced first from `~/.local/share/omarchy/default/hypr/`, then your configs override specific settings. On vanilla Hyprland, only your configs are used.
+**How it works**: Your configs provide a complete Hyprland configuration in a clean, modular structure.
 
 ### Per-Machine Monitor Configuration
 
 On first install, `monitors.conf` is created from the example template at `~/.config/hypr/monitors.conf`. Edit this file to match your monitor setup - it won't be overwritten on subsequent installs.
-
-### Theme Switching (Omarchy Integration)
-
-On Hyprland systems with Omarchy, your configs automatically integrate with Omarchy's theme switching:
-
-- **Neovim**: Automatically detects and uses `~/.config/omarchy/current/theme/neovim.lua` if present
-- **Ghostty**: Theme config symlinked to `~/.config/omarchy/current/theme/ghostty.conf`
-- **Tmux**: Uses [omarchy-tmux](https://github.com/joaofelipegalvao/omarchy-tmux) plugin for automatic theme sync
-- **Hyprland**: Sources Omarchy theme for border colors
-- **Fallback**: Uses Catppuccin Mocha on non-Omarchy systems
-
-When you run `omarchy-theme-set <theme-name>` (or `Super + Ctrl + Shift + Space`), all applications update to the new theme automatically.
 
 ## Key Features
 
@@ -115,7 +103,6 @@ When you run `omarchy-theme-set <theme-name>` (or `Super + Ctrl + Shift + Space`
 - Lazy.nvim plugin manager
 - Custom plugin configuration
 - LSP, Treesitter, Telescope, and more
-- Completely replaces LazyVim on Omarchy systems
 
 ### Hyprland Keybindings (Linux)
 - `Super + hjkl` - Vim-style window focus
@@ -126,21 +113,6 @@ When you run `omarchy-theme-set <theme-name>` (or `Super + Ctrl + Shift + Space`
 - `Print` - Screenshot tools
 - See `hypr/bindings.conf` for full list
 
-## System Integration
-
-This dotfiles setup is designed to work with or without system-provided defaults:
-
-### On Omarchy (Arch Linux)
-Your configs layer on top of Omarchy's base system:
-- **Replaces**: LazyVim, Starship config, Bash shell
-- **Keeps**: System utilities (omarchy-menu, screenshot tools, etc.)
-- **Overrides**: Hyprland aesthetics, keybindings, monitor setup
-
-See [OMARCHY_INTEGRATION.md](OMARCHY_INTEGRATION.md) for Omarchy-specific details.
-
-### On vanilla Hyprland
-Your configs work standalone without any base system.
-
 ## Manual Installation (Advanced)
 
 If you prefer manual setup:
@@ -150,7 +122,7 @@ If you prefer manual setup:
 # macOS
 brew install fish starship neovim tmux
 
-# Linux (Arch/Omarchy)
+# Linux (Arch)
 sudo pacman -S fish starship neovim tmux
 ```
 
@@ -189,9 +161,6 @@ Make sure tmux is installed: `brew install tmux` or `sudo pacman -S tmux`
 ### Neovim plugins not loading
 Open nvim and run `:Lazy sync`
 
-### Hyprland config errors (Linux)
-If using vanilla Hyprland (not Omarchy), comment out the Omarchy source lines in `hypr/hyprland.conf` (lines 6-14)
-
 ### Keybindings reference
 See `hypr/bindings.conf` for your custom keybindings
 
@@ -211,8 +180,7 @@ dotfiles/
 ├── gh-dash/                   # GitHub CLI dashboard
 ├── opencode/                  # OpenCode AI config
 ├── install.sh                 # Desktop/laptop installer (macOS/Linux)
-├── install-server.sh          # Ubuntu server installer (headless)
-└── OMARCHY_INTEGRATION.md     # Detailed integration docs
+└── install-server.sh          # Ubuntu server installer (headless)
 ```
 
 ## License
