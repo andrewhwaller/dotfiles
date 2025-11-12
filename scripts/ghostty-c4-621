@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Ghostty launcher for c4-621 (Thinkpad X220)
+# Forces software rendering for older hardware
+
+export LIBGL_ALWAYS_SOFTWARE=1
+export GALLIUM_DRIVER=llvmpipe
+
+exec /usr/bin/ghostty "$@"
