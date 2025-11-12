@@ -32,114 +32,94 @@
 
 /* Global styles */
 * {
-  border: none;
-  border-radius: 0;
-  font-family: "TX-02", "Symbols Nerd Font Mono";
-  font-size: 12px;
-  min-height: 0;
   background-color: @base;
   color: @text;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  font-family: 'TX-02', 'Symbols Nerd Font Mono';
+  font-size: 12px;
 }
 
-window#waybar {
-  background-color: @base;
+.modules-left {
+  margin-left: 8px;
+}
+
+.modules-right {
+  margin-right: 8px;
 }
 
 /* Workspaces */
+#workspaces,
+#workspaces * {
+  all: unset;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
 #workspaces button {
-  padding: 0 6px;
-  margin: 0 1.5px;
-  background-color: transparent;
+  padding: 0 8px;
+  margin: 0 2px;
   color: @subtext0;
+  font-family: 'TX-02', 'Symbols Nerd Font Mono';
+  font-size: 12px;
 }
 
 #workspaces button.active {
-  color: @blue;
+  color: @text;
+  background-color: @surface0;
 }
 
 #workspaces button.empty {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 #workspaces button:hover {
   background-color: @surface0;
 }
 
-/* Left modules */
-#workspaces {
-  margin-left: 8px;
-}
-
-/* Center modules */
-#clock {
-  margin-left: 8.75px;
-  color: @text;
-}
-
-/* Right modules */
-#tray,
-#bluetooth,
-#network,
-#pulseaudio,
+/* Individual modules */
 #cpu,
-#battery {
-  padding: 0 10px;
-  margin: 0 2px;
+#memory,
+#battery,
+#pulseaudio,
+#network,
+#custom-tailscale {
+  padding: 0 8px;
+  margin: 0 4px;
 }
 
-#tray {
-  margin-right: 15px;
-}
-
-#bluetooth {
-  color: @blue;
-}
-
-#network {
-  color: @green;
-}
-
-#pulseaudio {
-  color: @yellow;
-}
-
-#cpu {
-  color: @peach;
-}
-
-#battery {
-  color: @sky;
-}
-
-#battery.warning {
-  color: @yellow;
-}
-
-#battery.critical {
-  color: @red;
-}
-
-#battery.charging {
-  color: @green;
-}
-
-/* System tray */
-#tray > .passive {
-  -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-  -gtk-icon-effect: highlight;
-  background-color: @red;
+#clock {
+  padding: 0 12px;
+  font-weight: normal;
 }
 
 /* Tooltips */
 tooltip {
-  background-color: @surface0;
-  border: 1px solid @surface2;
-  border-radius: 5px;
+  padding: 2px;
 }
 
-tooltip label {
-  color: @text;
+/* Hidden utility class */
+.hidden {
+  opacity: 0;
+}
+
+/* Status states */
+#custom-tailscale.connected {
+  color: @green;
+}
+
+#custom-tailscale.disconnected {
+  color: @red;
+}
+
+#custom-tailscale.warning {
+  color: @yellow;
+}
+
+#battery.critical,
+#battery.warning {
+  color: @red;
 }
