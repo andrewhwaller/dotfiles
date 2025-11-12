@@ -279,6 +279,18 @@ if [[ "$OS" == "arch" ]]; then
             fi
         fi
 
+        # Setup machine-specific autostart config
+        if [[ -f "$DOTFILES_DIR/hypr/autostart.$HOSTNAME.conf" ]]; then
+            echo "  Found machine-specific autostart config for $HOSTNAME"
+            create_symlink "$DOTFILES_DIR/hypr/autostart.$HOSTNAME.conf" "$HOME/.config/hypr/autostart.machine.conf"
+        else
+            # Create empty file to prevent source errors
+            if [[ ! -f "$HOME/.config/hypr/autostart.machine.conf" ]]; then
+                echo "  Creating empty autostart.machine.conf (no host-specific config)"
+                touch "$HOME/.config/hypr/autostart.machine.conf"
+            fi
+        fi
+
         # Create monitors.conf if it doesn't exist (before symlinking)
         if [[ ! -f "$HOME/.config/hypr/monitors.conf" ]]; then
             echo "  Creating monitors.conf from example (customize for your setup)"
