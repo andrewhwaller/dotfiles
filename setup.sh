@@ -122,7 +122,7 @@ install_packages() {
       read -p "Install Hyprland and related tools? (y/n) " -n 1 -r
       echo
       if [[ $REPLY =~ ^[Yy]$ ]]; then
-        yay -S --needed hyprland hyprpaper hyprlock hypridle
+        yay -S --needed hyprland hyprpaper hyprlock hypridle xdg-desktop-portal-gtk
       fi
       ;;
 
@@ -244,6 +244,10 @@ create_symlink "$DOTFILES_DIR/ghostty" "$HOME/.config/ghostty"
 create_symlink "$DOTFILES_DIR/gh-dash" "$HOME/.config/gh-dash"
 create_symlink "$DOTFILES_DIR/opencode" "$HOME/.config/opencode"
 
+# GTK dark theme preference
+create_symlink "$DOTFILES_DIR/gtk-3.0/settings.ini" "$HOME/.config/gtk-3.0/settings.ini"
+create_symlink "$DOTFILES_DIR/gtk-4.0/settings.ini" "$HOME/.config/gtk-4.0/settings.ini"
+
 # On macOS, copy theme.conf example if it doesn't exist (on Arch, it will be a symlink to Omarchy)
 if [[ "$OS" == "macos" && ! -f "$HOME/.config/ghostty/theme.conf" ]]; then
     echo "  Creating Ghostty theme.conf from example..."
@@ -336,6 +340,20 @@ if [[ "$OS" == "arch" ]]; then
         else
             echo "  Omarchy theme system not detected"
             echo "  Using default theme configs (Catppuccin Mocha)"
+        fi
+
+        # Configure dark mode preferences
+        echo "Configuring dark mode for GTK apps and Ghostty..."
+        if command -v gsettings &> /dev/null; then
+            gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+            echo "  ✓ GTK color scheme set to prefer-dark"
+        fi
+
+        # Restart portal service if running
+        if systemctl --user is-active --quiet xdg-desktop-portal.service; then
+            echo "  Restarting xdg-desktop-portal service..."
+            systemctl --user restart xdg-desktop-portal.service
+            echo "  ✓ Portal service restarted"
         fi
     else
         echo "Hyprland not detected, skipping Hyprland configs"
