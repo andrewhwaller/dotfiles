@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Hyprland window manager configuration (Linux only)
+
+set -e
+
+echo "=== Hyprland Configuration ==="
+
+# Check if Hyprland is installed
+if ! command_exists hyprctl; then
+    echo "Hyprland not detected, skipping Hyprland configs"
+    return 0
+fi
+
+echo "Hyprland detected ✓"
+echo "Deploying Hyprland configuration..."
+
+# Setup machine-specific configs
+echo "Setting up machine-specific Hyprland configuration..."
+setup_machine_config "envs" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/envs.machine.conf"
+setup_machine_config "autostart" "$DOTFILES_DIR/hypr" "$HOME/.config/hypr/autostart.machine.conf"
+
+# Create monitors.conf if it doesn't exist (before symlinking)
+if [[ ! -f "$HOME/.config/hypr/monitors.conf" ]]; then
+    echo "  Creating monitors.conf from example (customize for your setup)"
+    cp "$DOTFILES_DIR/hypr/monitors.conf.example" "$HOME/.config/hypr/monitors.conf"
+else
+    echo "  ✓ monitors.conf already exists"
+fi
+
+# Symlink hyprland.conf and discrete config files
+create_symlink "$DOTFILES_DIR/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+create_symlink "$DOTFILES_DIR/hypr/input.conf" "$HOME/.config/hypr/input.conf"
+create_symlink "$DOTFILES_DIR/hypr/bindings.conf" "$HOME/.config/hypr/bindings.conf"
+create_symlink "$DOTFILES_DIR/hypr/envs.conf" "$HOME/.config/hypr/envs.conf"
+create_symlink "$DOTFILES_DIR/hypr/looknfeel.conf" "$HOME/.config/hypr/looknfeel.conf"
+create_symlink "$DOTFILES_DIR/hypr/autostart.conf" "$HOME/.config/hypr/autostart.conf"
+create_symlink "$DOTFILES_DIR/hypr/mocha.conf" "$HOME/.config/hypr/mocha.conf"
+create_symlink "$DOTFILES_DIR/hypr/hyprpaper.conf" "$HOME/.config/hypr/hyprpaper.conf"
+create_symlink "$DOTFILES_DIR/hypr/hyprlock.conf" "$HOME/.config/hypr/hyprlock.conf"
+create_symlink "$DOTFILES_DIR/hypr/hypridle.conf" "$HOME/.config/hypr/hypridle.conf"
+create_symlink "$DOTFILES_DIR/hypr/wofi" "$HOME/.config/hypr/wofi"
+create_symlink "$DOTFILES_DIR/hypr/scripts" "$HOME/.config/hypr/scripts"
+create_symlink "$DOTFILES_DIR/hypr/wallpapers" "$HOME/.config/hypr/wallpapers"
+
+# Configure dark mode preferences for GTK apps
+echo "Configuring dark mode preferences..."
+if command -v gsettings &> /dev/null; then
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    echo "  ✓ GTK color scheme set to prefer-dark"
+fi
+
+# Restart portal service if running
+if systemctl --user is-active --quiet xdg-desktop-portal.service; then
+    echo "  Restarting xdg-desktop-portal service..."
+    systemctl --user restart xdg-desktop-portal.service
+    echo "  ✓ Portal service restarted"
+fi
+
+echo "✓ Hyprland configuration complete"
+echo ""
