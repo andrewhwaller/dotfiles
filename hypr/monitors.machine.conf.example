@@ -1,0 +1,15 @@
+# Machine-specific monitor configuration example
+# This file is created/symlinked by the setup script based on hostname
+# Copy this to monitors.$HOSTNAME.conf and customize for your machine
+# This will override settings in monitors.conf
+
+# Example for laptop with scaling:
+# monitor = , preferred, auto, 1.25
+
+# Example for multi-monitor desktop:
+# monitor = DP-1, 2560x1440@144, 0x0, 1
+# monitor = DP-2, 2560x1440@144, 2560x0, 1
+# monitor = HDMI-A-1, 1920x1080@60, 5120x0, 1
+
+# Example for specific monitor with custom resolution:
+# monitor = eDP-1, 1920x1080@60, 0x0, 1.5
