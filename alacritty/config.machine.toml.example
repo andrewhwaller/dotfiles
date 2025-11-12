@@ -1,0 +1,15 @@
+# Machine-specific Alacritty configuration example
+# This file is created/symlinked by the setup script based on hostname
+# Copy this to config.$HOSTNAME.toml and customize for your machine
+
+# Font size (required - set for your machine)
+[font]
+size = 14.0
+
+# Example: Override window settings
+# [window]
+# opacity = 0.95
+
+# Example: Set shell
+# [terminal]
+# shell = { program = "/usr/bin/fish" }

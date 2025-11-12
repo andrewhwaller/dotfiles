@@ -1,0 +1,60 @@
+# Alacritty configuration
+# See https://alacritty.org/config-alacritty.html
+
+[general]
+import = [
+    "~/.config/alacritty/theme.toml",
+    "~/.config/alacritty/config.machine.toml",
+]
+
+[window]
+# Disable window decorations (equivalent to Ghostty's gtk-titlebar = false)
+decorations = "None"
+# Save window state
+dynamic_title = true
+opacity = 1.0
+
+[font]
+# Default font size (override in config.machine.toml for specific machines)
+# size = 14.0
+
+[font.normal]
+family = "TX-02"
+style = "Regular"
+
+[font.bold]
+family = "TX-02"
+style = "Bold"
+
+[font.italic]
+family = "TX-02"
+style = "Italic"
+
+[font.bold_italic]
+family = "TX-02"
+style = "Bold Italic"
+
+# Font fallback for Nerd Font symbols
+[[font.fallback]]
+family = "Symbols Nerd Font Mono"
+
+[[font.fallback]]
+family = "Noto Color Emoji"
+
+[scrolling]
+history = 10000
+
+[cursor]
+style = "Block"
+unfocused_hollow = true
+
+[mouse]
+hide_when_typing = true
+
+[terminal]
+# Shell program
+# shell = { program = "/usr/bin/fish" }
+
+[keyboard]
+# Key bindings can be added here
+# Ghostty's super+t=toggle_quick_terminal doesn't have direct equivalent in Alacritty

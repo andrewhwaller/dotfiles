@@ -1,0 +1,5 @@
+# Machine-specific Alacritty config for c4-621 (Thinkpad X220)
+# Smaller font size for this display
+
+[font]
+size = 10.0
