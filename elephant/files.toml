@@ -1,0 +1,22 @@
+# Elephant Files Provider Configuration
+# Fuzzy file search across directories
+
+# Note: search_dirs defaults to $HOME if not specified
+# Uncomment and customize if you want to search specific directories:
+# search_dirs = ["$HOME/Documents", "$HOME/Projects"]
+
+# Ignore these directories (regexp based)
+ignored_dirs = [
+  "\\.git/",
+  "node_modules/",
+  "\\.cache/",
+  "\\.local/share/Trash/",
+  "\\.npm/",
+  "\\.cargo/",
+  "\\.rustup/",
+  "\\.vscode/",
+  "\\.mozilla/",
+]
+
+# Flags for fd command
+fd_flags = "--ignore-vcs --type file --type directory --hidden --max-depth 6"
