@@ -61,7 +61,7 @@
     "tooltip-format-ethernet": "{ifname}\n↓{bandwidthDownBytes} ↑{bandwidthUpBytes}",
     "tooltip-format-disconnected": "Network Disconnected",
     "interval": 3,
-    "on-click": "kitty --class floating-terminal -e impala"
+    "on-click": "kitty --class floating-impala -e impala"
   },
 
   "pulseaudio": {
