@@ -33,6 +33,7 @@ create_symlink "$DOTFILES_DIR/hypr/hyprpaper.conf" "$HOME/.config/hypr/hyprpaper
 create_symlink "$DOTFILES_DIR/hypr/hyprlock.conf" "$HOME/.config/hypr/hyprlock.conf"
 create_symlink "$DOTFILES_DIR/hypr/hypridle.conf" "$HOME/.config/hypr/hypridle.conf"
 create_symlink "$DOTFILES_DIR/walker" "$HOME/.config/walker"
+create_symlink "$DOTFILES_DIR/elephant" "$HOME/.config/elephant"
 create_symlink "$DOTFILES_DIR/hypr/scripts" "$HOME/.config/hypr/scripts"
 create_symlink "$DOTFILES_DIR/hypr/wallpapers" "$HOME/.config/hypr/wallpapers"
 
