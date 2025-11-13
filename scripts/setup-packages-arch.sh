@@ -45,7 +45,22 @@ fi
 read -p "Install Hyprland and related tools? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+  echo "Installing Hyprland core..."
   yay -S --needed hyprland hyprpaper hyprlock hypridle waybar xdg-desktop-portal-gtk iwd impala
+
+  echo "Installing walker application launcher and dependencies..."
+  yay -S --needed \
+    walker \
+    elephant-bin \
+    elephant-desktopapplications-bin \
+    elephant-files-bin \
+    elephant-calc-bin \
+    elephant-runner-bin \
+    elephant-websearch-bin \
+    elephant-clipboard-bin \
+    elephant-providerlist-bin \
+    fd \
+    ttf-nerd-fonts-symbols-mono
 fi
 
 echo "✓ Arch Linux packages installed"
