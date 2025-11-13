@@ -30,6 +30,38 @@ The setup script will:
 4. Symlink all configs to appropriate locations
 5. On Linux with Hyprland: Deploy Hyprland configs
 
+### MacBook Air (Arch Linux) Install
+
+MacBook Airs require Broadcom WiFi drivers. Use USB tethering during install:
+
+**During Arch Install (in chroot):**
+```bash
+# Install base packages including WiFi drivers
+pacman -S base-devel git sudo networkmanager broadcom-wl-dkms
+
+# Enable NetworkManager
+systemctl enable NetworkManager
+
+# Create user, set passwords, configure bootloader, etc.
+```
+
+**After First Boot:**
+```bash
+# Load WiFi driver
+sudo modprobe wl
+
+# Connect to WiFi
+nmtui
+
+# Install dotfiles
+git clone https://github.com/andrewhwaller/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+./setup.sh
+
+# Install fonts from USB (see Font Installation section)
+./scripts/setup-fonts.sh /run/media/$USER/USB/fonts
+```
+
 ### Ubuntu Server Install
 
 ```bash
@@ -69,6 +101,24 @@ Installs Fish, Neovim, Tmux, Starship, and mise. Symlinks server configs only (n
 - No GUI applications
 - Uses apt package manager
 - Install with: `./server-setup.sh`
+
+## Font Installation (Optional)
+
+Some configurations use the proprietary TX-02 font. Since it can't be included in the repo:
+
+1. Copy your font files to a USB drive under a `fonts/` directory
+2. Mount the USB on your new system
+3. Run the font installer:
+
+```bash
+./scripts/setup-fonts.sh /run/media/$USER/USB/fonts
+```
+
+The script will copy all `.otf`, `.ttf`, `.woff`, and `.woff2` files to `~/.local/share/fonts/` and update the font cache.
+
+**Fonts used:**
+- TX-02 (waybar, walker) - Proprietary, manual install required
+- Nerd Fonts (Symbols Nerd Font Mono) - Can be installed via `yay -S ttf-nerd-fonts-symbols-mono`
 
 ## Hyprland Configuration (Linux)
 
@@ -174,7 +224,14 @@ dotfiles/
 ├── nvim/                      # Neovim config (Lazy.nvim)
 ├── tmux/                      # Tmux configuration
 ├── hypr/                      # Hyprland configs (modular)
-│   └── monitors.conf.example  # Monitor setup template
+│   ├── monitors.conf.example  # Monitor setup template
+│   └── scripts/               # Hyprland scripts (firefox launcher, etc.)
+├── walker/                    # Walker app launcher config
+│   ├── config.toml            # Walker settings
+│   └── themes/                # Custom themes (Catppuccin Mocha)
+├── elephant/                  # Elephant provider configs
+│   └── files.toml             # File search settings
+├── waybar/                    # Waybar status bar config
 ├── ghostty/                   # Ghostty terminal config
 ├── alacritty/                 # Alacritty terminal config
 ├── kitty/                     # Kitty terminal config
@@ -187,6 +244,7 @@ dotfiles/
 │   ├── setup-shell.sh         # Fish + Fisher setup
 │   ├── setup-symlinks.sh      # Config symlinks
 │   ├── setup-hyprland.sh      # Hyprland setup (Arch)
+│   ├── setup-fonts.sh         # Font installation helper
 │   └── setup-optional.sh      # Optional configs
 ├── setup.sh                   # Main setup script (desktop/laptop)
 └── server-setup.sh            # Server setup script (headless)
