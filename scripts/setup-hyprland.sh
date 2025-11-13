@@ -32,7 +32,7 @@ create_symlink "$DOTFILES_DIR/hypr/mocha.conf" "$HOME/.config/hypr/mocha.conf"
 create_symlink "$DOTFILES_DIR/hypr/hyprpaper.conf" "$HOME/.config/hypr/hyprpaper.conf"
 create_symlink "$DOTFILES_DIR/hypr/hyprlock.conf" "$HOME/.config/hypr/hyprlock.conf"
 create_symlink "$DOTFILES_DIR/hypr/hypridle.conf" "$HOME/.config/hypr/hypridle.conf"
-create_symlink "$DOTFILES_DIR/hypr/wofi" "$HOME/.config/hypr/wofi"
+create_symlink "$DOTFILES_DIR/walker" "$HOME/.config/walker"
 create_symlink "$DOTFILES_DIR/hypr/scripts" "$HOME/.config/hypr/scripts"
 create_symlink "$DOTFILES_DIR/hypr/wallpapers" "$HOME/.config/hypr/wallpapers"
 

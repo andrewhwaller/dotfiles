@@ -22,6 +22,7 @@ create_symlink "$DOTFILES_DIR/alacritty" "$HOME/.config/alacritty"
 create_symlink "$DOTFILES_DIR/kitty" "$HOME/.config/kitty"
 create_symlink "$DOTFILES_DIR/gh-dash" "$HOME/.config/gh-dash"
 create_symlink "$DOTFILES_DIR/opencode" "$HOME/.config/opencode"
+create_symlink "$DOTFILES_DIR/btop" "$HOME/.config/btop"
 
 # GTK dark theme preference (Linux)
 if [[ "$OS" == "arch" || "$OS" == "debian" ]]; then
