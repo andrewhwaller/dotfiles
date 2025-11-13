@@ -62,6 +62,17 @@ source "$DOTFILES_DIR/scripts/setup-symlinks.sh"
 # ==========================================
 if [[ "$OS" == "arch" ]]; then
   source "$DOTFILES_DIR/scripts/setup-hyprland.sh"
+
+  # Setup fingerprint authentication if scanner detected
+  if lsusb 2>/dev/null | grep -iq "fingerprint\|biometric"; then
+    echo ""
+    echo "Fingerprint scanner detected!"
+    read -p "Setup fingerprint authentication? (Y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+      source "$DOTFILES_DIR/scripts/setup-fingerprint.sh"
+    fi
+  fi
 fi
 
 # ==========================================
