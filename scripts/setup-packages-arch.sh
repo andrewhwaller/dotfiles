@@ -23,6 +23,7 @@ yay -S --needed \
   starship \
   neovim \
   tmux \
+  inetutils \
   github-cli \
   eza \
   lazygit \
