@@ -1,7 +1,5 @@
 # dotfiles
 
-Personal dotfiles for macOS and Linux
-
 ## Installation
 
 ### macOS or Linux Desktop
