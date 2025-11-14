@@ -31,7 +31,3 @@ git pull
 ### Per-Machine Monitor Config (Hyprland)
 
 Edit `~/.config/hypr/monitors.conf` after first install to set your monitor layout.
-
-## License
-
-MIT
