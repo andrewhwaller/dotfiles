@@ -73,6 +73,14 @@ if [[ "$OS" == "arch" ]]; then
       source "$DOTFILES_DIR/scripts/setup-fingerprint.sh"
     fi
   fi
+
+  # Optional: Install COSMIC desktop environment
+  echo ""
+  read -p "Setup COSMIC desktop environment? (y/N) " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    source "$DOTFILES_DIR/scripts/setup-cosmic.sh"
+  fi
 fi
 
 # ==========================================
