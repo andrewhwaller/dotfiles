@@ -25,26 +25,10 @@ echo ""
 # ==========================================
 # 1. Install Packages (OS-specific)
 # ==========================================
-read -p "Install/update packages? (y/n) " -n 1 -r
+read -p "[Packages] Install or update core CLI/GUI tools (fish, neovim, gh, ghostty, etc.)? (Y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  case "$OS" in
-    macos)
-      source "$DOTFILES_DIR/scripts/setup-packages-macos.sh"
-      ;;
-    arch)
-      source "$DOTFILES_DIR/scripts/setup-packages-arch.sh"
-      ;;
-    debian)
-      source "$DOTFILES_DIR/scripts/setup-packages-debian.sh"
-      ;;
-    *)
-      echo "Unsupported OS. Please install dependencies manually:"
-      echo "  - fish, starship, neovim, tmux, gh (GitHub CLI)"
-      echo "  - eza, lazygit, mise, btop, fzf, ghostty"
-      exit 1
-      ;;
-  esac
+  "$DOTFILES_DIR/install-packages.sh"
 fi
 
 # ==========================================
@@ -67,7 +51,7 @@ if [[ "$OS" == "arch" ]]; then
   if lsusb 2>/dev/null | grep -iq "fingerprint\|biometric"; then
     echo ""
     echo "Fingerprint scanner detected!"
-    read -p "Setup fingerprint authentication? (Y/n) " -n 1 -r
+    read -p "[Fingerprint] Configure fingerprint authentication (fprintd enrol, PAM updates)? (Y/n) " -n 1 -r
     echo
     if [[ ! $REPLY =~ ^[Nn]$ ]]; then
       source "$DOTFILES_DIR/scripts/setup-fingerprint.sh"
@@ -76,7 +60,7 @@ if [[ "$OS" == "arch" ]]; then
 
   # Optional: Install COSMIC desktop environment
   echo ""
-  read -p "Setup COSMIC desktop environment? (y/N) " -n 1 -r
+  read -p "[COSMIC] Install System76 COSMIC desktop packages (~1.5GB download)? (Y/n) " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     source "$DOTFILES_DIR/scripts/setup-cosmic.sh"
