@@ -51,14 +51,7 @@ if ! command_exists ghostty; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
 fi
 
-# Install Tmux Plugin Manager (TPM)
-echo "Installing Tmux Plugin Manager..."
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  echo "✓ TPM installed"
-else
-  echo "✓ TPM already installed"
-fi
+install_tpm
 
 echo "Note: btop may need manual installation on Debian/Ubuntu"
 echo "✓ Debian/Ubuntu packages installed"

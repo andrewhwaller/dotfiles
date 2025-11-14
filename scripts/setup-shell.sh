@@ -6,14 +6,14 @@ set -e
 echo "=== Fish Shell Setup ==="
 
 if ! command_exists fish; then
-  echo "Fish shell not found. Please install it first."
-  exit 1
+  echo "Fish shell not found. Skipping shell setup. Install fish and rerun this step."
+  return 0 2>/dev/null || exit 0
 fi
 
 # Set Fish as default shell
 FISH_PATH=$(command -v fish)
 if [[ "$SHELL" != "$FISH_PATH" ]]; then
-  read -p "Set fish as default shell? (y/n) " -n 1 -r
+  read -p "[Shell] Set fish as your default login shell (requires chsh)? (Y/n) " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     if ! grep -q "$FISH_PATH" /etc/shells 2>/dev/null; then

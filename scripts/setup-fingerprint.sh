@@ -24,7 +24,7 @@ if lsusb | grep -iq "fingerprint\|biometric"; then
     lsusb | grep -i "fingerprint\|biometric"
 else
     echo "⚠ Warning: No fingerprint scanner detected"
-    read -p "Continue anyway? (y/N) " -n 1 -r
+    read -p "[Scanner] No fingerprint device detected. Continue with setup anyway? (Y/n) " -n 1 -r
     echo
     [[ ! $REPLY =~ ^[Yy]$ ]] && exit 0
 fi
@@ -94,12 +94,12 @@ while true; do
         echo "Enrolling $finger..."
         if fprintd-enroll -f "$finger"; then
             echo "✓ Successfully enrolled $finger"
-            read -p "Enroll another finger? (y/N) " -n 1 -r
+            read -p "[Enroll] Enroll another finger? (Y/n) " -n 1 -r
             echo
             [[ ! $REPLY =~ ^[Yy]$ ]] && break
         else
             echo "✗ Failed to enroll $finger"
-            read -p "Try again? (y/N) " -n 1 -r
+            read -p "[Enroll] Retry enrolling this finger? (Y/n) " -n 1 -r
             echo
             [[ ! $REPLY =~ ^[Yy]$ ]] && break
         fi
@@ -148,7 +148,7 @@ else
     diff -u "$PAM_FILE" "$TMP_FILE" || true
     echo ""
 
-    read -p "Apply these changes? (y/N) " -n 1 -r
+    read -p "[PAM] Apply these PAM changes via sudo cp? (Y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         sudo cp "$TMP_FILE" "$PAM_FILE"
@@ -170,7 +170,7 @@ if [[ -f "$HYPR_AUTOSTART" ]]; then
     if grep -q "polkit-gnome-authentication-agent" "$HYPR_AUTOSTART"; then
         echo "✓ Polkit agent already in Hyprland autostart"
     else
-        read -p "Add polkit agent to Hyprland autostart? (Y/n) " -n 1 -r
+        read -p "[Hyprland] Add polkit agent to Hyprland autostart config? (Y/n) " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Nn]$ ]]; then
             echo "" >> "$HYPR_AUTOSTART"

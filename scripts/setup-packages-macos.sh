@@ -26,20 +26,17 @@ brew install \
 
 brew install --cask ghostty
 
-# Install Tmux Plugin Manager (TPM)
-echo "Installing Tmux Plugin Manager..."
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  echo "✓ TPM installed"
-else
-  echo "✓ TPM already installed"
-fi
+install_tpm
 
 # Optional: Install opencode
-read -p "Install opencode? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  brew install sst/tap/opencode
+if command_exists opencode; then
+  echo "opencode CLI already detected, skipping install."
+else
+  read -p "[Opencode] Install the sst/tap/opencode CLI helper? (Y/n) " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    brew install sst/tap/opencode
+  fi
 fi
 
 echo "✓ macOS packages installed"

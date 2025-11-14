@@ -32,35 +32,32 @@ yay -S --needed \
   fzf \
   ghostty
 
-# Install Tmux Plugin Manager (TPM)
-echo "Installing Tmux Plugin Manager..."
-if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-  echo "✓ TPM installed"
-else
-  echo "✓ TPM already installed"
-fi
+install_tpm
 
 # Optional: Hyprland ecosystem
-read -p "Install Hyprland and related tools? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  echo "Installing Hyprland core..."
-  yay -S --needed hyprland hyprpaper hyprlock hypridle waybar xdg-desktop-portal-gtk iwd impala
+if command_exists hyprctl; then
+  echo "Hyprland already detected, skipping optional Hyprland install prompt."
+else
+  read -p "[Hyprland] Install Hyprland desktop stack (hyprland, hyprpaper, hyprlock, waybar, walker, etc.)? (Y/n) " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Installing Hyprland core..."
+    yay -S --needed hyprland hyprpaper hyprlock hypridle waybar xdg-desktop-portal-gtk iwd impala
 
-  echo "Installing walker application launcher and dependencies..."
-  yay -S --needed \
-    walker \
-    elephant-bin \
-    elephant-desktopapplications-bin \
-    elephant-files-bin \
-    elephant-calc-bin \
-    elephant-runner-bin \
-    elephant-websearch-bin \
-    elephant-clipboard-bin \
-    elephant-providerlist-bin \
-    fd \
-    ttf-nerd-fonts-symbols-mono
+    echo "Installing walker application launcher and dependencies..."
+    yay -S --needed \
+      walker \
+      elephant-bin \
+      elephant-desktopapplications-bin \
+      elephant-files-bin \
+      elephant-calc-bin \
+      elephant-runner-bin \
+      elephant-websearch-bin \
+      elephant-clipboard-bin \
+      elephant-providerlist-bin \
+      fd \
+      ttf-nerd-fonts-symbols-mono
+  fi
 fi
 
 echo "✓ Arch Linux packages installed"

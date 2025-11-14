@@ -42,6 +42,20 @@ create_symlink() {
     echo "  ✓ Linked: $dest"
 }
 
+# Install tmux plugin manager idempotently
+install_tpm() {
+    local tpm_dir="$HOME/.tmux/plugins/tpm"
+    echo "Installing Tmux Plugin Manager..."
+    if [[ -d "$tpm_dir/.git" ]]; then
+        echo "✓ TPM already installed"
+        return
+    fi
+
+    rm -rf "$tpm_dir"
+    git clone https://github.com/tmux-plugins/tpm "$tpm_dir"
+    echo "✓ TPM installed"
+}
+
 # Function to setup machine-specific config
 # This creates symlinks for machine-specific configs based on hostname
 # Pattern: config.$HOSTNAME.ext -> config.machine.ext
@@ -53,7 +67,8 @@ setup_machine_config() {
     local source_dir="$2"
     local dest_path="$3"
     local extension="${4:-conf}"  # Default to .conf if not specified
-    local hostname=$(cat /etc/hostname 2>/dev/null || echo "unknown")
+    local hostname
+    hostname=$(hostname -s 2>/dev/null || cat /etc/hostname 2>/dev/null || echo "unknown")
     local source_file="$source_dir/${config_name}.$hostname.$extension"
 
     if [[ -f "$source_file" ]]; then

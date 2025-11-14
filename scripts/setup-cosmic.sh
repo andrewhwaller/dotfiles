@@ -13,18 +13,7 @@ if pacman -Qq cosmic-session &>/dev/null; then
 fi
 
 echo "COSMIC is not currently installed."
-echo "COSMIC is System76's new Rust-based desktop environment."
-echo ""
-read -p "Install COSMIC desktop environment? (y/n) " -n 1 -r
-echo
-
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Skipping COSMIC installation"
-    echo ""
-    return 0
-fi
-
-echo "Installing COSMIC packages..."
+echo "Installing System76's Rust-based COSMIC desktop environment..."
 sudo pacman -S --needed cosmic
 
 echo ""
