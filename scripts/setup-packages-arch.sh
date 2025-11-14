@@ -44,6 +44,9 @@ else
     echo "Installing Hyprland core..."
     yay -S --needed hyprland hyprpaper hyprlock hypridle waybar xdg-desktop-portal-gtk iwd impala
 
+    echo "Installing screenshot utilities..."
+    yay -S --needed slurp grim satty wl-clipboard
+
     echo "Installing walker application launcher and dependencies..."
     yay -S --needed \
       walker \
