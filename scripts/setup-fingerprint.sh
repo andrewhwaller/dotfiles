@@ -122,9 +122,9 @@ if [[ ! -f "$PAM_FILE" ]]; then
 fi
 
 if grep -q "pam_fprintd.so" "$PAM_FILE"; then
-    echo "✓ PAM already configured for fingerprint authentication"
+    echo "✓ PAM system-auth already configured for fingerprint authentication"
 else
-    echo "Configuring PAM for fingerprint authentication..."
+    echo "Configuring PAM system-auth for fingerprint authentication..."
     echo "This requires sudo access to edit $PAM_FILE"
 
     # Create a temporary file with the new configuration
@@ -136,7 +136,7 @@ else
             print
             getline
             print
-            print "auth       sufficient                  pam_fprintd.so"
+            print "auth       optional                    pam_fprintd.so"
             next
         }
         { print }
@@ -144,7 +144,7 @@ else
 
     # Show the diff
     echo ""
-    echo "Changes to be made:"
+    echo "Changes to be made to system-auth:"
     diff -u "$PAM_FILE" "$TMP_FILE" || true
     echo ""
 
@@ -152,10 +152,69 @@ else
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         sudo cp "$TMP_FILE" "$PAM_FILE"
-        echo "✓ PAM configuration updated"
+        echo "✓ PAM system-auth configuration updated"
     else
         echo "Skipped PAM configuration. You can add this line manually after 'pam_faillock.so preauth':"
-        echo "  auth       sufficient                  pam_fprintd.so"
+        echo "  auth       optional                    pam_fprintd.so"
+    fi
+
+    rm "$TMP_FILE"
+fi
+
+# Configure hyprlock-specific PAM for password-first, fingerprint-fallback
+echo ""
+HYPRLOCK_PAM="/etc/pam.d/hyprlock"
+
+if [[ -f "$HYPRLOCK_PAM" ]] && grep -q "pam_fprintd.so" "$HYPRLOCK_PAM"; then
+    echo "✓ Hyprlock PAM already configured for fingerprint authentication"
+else
+    echo "Configuring hyprlock PAM for password-first, fingerprint-fallback..."
+
+    TMP_FILE=$(mktemp)
+    cat > "$TMP_FILE" << 'EOF'
+#%PAM-1.0
+# PAM configuration file for hyprlock
+# Try password first, then fingerprint
+
+auth       required                    pam_faillock.so      preauth
+-auth      [success=3 default=ignore]  pam_systemd_home.so
+auth       sufficient                  pam_unix.so          nullok
+auth       sufficient                  pam_fprintd.so
+auth       [default=die]               pam_faillock.so      authfail
+auth       optional                    pam_permit.so
+auth       required                    pam_env.so
+auth       required                    pam_faillock.so      authsucc
+
+-account   [success=1 default=ignore]  pam_systemd_home.so
+account    required                    pam_unix.so
+account    optional                    pam_permit.so
+
+-password  [success=1 default=ignore]  pam_systemd_home.so
+password   required                    pam_unix.so          try_first_pass nullok shadow
+password   optional                    pam_permit.so
+
+-session   optional                    pam_systemd_home.so
+session    required                    pam_limits.so
+session    required                    pam_unix.so
+session    optional                    pam_permit.so
+EOF
+
+    if [[ -f "$HYPRLOCK_PAM" ]]; then
+        echo ""
+        echo "Changes to be made to hyprlock PAM:"
+        diff -u "$HYPRLOCK_PAM" "$TMP_FILE" || true
+        echo ""
+    fi
+
+    read -p "[PAM] Apply hyprlock PAM configuration via sudo cp? (Y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        sudo cp "$TMP_FILE" "$HYPRLOCK_PAM"
+        echo "✓ Hyprlock PAM configuration updated"
+        echo "  - Password first (type password to unlock immediately)"
+        echo "  - Fingerprint fallback (leave blank and scan to unlock)"
+    else
+        echo "Skipped hyprlock PAM configuration."
     fi
 
     rm "$TMP_FILE"
