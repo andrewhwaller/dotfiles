@@ -25,9 +25,9 @@ echo ""
 # ==========================================
 # 1. Install Packages (OS-specific)
 # ==========================================
-read -p "[Packages] Install or update core CLI/GUI tools (fish, neovim, gh, ghostty, etc.)? (Y/n) " -n 1 -r
+read -p "[Packages] Install or update core CLI/GUI tools (fish, neovim, gh, ghostty, firefox, etc.)? (Y/n) " -n 1 -r
 echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
+if [[ ! $REPLY =~ ^[Nn]$ ]]; then
   "$DOTFILES_DIR/install-packages.sh"
 fi
 
