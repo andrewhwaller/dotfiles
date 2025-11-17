@@ -34,7 +34,9 @@ yay -S --needed \
   btop \
   fzf \
   ghostty \
-  tailscale
+  tailscale \
+  glib2 \
+  firefox
 
 install_tpm
 
