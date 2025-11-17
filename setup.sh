@@ -34,6 +34,14 @@ fi
 # ==========================================
 # 2. Setup Shell (Fish + Fisher)
 # ==========================================
+echo ""
+read -p "[Shell] Set fish as your default shell? (Y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+  export SET_DEFAULT_SHELL=true
+else
+  export SET_DEFAULT_SHELL=false
+fi
 source "$DOTFILES_DIR/scripts/setup-shell.sh"
 
 # ==========================================

@@ -10,17 +10,24 @@ if ! command -v fish &> /dev/null; then
   return 0 2>/dev/null || exit 0
 fi
 
-# Set Fish as default shell
-FISH_PATH=$(command -v fish)
-if [[ "$SHELL" != "$FISH_PATH" ]]; then
-  read -p "[Shell] Set fish as your default login shell (requires chsh)? (Y/n) " -n 1 -r
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
+# Set Fish as default shell if requested
+if [[ "${SET_DEFAULT_SHELL:-false}" == "true" ]]; then
+  FISH_PATH=$(command -v fish)
+  if [[ "$SHELL" != "$FISH_PATH" ]]; then
+    echo "Setting fish as default shell..."
     if ! grep -q "$FISH_PATH" /etc/shells 2>/dev/null; then
       echo "$FISH_PATH" | sudo tee -a /etc/shells
     fi
     chsh -s "$FISH_PATH"
     echo "  ✓ Fish set as default shell (restart terminal to apply)"
+  else
+    echo "  ✓ Fish is already your default shell"
+  fi
+else
+  FISH_PATH=$(command -v fish)
+  if [[ "$SHELL" != "$FISH_PATH" ]]; then
+    echo "⚠ Fish is installed but not set as default shell"
+    echo "  To set it later, run: chsh -s $(command -v fish)"
   fi
 fi
 
