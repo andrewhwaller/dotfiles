@@ -33,13 +33,29 @@ yay -S --needed \
   mise \
   btop \
   fzf \
-  ghostty
+  ghostty \
+  tailscale
 
 install_tpm
 
 # Optional: Hyprland ecosystem
 if command -v hyprctl &> /dev/null; then
-  echo "Hyprland already detected, skipping optional Hyprland install prompt."
+  echo "Hyprland detected, ensuring Hyprland ecosystem is installed..."
+  yay -S --needed hyprpaper hyprlock hypridle waybar xdg-desktop-portal-gtk iwd impala slurp grim satty wl-clipboard
+
+  echo "Ensuring walker and dependencies are installed..."
+  yay -S --needed \
+    walker \
+    elephant-bin \
+    elephant-desktopapplications-bin \
+    elephant-files-bin \
+    elephant-calc-bin \
+    elephant-runner-bin \
+    elephant-websearch-bin \
+    elephant-clipboard-bin \
+    elephant-providerlist-bin \
+    fd \
+    ttf-nerd-fonts-symbols-mono
 else
   read -p "[Hyprland] Install Hyprland desktop stack (hyprland, hyprpaper, hyprlock, waybar, walker, etc.)? (Y/n) " -n 1 -r
   echo

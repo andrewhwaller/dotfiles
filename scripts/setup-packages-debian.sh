@@ -27,7 +27,7 @@ if ! command -v eza &> /dev/null; then
   sudo apt update
 fi
 
-sudo apt install -y fish neovim tmux gh fzf eza
+sudo apt install -y fish neovim tmux gh fzf eza tailscale
 
 # Install from other sources
 if ! command -v starship &> /dev/null; then

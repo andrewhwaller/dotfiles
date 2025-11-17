@@ -25,7 +25,8 @@ brew install \
   lazygit \
   mise \
   btop \
-  fzf
+  fzf \
+  tailscale
 
 brew install --cask ghostty
 
