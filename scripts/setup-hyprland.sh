@@ -50,10 +50,17 @@ if command -v gsettings &> /dev/null; then
     echo "  ✓ GTK color scheme set to prefer-dark"
 fi
 
-# Mask xdg-desktop-portal-hyprland systemd service
+# Portal configuration
+create_symlink "$DOTFILES_DIR/xdg-desktop-portal" "$HOME/.config/xdg-desktop-portal"
+
+# Mask portal backend services to prevent slow boot
 if systemctl --user list-unit-files xdg-desktop-portal-hyprland.service 2>/dev/null | grep -q xdg-desktop-portal-hyprland; then
     echo "  Masking xdg-desktop-portal-hyprland.service..."
     systemctl --user mask xdg-desktop-portal-hyprland.service 2>/dev/null || true
+fi
+if systemctl --user list-unit-files xdg-desktop-portal-gtk.service 2>/dev/null | grep -q xdg-desktop-portal-gtk; then
+    echo "  Masking xdg-desktop-portal-gtk.service..."
+    systemctl --user mask xdg-desktop-portal-gtk.service 2>/dev/null || true
 fi
 
 # Restart portal service if running
