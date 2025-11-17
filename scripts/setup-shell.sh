@@ -5,7 +5,7 @@ set -e
 
 echo "=== Fish Shell Setup ==="
 
-if ! command_exists fish; then
+if ! command -v fish &> /dev/null; then
   echo "Fish shell not found. Skipping shell setup. Install fish and rerun this step."
   return 0 2>/dev/null || exit 0
 fi
@@ -35,7 +35,7 @@ else
 fi
 
 # Install fzf.fish plugin
-if command_exists fzf; then
+if command -v fzf &> /dev/null; then
   echo "Installing fzf.fish plugin..."
   fish -c "fisher install PatrickF1/fzf.fish" 2>/dev/null || echo "  ✓ fzf.fish already installed"
 fi

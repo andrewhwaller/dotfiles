@@ -3,6 +3,9 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
+
 echo "=== Core Configuration Files ==="
 
 # Setup terminal emulator machine-specific configs (before symlinking directories)

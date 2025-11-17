@@ -14,11 +14,6 @@ detect_os() {
   fi
 }
 
-# Check if command exists
-command_exists() {
-  command -v "$1" &> /dev/null
-}
-
 # Function to create symlink safely
 create_symlink() {
     local src="$1"

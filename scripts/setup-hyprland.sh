@@ -3,10 +3,13 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
+
 echo "=== Hyprland Configuration ==="
 
 # Check if Hyprland is installed
-if ! command_exists hyprctl; then
+if ! command -v hyprctl &> /dev/null; then
     echo "Hyprland not detected, skipping Hyprland configs"
     return 0
 fi

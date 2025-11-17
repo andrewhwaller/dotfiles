@@ -83,7 +83,7 @@ echo "Next steps:"
 echo "  1. Restart your terminal or run: exec fish"
 echo "  2. Open Neovim and let Lazy.nvim install plugins"
 echo "  3. Configure gh: gh auth login"
-if command_exists hyprctl; then
+if command -v hyprctl &> /dev/null; then
     echo "  4. Reload Hyprland: hyprctl reload"
 fi
 echo ""

@@ -3,10 +3,13 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
+
 echo "=== Arch Linux Package Installation ==="
 
 # Check if yay is installed, install if not
-if ! command_exists yay; then
+if ! command -v yay &> /dev/null; then
   echo "Installing yay..."
   sudo pacman -S --needed git base-devel
   git clone https://aur.archlinux.org/yay.git /tmp/yay
@@ -35,7 +38,7 @@ yay -S --needed \
 install_tpm
 
 # Optional: Hyprland ecosystem
-if command_exists hyprctl; then
+if command -v hyprctl &> /dev/null; then
   echo "Hyprland already detected, skipping optional Hyprland install prompt."
 else
   read -p "[Hyprland] Install Hyprland desktop stack (hyprland, hyprpaper, hyprlock, waybar, walker, etc.)? (Y/n) " -n 1 -r

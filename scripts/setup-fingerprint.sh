@@ -33,7 +33,7 @@ fi
 echo ""
 echo "Installing required packages..."
 if [[ "$OS" == "arch" ]]; then
-    if ! command_exists fprintd; then
+    if ! command -v fprintd &> /dev/null; then
         echo "Installing fprintd..."
         sudo pacman -S --needed --noconfirm fprintd
     else
@@ -47,7 +47,7 @@ if [[ "$OS" == "arch" ]]; then
         echo "✓ polkit-gnome already installed"
     fi
 elif [[ "$OS" == "debian" ]]; then
-    if ! command_exists fprintd; then
+    if ! command -v fprintd &> /dev/null; then
         echo "Installing fprintd..."
         sudo apt-get update
         sudo apt-get install -y fprintd libpam-fprintd

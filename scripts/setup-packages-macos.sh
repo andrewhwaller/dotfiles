@@ -3,10 +3,13 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/common.sh"
+
 echo "=== macOS Package Installation ==="
 
 # Install Homebrew if needed
-if ! command_exists brew; then
+if ! command -v brew &> /dev/null; then
   echo "Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
@@ -29,7 +32,7 @@ brew install --cask ghostty
 install_tpm
 
 # Optional: Install opencode
-if command_exists opencode; then
+if command -v opencode &> /dev/null; then
   echo "opencode CLI already detected, skipping install."
 else
   read -p "[Opencode] Install the sst/tap/opencode CLI helper? (Y/n) " -n 1 -r
