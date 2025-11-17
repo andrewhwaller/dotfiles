@@ -50,6 +50,12 @@ if command -v gsettings &> /dev/null; then
     echo "  ✓ GTK color scheme set to prefer-dark"
 fi
 
+# Mask xdg-desktop-portal-hyprland systemd service
+if systemctl --user list-unit-files xdg-desktop-portal-hyprland.service 2>/dev/null | grep -q xdg-desktop-portal-hyprland; then
+    echo "  Masking xdg-desktop-portal-hyprland.service..."
+    systemctl --user mask xdg-desktop-portal-hyprland.service 2>/dev/null || true
+fi
+
 # Restart portal service if running
 if systemctl --user is-active --quiet xdg-desktop-portal.service; then
     echo "  Restarting xdg-desktop-portal service..."
