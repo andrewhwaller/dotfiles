@@ -34,15 +34,31 @@ fi
 # ==========================================
 # 2. Setup Shell (Fish + Fisher)
 # ==========================================
-echo ""
-read -p "[Shell] Set fish as your default shell? (Y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  export SET_DEFAULT_SHELL=true
-else
-  export SET_DEFAULT_SHELL=false
-fi
 source "$DOTFILES_DIR/scripts/setup-shell.sh"
+
+# Set fish as default shell (separate explicit step)
+if command -v fish &> /dev/null; then
+  FISH_PATH=$(command -v fish)
+  if [[ "$SHELL" != "$FISH_PATH" ]]; then
+    echo ""
+    read -p "[Shell] Set fish as your default shell? (Y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+      echo "Setting fish as default shell..."
+      if ! grep -qx "$FISH_PATH" /etc/shells 2>/dev/null; then
+        echo "  Adding $FISH_PATH to /etc/shells..."
+        echo "$FISH_PATH" | sudo tee -a /etc/shells > /dev/null
+      fi
+      if chsh -s "$FISH_PATH" "$USER"; then
+        echo "  ✓ Fish set as default shell for $USER"
+        echo "  ⚠ You MUST log out and log back in (or reboot) for this to take effect"
+      else
+        echo "  ✗ Failed to set fish as default shell"
+        echo "  Try manually: sudo chsh -s $FISH_PATH $USER"
+      fi
+    fi
+  fi
+fi
 
 # ==========================================
 # 3. Create Symlinks (Common Configs)
