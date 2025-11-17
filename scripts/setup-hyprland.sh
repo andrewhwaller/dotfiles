@@ -57,5 +57,13 @@ if systemctl --user is-active --quiet xdg-desktop-portal.service; then
     echo "  ✓ Portal service restarted"
 fi
 
+# Reload Hyprland configuration
+echo "Reloading Hyprland configuration..."
+if hyprctl reload &> /dev/null; then
+    echo "  ✓ Hyprland configuration reloaded"
+else
+    echo "  ⚠ Could not reload Hyprland (not currently running or failed)"
+fi
+
 echo "✓ Hyprland configuration complete"
 echo ""
