@@ -40,6 +40,14 @@ yay -S --needed \
 
 install_tpm
 
+# Enable tailscale service
+if command -v tailscale &> /dev/null; then
+  echo "Enabling tailscaled service..."
+  sudo systemctl enable --now tailscaled.service
+  echo "  ✓ Tailscale service enabled"
+  echo "  Run 'tailscale up' to authenticate and connect"
+fi
+
 # Optional: Hyprland ecosystem
 if command -v hyprctl &> /dev/null; then
   echo "Hyprland detected, ensuring Hyprland ecosystem is installed..."

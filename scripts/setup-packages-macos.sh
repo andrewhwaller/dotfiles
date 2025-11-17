@@ -32,6 +32,13 @@ brew install --cask ghostty
 
 install_tpm
 
+# Note about Tailscale
+if command -v tailscale &> /dev/null; then
+  echo "Note: Tailscale installed. Start it from the menu bar or run:"
+  echo "  sudo tailscaled"
+  echo "  tailscale up"
+fi
+
 # Optional: Install opencode
 if command -v opencode &> /dev/null; then
   echo "opencode CLI already detected, skipping install."

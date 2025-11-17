@@ -29,6 +29,14 @@ fi
 
 sudo apt install -y fish neovim tmux gh fzf eza tailscale
 
+# Enable tailscale service
+if command -v tailscale &> /dev/null; then
+  echo "Enabling tailscaled service..."
+  sudo systemctl enable --now tailscaled.service
+  echo "  ✓ Tailscale service enabled"
+  echo "  Run 'tailscale up' to authenticate and connect"
+fi
+
 # Install from other sources
 if ! command -v starship &> /dev/null; then
   echo "Installing starship..."
