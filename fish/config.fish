@@ -95,3 +95,4 @@ end
 if test -x ~/linuxbrew/.linuxbrew/bin/brew
     eval (/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 end
+fish_add_path $HOME/.local/bin
