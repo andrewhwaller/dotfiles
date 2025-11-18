@@ -46,6 +46,12 @@ install_tpm() {
         return
     fi
 
+    if ! command -v git &> /dev/null; then
+        echo "⚠ Git not found, skipping TPM installation"
+        echo "  Install git and rerun setup to install TPM"
+        return
+    fi
+
     rm -rf "$tpm_dir"
     git clone https://github.com/tmux-plugins/tpm "$tpm_dir"
     echo "✓ TPM installed"

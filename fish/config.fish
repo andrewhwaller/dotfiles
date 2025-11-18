@@ -44,8 +44,15 @@ fish_add_path /usr/bin
 fish_add_path $BUN_INSTALL/bin
 fish_add_path /Applications/Postgres.app/Contents/Versions/latest/bin
 fish_add_path $HOME/.config/composer/vendor/bin
-fish_add_path /opt/homebrew/bin
-fish_add_path /opt/homebrew/sbin
+
+# Homebrew setup (macOS)
+if test (uname) = "Darwin"
+    if test -x /opt/homebrew/bin/brew
+        eval (/opt/homebrew/bin/brew shellenv)
+    else if test -x /usr/local/bin/brew
+        eval (/usr/local/bin/brew shellenv)
+    end
+end
 
 # Use mise if available (check common locations)
 if test -x ~/.local/bin/mise
@@ -61,7 +68,7 @@ end
 starship init fish | source
 
 # opencode
-fish_add_path /Users/andrewhwaller/.opencode/bin
+fish_add_path $HOME/.opencode/bin
 
 function clear_biber_cache --description "Delete the cache directory returned by 'biber --cache'"
     set -l cache_path_raw (command biber --cache ^/dev/null)

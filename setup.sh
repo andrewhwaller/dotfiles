@@ -49,6 +49,7 @@ if command -v fish &> /dev/null; then
         echo "  Adding $FISH_PATH to /etc/shells..."
         echo "$FISH_PATH" | sudo tee -a /etc/shells > /dev/null
       fi
+      echo "  ⚠ You will be prompted for your password to change the default shell"
       if chsh -s "$FISH_PATH" "$USER"; then
         echo "  ✓ Fish set as default shell for $USER"
         echo "  ⚠ You MUST log out and log back in (or reboot) for this to take effect"
