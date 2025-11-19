@@ -2,6 +2,9 @@
 # See https://alacritty.org/config-alacritty.html
 
 [general]
+# Imports are loaded in order, skipping missing files
+# To add machine-specific settings, create: config.machine.toml
+# Or use hostname-specific: config.$HOSTNAME.toml
 import = [
     "~/.config/alacritty/theme.toml",
     "~/.config/alacritty/config.machine.toml",

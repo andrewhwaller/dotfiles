@@ -6,8 +6,10 @@ keybind = super+t=toggle_quick_terminal
 font-size = 14
 window-save-state = always
 
-# Machine-specific overrides (if exists)
-config-file = config.machine.conf
+# Machine-specific overrides (create config.$HOSTNAME.conf to customize per-machine)
+# Example: config.macbook.conf, config.desktop.conf
+# Uncomment and adjust the line below if you have machine-specific configs:
+# config-file = config.machine.conf
 
 macos-icon = custom-style
 macos-icon-frame = beige

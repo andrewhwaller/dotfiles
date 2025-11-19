@@ -8,12 +8,6 @@ source "$SCRIPT_DIR/common.sh"
 
 echo "=== Core Configuration Files ==="
 
-# Setup terminal emulator machine-specific configs (before symlinking directories)
-echo "Setting up terminal emulator machine-specific configuration..."
-setup_machine_config "config" "$DOTFILES_DIR/ghostty" "$DOTFILES_DIR/ghostty/config.machine.conf"
-setup_machine_config "config" "$DOTFILES_DIR/alacritty" "$DOTFILES_DIR/alacritty/config.machine.toml" "toml"
-setup_machine_config "config" "$DOTFILES_DIR/kitty" "$DOTFILES_DIR/kitty/config.machine.conf"
-
 # Core configs
 create_symlink "$DOTFILES_DIR/fish/config.fish" "$HOME/.config/fish/config.fish"
 create_symlink "$DOTFILES_DIR/starship/starship.toml" "$HOME/.config/starship.toml"
