@@ -33,6 +33,7 @@ if ! command -v brew &> /dev/null; then
 fi
 
 echo "Installing packages via Homebrew..."
+set +e
 brew install \
   fish \
   starship \
@@ -47,6 +48,7 @@ brew install \
   tailscale
 
 brew install --cask ghostty
+set -e
 
 install_tpm
 
