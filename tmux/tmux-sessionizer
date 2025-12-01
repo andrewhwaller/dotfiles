@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # fzf to find relevant directories with all the eza options for previewing dir contents
-selected=$(find -L ~/github ~ -mindepth 1 -maxdepth 2 -type d | sort -u | fzf \
+selected=$(find -L ~/github ~ -mindepth 1 -maxdepth 4 -type d -not -path "*/Library/*" 2>/dev/null | sort -u | fzf \
     --cycle \
     --bind "change:top" \
     --bind "shift-tab:up,tab:down" \
