@@ -1,0 +1,232 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+script_dir = File.expand_path(__dir__)
+gemfile = File.join(script_dir, "allmind.Gemfile")
+
+if File.exist?(gemfile)
+  ENV["BUNDLE_GEMFILE"] = gemfile
+  require "bundler/setup"
+end
+
+require "gum"
+require "open3"
+
+module Allmind
+  PRIMARY = "#89B4FA"
+  ACCENT = "#A6E3A1"
+  TEXT = "#CDD6F4"
+  SUCCESS = "#94E2D5"
+  ERROR = "#F38BA8"
+  WARNING = "#FAB387"
+  SURFACE = "#1E1E2E"
+  SURFACE_HL = "#313244"
+
+  class App
+    def initialize
+      @tailscale_bin = detect_tailscale_binary
+      @tmux = ENV["TMUX"]
+    end
+
+    def run
+      Gum.style(">> Liaison online, select host for transfer:", foreground: PRIMARY)
+
+      hosts = fetch_hosts
+      return if hosts.empty?
+
+      hostname, host_os, host_status = select_host(hosts)
+      return unless hostname
+
+      username = get_username
+      ssh_opts = build_ssh_opts
+
+      if username && !username.strip.empty?
+        target = "#{username.strip}@#{hostname}"
+        display_user = username.strip
+      else
+        default_user = get_default_user(hostname)
+        target = hostname
+        display_user = default_user ? "#{default_user} (remote default)" : ENV["USER"]
+      end
+
+      confirm_connection(hostname, display_user, host_os, host_status) || return
+
+      exit_code = establish_ssh_connection(target, ssh_opts)
+      show_session_summary(hostname, display_user, host_os, host_status, exit_code)
+
+      exit exit_code
+    end
+
+    private
+
+    def detect_tailscale_binary
+      if RUBY_PLATFORM =~ /darwin/
+        "/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+      else
+        "tailscale"
+      end
+    end
+
+    def fetch_hosts
+      output, status = Open3.capture2e("#{@tailscale_bin} status")
+      return [] unless status.success?
+
+      parse_hosts(output)
+    end
+
+    def parse_hosts(output)
+      output.lines
+        .reject { |l| l.start_with?("#") }
+        .map { |l| parse_host_line(l) }
+        .compact
+    end
+
+    def parse_host_line(line)
+      parts = line.split(/\s+/)
+      return if parts.length < 5
+
+      hostname = parts[1]
+      os = parts[3]
+      status = parse_status(parts[5..])
+
+      [hostname, os, status]
+    end
+
+    def parse_status(fields)
+      return "online" if fields.nil? || fields.empty?
+
+      parts = []
+      i = 0
+
+      while i < fields.length
+        word = fields[i]
+
+        if word == "tx" && fields[i + 1] =~ /^\d+$/
+          parts << "tx:#{human_bytes(fields[i + 1].to_i)}"
+          i += 2
+        elsif word == "rx" && fields[i + 1] =~ /^\d+$/
+          parts << "rx:#{human_bytes(fields[i + 1].to_i)}"
+          i += 2
+        elsif word != "-"
+          parts << word
+          i += 1
+        else
+          i += 1
+        end
+      end
+
+      parts.empty? ? "online" : parts.join(" ")
+    end
+
+    def human_bytes(bytes)
+      case bytes
+      when 1_073_741_824..Float::INFINITY then format("%.1fGB", bytes.to_f / 1_073_741_824)
+      when 1_048_576..Float::INFINITY then format("%.1fMB", bytes.to_f / 1_048_576)
+      when 1024..Float::INFINITY then format("%.1fKB", bytes.to_f / 1024)
+      else "#{bytes}B"
+      end
+    end
+
+    def select_host(hosts)
+      return if hosts.empty?
+
+      table = hosts.map { |h| h.join("|") }.join("\n")
+
+      selected = Gum.table(
+        table,
+        separator: "|",
+        columns: %w[Hostname OS Status],
+        border: :double,
+        header_foreground: ACCENT,
+        cell_foreground: TEXT,
+        selected_background: SURFACE_HL,
+        selected_foreground: ACCENT
+      )
+
+      return unless selected
+
+      parts = selected.split("|")
+      [parts[0], parts[1], parts[2]]
+    end
+
+    def get_username
+      Gum.style(">> identity [#{ENV['USER']}] (enter to use remote default):", foreground: PRIMARY)
+      Gum.input(placeholder: ENV["USER"], width: 40)
+    end
+
+    def get_default_user(hostname)
+      output, status = Open3.capture2e("ssh -G #{hostname}")
+      return nil unless status.success?
+
+      match = output.match(/^user\s+(.+)$/)
+      match ? match[1] : nil
+    rescue StandardError
+      nil
+    end
+
+    def build_ssh_opts
+      opts = []
+      opts << "-o" << "SendEnv TMUX" if @tmux
+      opts
+    end
+
+    def confirm_connection(hostname, display_user, host_os, host_status)
+      Gum.style(">> establishing network link to:", foreground: PRIMARY)
+      Gum.style("  • Host: #{hostname}", margin: "0", padding: "0")
+      Gum.style("  • User: #{display_user}", margin: "0", padding: "0 0 1 0")
+
+      Gum.confirm("Proceed?")
+    end
+
+    def establish_ssh_connection(target, ssh_opts)
+      @session_start = Time.now.to_i
+
+      if ssh_opts.empty?
+        system("ssh", target)
+      else
+        system("ssh", *ssh_opts, target)
+      end
+
+      @session_end = Time.now.to_i
+      $?.exitstatus
+    end
+
+    def show_session_summary(hostname, display_user, host_os, host_status, exit_code)
+      duration = @session_end - @session_start
+      formatted = format_duration(duration)
+
+      puts
+      if exit_code != 0
+        puts Gum.style(
+          "Connection failed: unable to establish link to #{hostname} (exit code: #{exit_code})",
+          foreground: TEXT,
+          border: :normal,
+          border_foreground: ERROR,
+          padding: "0 1"
+        )
+      else
+        puts Gum.style(">> link closed cleanly. ALLMIND exists for all mercenaries.", foreground: SUCCESS)
+      end
+
+      puts
+      puts Gum.style(">> session summary:", foreground: PRIMARY)
+
+      puts Gum.style(
+        "Host          #{hostname}\nUser          #{display_user}\nOS            #{host_os}\nTelemetry     #{host_status}\nDuration      #{formatted}\nExit Code     #{exit_code}",
+        border: :rounded,
+        border_foreground: PRIMARY,
+        padding: "0 1"
+      )
+    end
+
+    def format_duration(seconds)
+      parts = []
+      parts << "#{seconds / 3600}h" if seconds >= 3600
+      parts << "#{(seconds % 3600) / 60}m" if seconds >= 60
+      parts << "#{seconds % 60}s"
+      parts.join
+    end
+  end
+end
+
+Allmind::App.new.run if __FILE__ == $PROGRAM_NAME

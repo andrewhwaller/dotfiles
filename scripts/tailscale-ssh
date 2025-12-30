@@ -187,12 +187,11 @@ gum confirm \
     --padding "0 1" \
     "Proceed?" || exit 0
 
+session_start=$(date +%s)
 if [[ -z $username ]]; then
-    session_start=$(date +%s)
     ssh "${ssh_opts[@]}" "$hostname"
     exit_code=$?
 else
-    session_start=$(date +%s)
     ssh "${ssh_opts[@]}" "$username@$hostname"
     exit_code=$?
 fi

@@ -13,7 +13,8 @@ export EDITOR=nvim
 alias ez="eza --color=auto --icons --long -h -a --git --no-permissions --no-user --time=accessed --group-directories-first"
 alias v="nvim"
 alias lg="lazygit"
-alias allmind="~/dotfiles/scripts/tailscale-ssh"
+alias tailssh="~/dotfiles/scripts/tailscale-ssh"
+alias allmind="~/dotfiles/scripts/allmind/allmind"
 
 function tmux
     if test (count $argv) -eq 0
