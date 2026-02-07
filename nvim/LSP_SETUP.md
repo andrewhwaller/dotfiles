@@ -35,7 +35,7 @@ rustup component add rust-analyzer
 - **typescript-language-server** - TypeScript/JavaScript support  
 - **lua-language-server** - Lua language support (vim globals configured)
 - **vscode-css-language-server** - CSS/SCSS/Less support
-- **ruby-lsp** - Ruby language support with smart StandardRB handling
+- **ruby-lsp** - Ruby language support with RuboCop formatting
 - **stimulus-language-server** - Stimulus data attribute completions
 
 ## Features
@@ -58,36 +58,26 @@ rustup component add rust-analyzer
 - `gr` - Find references  
 - `<leader>D` - Type definition
 
-### Smart Ruby Handling
-- **StandardRB projects** (`.standard.yml` detected):
-  - Format-on-save **disabled** (no unwanted quote conversions)
-  - Diagnostics/virtual text **disabled** (clean editing)
-  - Manual `:Format` disabled with message
-- **RuboCop projects** (no `.standard.yml`):
-  - Format-on-save **enabled** via Ruby LSP
-  - Full diagnostics and virtual text
-  - Manual `:Format` works normally
+### Ruby Formatting
+- Format-on-save always enabled for Ruby buffers via Ruby LSP
+- RuboCop handles formatting and diagnostics consistently across projects
+- Manual `:Format` command always available
 
 ### Enhanced Diagnostics
-- Virtual text with improved styling (except StandardRB projects)
+- Virtual text with improved styling
 - Floating diagnostics with rounded borders
 - Signs in gutter with severity sorting
-- Auto-format on save (except StandardRB projects)
+- Auto-format on save
 
 ### Commands
-- `:Format` - Format current buffer (respects StandardRB vs RuboCop projects)
+- `:Format` - Format current buffer
 - `:checkhealth vim.lsp` - Check LSP status
 
 ## Ruby Project Configuration
 
-For StandardRB projects, ensure your project has:
-- `.standard.yml` file in project root
-- `standard` gem in your project's `Gemfile` or installed globally
-- Bundle installed: `bundle install`
-
-For RuboCop projects:
-- `.rubocop.yml` file (optional, Ruby LSP will auto-detect)
-- Ruby LSP handles RuboCop integration automatically
+- Optional `.rubocop.yml` file in project root for custom rules
+- Ensure `rubocop` is installed (project Gemfile or globally)
+- Ruby LSP will automatically use RuboCop when available
 
 ## Troubleshooting
 
@@ -95,4 +85,4 @@ For RuboCop projects:
 2. **View LSP logs**: `:lua vim.cmd('edit ' .. vim.fn.stdpath('state') .. '/lsp.log')`
 3. **Restart LSP**: `:LspRestart` (if available) or restart Neovim
 4. **Check health**: `:checkhealth vim.lsp`
-5. **Verify StandardRB detection**: In Ruby project, run `:lua print(vim.fn.filereadable('.standard.yml') == 1 and 'StandardRB project' or 'RuboCop project')`
+5. **Verify RuboCop availability**: `bundle exec rubocop -V` (inside project) to ensure it loads

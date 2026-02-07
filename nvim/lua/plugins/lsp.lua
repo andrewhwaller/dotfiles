@@ -49,14 +49,6 @@ vim.lsp.config.stimulus_ls = {
   capabilities = capabilities,
 }
 
-local function detect_ruby_formatter()
-  if vim.fn.filereadable('.standard.yml') == 1 then
-    return 'standard'
-  else
-    return 'rubocop'
-  end
-end
-
 vim.lsp.config.ruby_lsp = {
   cmd = { 'ruby-lsp' },
   filetypes = { 'ruby' },
@@ -70,65 +62,34 @@ vim.lsp.config.copilot = {
   capabilities = capabilities,
 }
 
-vim.lsp.enable({'ruby_lsp', 'rust_analyzer', 'ts_ls', 'cssls', 'lua_ls', 'stimulus_ls', 'copilot'})
+vim.lsp.enable({ 'ruby_lsp', 'rust_analyzer', 'ts_ls', 'cssls', 'lua_ls', 'stimulus_ls', 'copilot' })
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('native-lsp-attach', {}),
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     local bufnr = args.buf
-    
+
     if client:supports_method('textDocument/formatting') then
-      if vim.bo[bufnr].filetype == 'ruby' then
-        local formatter = detect_ruby_formatter()
-        if formatter ~= 'standard' then
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            group = vim.api.nvim_create_augroup('native-lsp-format', {clear=false}),
-            buffer = bufnr,
-            callback = function()
-              vim.lsp.buf.format({ bufnr = bufnr, id = client.id, timeout_ms = 1000 })
-            end,
-          })
-        end
-      else
-        vim.api.nvim_create_autocmd('BufWritePre', {
-          group = vim.api.nvim_create_augroup('native-lsp-format', {clear=false}),
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format({ bufnr = bufnr, id = client.id, timeout_ms = 1000 })
-          end,
-        })
-      end
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = vim.api.nvim_create_augroup('native-lsp-format', { clear = false }),
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr, id = client.id, timeout_ms = 1000 })
+        end,
+      })
     end
-    
-    if vim.bo[bufnr].filetype == 'ruby' then
-      local formatter = detect_ruby_formatter()
-      if formatter == 'standard' then
-        vim.diagnostic.enable(false, { bufnr = bufnr })
-      end
-    end
-    
+
     local nmap = function(keys, func, desc)
       vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
     end
-    
+
     nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
     nmap('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
     nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-    
-    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-      if vim.bo[bufnr].filetype == 'ruby' then
-        local formatter = detect_ruby_formatter()
-        if formatter == 'standard' then
-          print("Format disabled for StandardRB projects")
-        else
-          vim.lsp.buf.format()
-        end
-      else
-        vim.lsp.buf.format()
-      end
-    end, { desc = 'Format with LSP' })
-    
 
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+      vim.lsp.buf.format()
+    end, { desc = 'Format with LSP' })
   end,
 })
 
