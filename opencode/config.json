@@ -8,9 +8,9 @@
       "type": "local",
       "command": ["npx", "-y", "@upstash/context7-mcp"]
     },
-    "taskmaster-ai": {
+    "linear": {
       "type": "local",
-      "command": ["npx", "-y", "--package=task-master-ai", "task-master-ai"]
+      "command": ["npx", "-y", "mcp-remote", "https://mcp.linear.app/mcp"]
     }
   }
 }
